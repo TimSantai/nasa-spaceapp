@@ -1,0 +1,18 @@
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.egg-info/
+# Large or regenerated artefacts: keep out of Git, share via Drive; manifests stay in Git
+datasets/**
+!datasets/.gitkeep
+!datasets/manifest.yaml
+models/**
+!models/.gitkeep
+!models/registry.yaml

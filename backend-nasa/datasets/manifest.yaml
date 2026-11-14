@@ -1,0 +1,13 @@
+# Record every dataset placed in datasets/ (files themselves stay out of Git).
+# One entry per download/processing run; never edit past entries, append new ones.
+datasets: []
+# - id: imerg_daily_nevada
+#   source: GPM_3IMERGDF
+#   version: "07"
+#   doi: 10.5067/GPM/IMERGDF/DAY/07
+#   bbox: [-119.35, 38.80, -119.00, 39.20]
+#   period: ["2015-01-01", "2025-12-31"]
+#   downloaded_at: 2026-11-14
+#   files: 4018
+#   sha256_listing: datasets/imerg_daily_nevada/SHA256SUMS
+#   owner: A2

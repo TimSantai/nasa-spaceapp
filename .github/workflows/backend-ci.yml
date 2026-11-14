@@ -1,0 +1,32 @@
+name: backend-ci
+on:
+  push:
+    branches: [main]
+    paths: ["backend-nasa/**", "contracts/**", ".github/workflows/backend-ci.yml"]
+  pull_request:
+    paths: ["backend-nasa/**", "contracts/**", ".github/workflows/backend-ci.yml"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend-nasa
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v5
+      - run: uv python install 3.12
+      - run: uv sync --frozen --extra dev
+      - run: uv run ruff check .
+      - run: uv run black --check .
+      - run: uv run mypy app
+      - run: uv run bandit -q -c pyproject.toml -r app
+      - name: Dependency audit (from lockfile)
+        run: |
+          uv export --frozen --no-emit-project --extra dev -o /tmp/req.txt
+          uv run pip-audit -r /tmp/req.txt --require-hashes --disable-pip --strict
+      - run: uv run pytest
+      - name: API contract is up to date
+        run: |
+          uv run python -m scripts.export_openapi
+          git diff --exit-code -- ../contracts/openapi.json

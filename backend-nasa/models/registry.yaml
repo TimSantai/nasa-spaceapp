@@ -1,0 +1,10 @@
+# Register every trained model artefact saved in models/ (files stay out of Git).
+models: []
+# - id: stress_baseline_v1
+#   path: models/stress_baseline_v1.joblib
+#   trained_at: 2026-11-15
+#   code_commit: <git sha>
+#   datasets: [imerg_daily_nevada, hls_ndvi_nevada]
+#   config: configs/experiment.example.yaml
+#   metrics: {}
+#   owner: A4

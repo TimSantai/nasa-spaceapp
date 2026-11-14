@@ -1,0 +1,5 @@
+# Copy per experiment run; store the copy next to its results so runs are reproducible.
+run_id: example
+seed: 42
+datasets: []
+params: {}
