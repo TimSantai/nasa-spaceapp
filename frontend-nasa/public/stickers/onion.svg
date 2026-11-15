@@ -1,0 +1,16 @@
+<svg width="48" height="48" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow-onion" x="-20%" y="-20%" width="140%" height="140%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0F172A" floodOpacity="0.18" />
+    </filter>
+  </defs>
+  <g filter="url(#shadow-onion)">
+    <path d="M18 6C13 12 9 17 9 22C9 27 13 31 18 31C23 31 27 27 27 22C27 17 23 12 18 6Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M18 7C13.5 13 10 17.5 10 22C10 26.5 13.5 30 18 30C22.5 30 26 26.5 26 22C26 17.5 22.5 13 18 7Z" fill="#A855F7" stroke="#7E22CE" stroke-width="1.2"/>
+    <path d="M15 14C13.5 17 13 20 13.5 25" stroke="#E9D5FF" stroke-width="1" stroke-linecap="round"/>
+    <path d="M21 14C22.5 17 23 20 22.5 25" stroke="#E9D5FF" stroke-width="1" stroke-linecap="round"/>
+    <path d="M18 7V4C18 3 19 2 20 2" stroke="#22C55E" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M17 30L16 32" stroke="#D8B4FE" stroke-width="1" stroke-linecap="round"/>
+    <path d="M19 30L20 32" stroke="#D8B4FE" stroke-width="1" stroke-linecap="round"/>
+  </g>
+</svg>

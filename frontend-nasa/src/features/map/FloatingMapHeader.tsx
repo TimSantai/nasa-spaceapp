@@ -1,12 +1,13 @@
 import React from 'react';
-import { Sprout, BookOpen, Home, Layers, Globe } from 'lucide-react';
+import { Home, Globe } from 'lucide-react';
 import type { Language } from '../../types/landing';
+import { RotasiLogo } from '../../components/brand/RotasiLogo';
 
 interface FloatingMapHeaderProps {
   currentLang?: Language;
   onToggleLang?: () => void;
-  onOpenGlossary: () => void;
-  onOpenDataSources: () => void;
+  onOpenGlossary?: () => void;
+  onOpenDataSources?: () => void;
   onBackToLanding: () => void;
   selectedVillage: string;
   dataMode?: 'live' | 'snapshot';
@@ -15,8 +16,8 @@ interface FloatingMapHeaderProps {
 export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
   currentLang = 'id',
   onToggleLang,
-  onOpenGlossary,
-  onOpenDataSources,
+  // onOpenGlossary,
+  // onOpenDataSources,
   onBackToLanding,
   selectedVillage,
   dataMode = 'snapshot',
@@ -26,21 +27,19 @@ export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
   return (
     <header className="pointer-events-none fixed top-4 right-4 left-4 z-40 flex flex-wrap items-center justify-between gap-3">
       {/* Brand Card (Glassmorphic) */}
-      <div className="pointer-events-auto flex items-center gap-3 rounded-2xl border border-[#E6EBF0] bg-white/95 px-4 py-2.5 shadow-float backdrop-blur-md">
+      <div className="pointer-events-auto flex items-center gap-3 rounded-2xl border border-[#E6EBF0] bg-white/95 px-3.5 py-2 shadow-float backdrop-blur-md">
         <button
           onClick={onBackToLanding}
           className="group flex items-center gap-2.5 text-left"
           title={isId ? 'Kembali ke Beranda' : 'Back to Home'}
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E3F1F3] text-[#237F8E] transition group-hover:bg-[#237F8E] group-hover:text-white">
-            <Sprout className="h-5 w-5" />
-          </div>
+          <RotasiLogo variant="mark" size="sm" />
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold tracking-tight text-[#14232B]">
-                FIELD <span className="text-[#237F8E]">SHIFT</span>
+              <span className="text-sm font-black tracking-tight text-[#14232B]">
+                ROT<span className="text-[#237F8E]">ASI</span>
               </span>
-              <span className="rounded-full bg-[#E3F1F3] px-2 py-0.5 text-[10px] font-bold text-[#1B6572] border border-[#237F8E]/20">
+              <span className="rounded-full bg-[#E3F1F3] px-2 py-0.5 text-[10px] font-bold text-[#1B6572] border border-[#237F8E]/20 font-mono">
                 3D Map Hub
               </span>
             </div>
@@ -54,9 +53,8 @@ export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
       {/* Floating Utilities */}
       <div className="pointer-events-auto flex items-center gap-2">
         {/* Real-time backend & NASA Satellite Sync status indicator */}
-        <button
-          onClick={onOpenDataSources}
-          className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold shadow-float backdrop-blur-md transition-all duration-150 active:scale-95 cursor-pointer ${
+        <div
+          className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold shadow-float backdrop-blur-md transition-all duration-150 ${
             dataMode === 'live'
               ? 'border-emerald-200 bg-emerald-50/95 text-emerald-800 hover:bg-emerald-100'
               : 'border-sky-200 bg-sky-50/95 text-sky-800 hover:bg-sky-100'
@@ -80,8 +78,9 @@ export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
           <span className="text-[11px] font-bold">
             {dataMode === 'live' ? 'NASA Live' : 'NASA Cache'}
           </span>
-        </button>
+        </div>
 
+        {/* Temporarily hidden: Data Catalog and Glossary buttons
         <button
           onClick={onOpenDataSources}
           className="hidden sm:flex items-center gap-1.5 rounded-full border border-[#E6EBF0] bg-white/95 px-3.5 py-2 text-xs font-semibold text-[#14232B] shadow-float backdrop-blur-md transition-all duration-150 active:scale-95 hover:border-[#237F8E] hover:text-[#237F8E] cursor-pointer motion-reduce:transition-none"
@@ -97,6 +96,7 @@ export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
           <BookOpen className="h-3.5 w-3.5 text-[#237F8E]" />
           <span>{isId ? 'Glosarium' : 'Glossary'}</span>
         </button>
+        */}
 
         {onToggleLang && (
           <button

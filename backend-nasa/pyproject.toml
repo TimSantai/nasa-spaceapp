@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "fieldshift-backend"
 version = "0.1.0"
-description = "Field Shift: crop-rotation decision support API (NASA Space Apps 2026)"
+description = "ROTASI: Resilient Optimization Tool for Agro-Satellite Insights (NASA Space Apps 2026)"
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [

@@ -92,8 +92,8 @@ export function DataSourcesModal({ isOpen, onClose, currentLang }: DataSourcesMo
               </div>
               <p className="text-xs text-[#5F6B74]">
                 {isId
-                  ? 'Transparansi skala, resolusi spasial/temporal, dan peran dalam algoritma rotasi tanaman Field Shift'
-                  : 'Spatial/temporal scale transparency and assigned algorithmic roles in Field Shift'}
+                  ? 'Transparansi skala, resolusi spasial/temporal, dan peran dalam algoritma rotasi tanaman ROTASI'
+                  : 'Spatial/temporal scale transparency and assigned algorithmic roles in ROTASI'}
               </p>
             </div>
           </div>
@@ -160,7 +160,7 @@ export function DataSourcesModal({ isOpen, onClose, currentLang }: DataSourcesMo
                 <th className="pb-3 px-3">{isId ? 'Status Penggunaan' : 'Operational Status'}</th>
                 <th className="pb-3 px-3">{isId ? 'Resolusi & Waktu' : 'Resolution & Revisit'}</th>
                 <th className="pb-3 px-3">{isId ? 'Skala Validitas' : 'Validity Scale'}</th>
-                <th className="pb-3 pl-3">{isId ? 'Peran dalam Field Shift' : 'Role in Field Shift'}</th>
+                <th className="pb-3 pl-3">{isId ? 'Peran dalam ROTASI' : 'Role in ROTASI'}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-[#E6EBF0]">

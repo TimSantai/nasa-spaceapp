@@ -288,6 +288,7 @@ export function App() {
           scenario={scenario}
           onScenarioChange={setScenario}
           verifiedChecks={verifiedChecks}
+          onToggleCheck={handleToggleCheck}
           onOpenEvidence={(strat) => setEvidenceStrategy(strat)}
           onBackToMap={handleBackToMap}
           onOpenGlossary={() => setIsGlossaryOpen(true)}
@@ -314,6 +315,7 @@ export function App() {
           onClose={() => setEvidenceStrategy(null)}
           verifiedChecks={verifiedChecks}
           onToggleCheck={handleToggleCheck}
+          currentLang={currentLang}
         />
 
         <DataSourcesModal
@@ -366,6 +368,7 @@ export function App() {
         onClose={() => setEvidenceStrategy(null)}
         verifiedChecks={verifiedChecks}
         onToggleCheck={handleToggleCheck}
+        currentLang={currentLang}
       />
 
       <DataSourcesModal

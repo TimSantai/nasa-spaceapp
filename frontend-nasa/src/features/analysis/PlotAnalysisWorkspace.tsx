@@ -14,6 +14,7 @@ import { BaselineEditor } from '../priorities/BaselineEditor';
 import { BANYUMAS_CROPS, BANYUMAS_SEASONS } from '../../api/fieldshift';
 import { StrategyBoard } from '../strategy-comparison/StrategyBoard';
 import { SummaryBrief } from '../export/SummaryBrief';
+import { RotasiLogo } from '../../components/brand/RotasiLogo';
 import {
   ArrowLeft,
   ArrowRight,
@@ -22,13 +23,11 @@ import {
   FileText,
   Database,
   MapPin,
-  BookOpen,
   CheckCircle2,
   ChevronRight,
   X,
   Printer,
   PanelLeftClose,
-  PanelLeftOpen,
   Info,
 } from 'lucide-react';
 import { SNAPSHOT_DATE } from '../../api/mock/mockData';
@@ -45,6 +44,7 @@ interface PlotAnalysisWorkspaceProps {
   scenario: ClimateScenario;
   onScenarioChange: (scenario: ClimateScenario) => void;
   verifiedChecks: Record<string, boolean>;
+  onToggleCheck?: (checkText: string) => void;
   onOpenEvidence: (strategy: Strategy) => void;
   onBackToMap: () => void;
   onOpenGlossary?: () => void;
@@ -121,10 +121,11 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
   scenario,
   onScenarioChange,
   verifiedChecks,
+  onToggleCheck,
   onOpenEvidence,
   onBackToMap,
-  onOpenGlossary,
-  onOpenDataSources,
+  // onOpenGlossary,
+  // onOpenDataSources,
   currentLang = 'id',
   onToggleLang,
   dataMode = 'snapshot',
@@ -254,7 +255,8 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
             </button>
           </div>
 
-          {/* Quick Dialog Actions */}
+          {/* Quick Dialog Actions (Temporarily hidden: Data Catalog & Glossary) */}
+          {/*
           <div className="space-y-2 pt-2">
             <span className="text-[10px] font-bold uppercase tracking-wider text-[#5F6B74] block">
               {isId ? 'Referensi & Dokumentasi' : 'References & Docs'}
@@ -288,6 +290,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
               )}
             </div>
           </div>
+          */}
         </div>
 
         <div className="pt-4 border-t border-[#E6EBF0] space-y-2">
@@ -302,7 +305,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
             </span>
           </div>
           <div className="text-[10px] text-[#5F6B74] text-center font-mono">
-            &copy; 2026 FIELD SHIFT &middot; NASA Space Apps
+            &copy; 2026 ROTASI &middot; NASA Space Apps
           </div>
         </div>
       </aside>
@@ -324,10 +327,10 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
               <button
                 type="button"
                 onClick={() => setIsSidebarCollapsed(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E3F1F3] hover:bg-[#d6ebef] text-[#237F8E] transition active:scale-95 cursor-pointer shadow-2xs border border-[#237F8E]/25"
+                className="group flex h-10 w-10 items-center justify-center rounded-xl transition active:scale-95 cursor-pointer"
                 title={isId ? 'Buka Sidebar (Expand)' : 'Expand Sidebar'}
               >
-                <PanelLeftOpen className="h-5 w-5" />
+                <RotasiLogo variant="mark" size="sm" />
               </button>
 
               {/* Plot Mini Pin with Tooltip */}
@@ -404,14 +407,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
             <div className="space-y-5">
               {/* Top Brand Header & Collapse Toggle */}
               <div className="flex items-center justify-between pb-3 border-b border-[#E6EBF0]">
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-extrabold tracking-tight text-[#14232B]">
-                    FIELD <span className="text-[#237F8E]">SHIFT</span>
-                  </span>
-                  <span className="rounded-full bg-[#E3F1F3] px-2 py-0.5 text-[9px] font-extrabold text-[#1B6572] font-mono border border-[#237F8E]/20">
-                    WORKSPACE
-                  </span>
-                </div>
+                <RotasiLogo variant="horizontal" size="sm" badgeText="WORKSPACE" />
 
                 {/* Sidebar Collapse Toggle Button */}
                 <button
@@ -574,6 +570,8 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 </span>
               </div>
 
+              {/* Quick Dialog Actions (Temporarily hidden: Data Catalog & Glossary) */}
+              {/*
               <div className="grid grid-cols-2 gap-2 text-xs">
                 {onOpenDataSources && (
                   <button
@@ -596,9 +594,10 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                   </button>
                 )}
               </div>
+              */}
 
               <div className="text-[10px] text-[#5F6B74] text-center pt-1 font-mono">
-                &copy; 2026 FIELD SHIFT &middot; NASA Space Apps
+                &copy; 2026 ROTASI &middot; NASA Space Apps
               </div>
             </div>
           </>
@@ -744,7 +743,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
           {/* SUB-TAB 1: PEDOLOGY & NASA SATELLITE CLIMATOLOGY (WITH MINI MAP INSET) */}
           {activeSubTab === 'profile' && (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 print:hidden">
                 <div>
                   <span className="text-[11px] font-bold tracking-wider text-[#237F8E] uppercase">
                     {isId ? '/ LANGKAH 01 · PEDOLOGI & AGROKLIMAT' : '/ STEP 01 · PEDOLOGY & HYDROMETEOROLOGY'}
@@ -780,7 +779,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
           {/* SUB-TAB 2: ROTATION OPTIMIZER (SPRINT 1 DECISION ENGINE) */}
           {activeSubTab === 'optimizer' && (
             <div className="space-y-8">
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 print:hidden">
                 <div>
                   <span className="text-[11px] font-bold tracking-wider text-[#237F8E] uppercase">
                     {isId ? '/ LANGKAH 02 · MESIN KEPUTUSAN & UJI STRES' : '/ STEP 02 · DECISION ENGINE & STRESS-TEST'}
@@ -813,6 +812,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                   value={baseline}
                   initial={initialBaseline}
                   onChange={onBaselineChange}
+                  currentLang={currentLang}
                 />
               )}
               {dataMode !== 'live' && (
@@ -833,6 +833,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 onConstraintsChange={onConstraintsChange}
                 scenario={scenario}
                 onScenarioChange={onScenarioChange}
+                currentLang={currentLang}
               />
 
               {/* Strategy Comparison Columns */}
@@ -844,6 +845,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 scenario={scenario}
                 onOpenEvidence={onOpenEvidence}
                 isCalculating={isCalculating}
+                currentLang={currentLang}
               />
             </div>
           )}
@@ -851,7 +853,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
           {/* SUB-TAB 3: EXTENSION CONSULTATION BRIEF (SPRINT 2 PRINT ENGINE) */}
           {activeSubTab === 'export' && (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 print:hidden">
                 <div>
                   <span className="text-[11px] font-bold tracking-wider text-[#237F8E] uppercase">
                     {isId ? '/ LANGKAH 03 · LEMBAR KONSULTASI PPL & AUDIT RISIKO' : '/ STEP 03 · PPL EXTENSION BRIEF & RISK AUDIT'}
@@ -883,6 +885,8 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 constraints={constraints}
                 scenario={scenario}
                 verifiedChecks={verifiedChecks}
+                onToggleCheck={onToggleCheck}
+                currentLang={currentLang}
               />
             </div>
           )}
@@ -891,7 +895,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
         {/* ================================================================ */}
         {/* 3. MOBILE DOCKED THUMB ACTION BAR (FIXED AT BOTTOM FOR MOBILE)   */}
         {/* ================================================================ */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#E6EBF0] p-3 px-4 shadow-[0_-8px_25px_rgba(15,23,42,0.08)] flex items-center justify-between gap-3">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#E6EBF0] p-3 px-4 shadow-[0_-8px_25px_rgba(15,23,42,0.08)] flex items-center justify-between gap-3 print:hidden">
           <div className="flex items-center gap-2 min-w-0">
             {/* Previous Step Button if not on Step 1 */}
             {currentStepIdx > 0 && (

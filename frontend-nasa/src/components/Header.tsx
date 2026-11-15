@@ -1,6 +1,7 @@
 import React from 'react';
-import { Sprout, BookOpen, Home, Layers, Globe } from 'lucide-react';
+import { Home, Globe } from 'lucide-react';
 import type { Language } from '../types/landing';
+import { RotasiLogo } from './brand/RotasiLogo';
 
 interface HeaderProps {
   activeTab: 'map' | 'profile' | 'comparison' | 'export';
@@ -16,8 +17,8 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   onTabChange,
-  onOpenGlossary,
-  onOpenDataSources,
+  // onOpenGlossary,
+  // onOpenDataSources,
   onBackToLanding,
   selectedVillage,
   currentLang = 'id',
@@ -36,15 +37,13 @@ export const Header: React.FC<HeaderProps> = ({
               className="group flex items-center gap-2 rounded-2xl p-1 -ml-1 text-left hover:bg-[#F7F9FB] transition"
               title={isId ? 'Kembali ke Beranda Landing Page' : 'Back to Home Landing Page'}
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E3F1F3] text-[#237F8E] shadow-xs group-hover:bg-[#237F8E] group-hover:text-white transition">
-                <Sprout className="h-5 w-5" />
-              </div>
+              <RotasiLogo variant="mark" size="sm" />
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-base font-bold tracking-tight text-[#14232B]">
-                    FIELD <span className="text-[#237F8E]">SHIFT</span>
+                  <span className="text-base font-black tracking-tight text-[#14232B]">
+                    ROT<span className="text-[#237F8E]">ASI</span>
                   </span>
-                  <span className="rounded-full bg-[#E3F1F3] px-2 py-0.5 text-[10px] font-bold text-[#1B6572] border border-[#237F8E]/20">
+                  <span className="rounded-full bg-[#E3F1F3] px-2 py-0.5 text-[10px] font-bold text-[#1B6572] border border-[#237F8E]/20 font-mono">
                     Workspace
                   </span>
                 </div>
@@ -54,13 +53,11 @@ export const Header: React.FC<HeaderProps> = ({
               </div>
             </button>
           ) : (
-            <div className="flex items-center gap-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E3F1F3] text-[#237F8E] shadow-xs">
-                <Sprout className="h-5 w-5" />
-              </div>
+            <div className="flex items-center gap-2.5">
+              <RotasiLogo variant="mark" size="sm" />
               <div>
-                <span className="text-base font-bold tracking-tight text-[#14232B]">
-                  FIELD <span className="text-[#237F8E]">SHIFT</span>
+                <span className="text-base font-black tracking-tight text-[#14232B]">
+                  ROT<span className="text-[#237F8E]">ASI</span>
                 </span>
                 <p className="text-xs text-[#5F6B74]">{selectedVillage}</p>
               </div>
@@ -114,6 +111,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right CTA Buttons */}
         <div className="flex items-center gap-2">
+          {/* Temporarily hidden: Data Catalog and Glossary
           {onOpenDataSources && (
             <button
               onClick={onOpenDataSources}
@@ -131,6 +129,7 @@ export const Header: React.FC<HeaderProps> = ({
             <BookOpen className="h-3.5 w-3.5 text-[#237F8E]" />
             <span>{isId ? 'Glosarium' : 'Glossary'}</span>
           </button>
+          */}
 
           {onToggleLang && (
             <button

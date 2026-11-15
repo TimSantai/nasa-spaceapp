@@ -15,7 +15,10 @@ import {
 } from 'recharts';
 import type { FieldProfile } from '../../types/domain';
 import type { Language } from '../../types/landing';
-import { ShieldAlert, Thermometer, Activity, Droplets, Mountain, Sprout, Info } from 'lucide-react';
+import { formatFreeRotationItem } from '../../lib/cropTranslation';
+import { CropSticker } from '../../components/stickers/CropSticker';
+import { MetricSticker } from '../../components/stickers/MetricSticker';
+import { ShieldAlert, Thermometer, Activity, Info } from 'lucide-react';
 import { MiniParcelMap } from '../map/MiniParcelMap';
 
 interface FieldProfileViewProps {
@@ -52,9 +55,7 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#5F6B74]">
               {isId ? 'Matriks Pedologi' : 'Pedological Matrix'}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E3F1F3] text-[#237F8E] border border-[#237F8E]/20">
-              <Sprout className="h-4 w-4" />
-            </div>
+            <MetricSticker type="pedology" size="sm" />
           </div>
           <h3 className="mt-2.5 text-xl font-bold tracking-tight text-[#14232B] truncate">
             {field.soil.texture}
@@ -76,9 +77,7 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#5F6B74]">
               {isId ? 'Kapasitas Lengas (AWC)' : 'Available Water Cap. (AWC)'}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E3F1F3] text-[#237F8E] border border-[#237F8E]/20">
-              <Droplets className="h-4 w-4" />
-            </div>
+            <MetricSticker type="awc" size="sm" />
           </div>
           <div className="mt-2.5 flex items-baseline gap-1.5">
             <span className="text-3xl font-extrabold tracking-tight text-[#237F8E] font-mono tabular-nums">
@@ -93,13 +92,13 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
                 ? field.soil.awc >= 140
                   ? 'Cadangan tinggi: membawa surplus musim hujan ke MT3'
                   : field.soil.awc >= 100
-                  ? 'Kapasitas simpan moderat antar musim'
-                  : 'Kapasitas rendah: tanaman musim kemarau butuh irigasi'
+                    ? 'Kapasitas simpan moderat antar musim'
+                    : 'Kapasitas rendah: tanaman musim kemarau butuh irigasi'
                 : field.soil.awc >= 140
                   ? 'High capacity: carries wet season surplus to MT3'
                   : field.soil.awc >= 100
-                  ? 'Moderate water retention between seasons'
-                  : 'Low capacity: dry season crops need irrigation'}
+                    ? 'Moderate water retention between seasons'
+                    : 'Low capacity: dry season crops need irrigation'}
             </span>
           </div>
         </div>
@@ -110,9 +109,7 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#5F6B74]">
               {isId ? 'Topografi & Elevasi' : 'Topography & Elevation'}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-[#B7791F] border border-amber-200/50">
-              <Mountain className="h-4 w-4" />
-            </div>
+            <MetricSticker type="slope" size="sm" />
           </div>
           <div className="mt-2.5 flex items-baseline gap-1.5">
             <span className="text-3xl font-extrabold tracking-tight text-[#14232B] font-mono tabular-nums">
@@ -128,13 +125,13 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
               ? field.soil.erosionRisk === 'High'
                 ? 'Lereng curam: hindari bera terbuka, jaga tutupan tanah'
                 : field.soil.erosionRisk === 'Moderate'
-                ? 'Hindari periode bera panjang di musim hujan'
-                : 'Lereng landai: erosi terutama dari bera saat hujan lebat'
+                  ? 'Hindari periode bera panjang di musim hujan'
+                  : 'Lereng landai: erosi terutama dari bera saat hujan lebat'
               : field.soil.erosionRisk === 'High'
                 ? 'Steep slope: avoid bare fallow, keep continuous cover'
                 : field.soil.erosionRisk === 'Moderate'
-                ? 'Avoid extended fallow periods during rainy season'
-                : 'Gentle slope: erosion risk mainly from heavy downpours'}
+                  ? 'Avoid extended fallow periods during rainy season'
+                  : 'Gentle slope: erosion risk mainly from heavy downpours'}
           </div>
         </div>
 
@@ -148,12 +145,31 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
               <Activity className="h-4 w-4" />
             </div>
           </div>
-          <h3 className="mt-2.5 text-base font-bold tracking-tight text-[#14232B] line-clamp-1">
-            {field.currentRotation[0]}
-          </h3>
-          <p className="mt-0.5 text-xs text-[#5F6B74] truncate">
-            {field.currentRotation[1]} &middot; {field.currentRotation[2]}
-          </p>
+          <div className="mt-2.5 flex items-center gap-2">
+            {field.currentRotation[0] && <CropSticker name={field.currentRotation[0]} size="sm" />}
+            <h3 className="text-base font-bold tracking-tight text-[#14232B] line-clamp-1">
+              {field.currentRotation[0] ? formatFreeRotationItem(field.currentRotation[0], currentLang) : '—'}
+            </h3>
+          </div>
+          {(field.currentRotation[1] || field.currentRotation[2]) && (
+            <div className="mt-1 flex items-center gap-1.5 text-xs text-[#5F6B74] truncate">
+              {field.currentRotation[1] && (
+                <>
+                  <CropSticker name={field.currentRotation[1]} size="xs" />
+                  <span>{formatFreeRotationItem(field.currentRotation[1], currentLang)}</span>
+                </>
+              )}
+              {field.currentRotation[1] && field.currentRotation[2] && (
+                <span className="text-gray-300">&middot;</span>
+              )}
+              {field.currentRotation[2] && (
+                <>
+                  <CropSticker name={field.currentRotation[2]} size="xs" />
+                  <span>{formatFreeRotationItem(field.currentRotation[2], currentLang)}</span>
+                </>
+              )}
+            </div>
+          )}
           <div className="mt-3.5 pt-3 border-t border-[#E6EBF0] text-xs font-medium text-[#B4443A] flex items-center justify-between">
             <span>{isId ? 'Rentan cekaman El Niño' : 'Vulnerable to El Niño'}</span>
             <span className="font-mono tabular-nums font-bold">{field.areaHectares} ha</span>
@@ -269,7 +285,7 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
                 : 'Annual vegetation index trajectory with 4 crop phase zones for erosion risk mitigation'}
             </p>
           </div>
-          
+
           {/* Phase Legend Indicators */}
           <div className="flex flex-wrap items-center gap-3 text-xs">
             <span className="flex items-center gap-1.5 text-[#1E5B4F] font-semibold bg-[#E3F1F3] px-2.5 py-0.5 rounded-full">
@@ -296,68 +312,67 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
             </div>
           ) : (
             <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={field.ndviTimeSeries} margin={{ top: 12, right: 10, left: -20, bottom: 0 }}>
-              <defs>
-                <linearGradient id="ndviGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#237F8E" stopOpacity={0.35} />
-                  <stop offset="100%" stopColor="#237F8E" stopOpacity={0.02} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
-              
-              {/* Reference Phase Color Bands across NDVI Y-scale */}
-              <ReferenceArea y1={0.7} y2={1.0} fill="#E7F2EB" fillOpacity={0.35} />
-              <ReferenceArea y1={0.4} y2={0.7} fill="#E3F1F3" fillOpacity={0.25} />
-              <ReferenceArea y1={0.25} y2={0.4} fill="#F4F7FA" fillOpacity={0.4} />
-              <ReferenceArea y1={0.0} y2={0.25} fill="#FDF4F3" fillOpacity={0.45} />
+              <AreaChart data={field.ndviTimeSeries} margin={{ top: 12, right: 10, left: -20, bottom: 0 }}>
+                <defs>
+                  <linearGradient id="ndviGradient" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#237F8E" stopOpacity={0.35} />
+                    <stop offset="100%" stopColor="#237F8E" stopOpacity={0.02} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#F1F5F9" vertical={false} />
 
-              <XAxis dataKey="month" stroke="#94A3B8" tick={{ fontSize: 11, fill: '#5F6B74' }} tickLine={false} />
-              <YAxis domain={[0, 1]} stroke="#94A3B8" tick={{ fontSize: 11, fill: '#5F6B74' }} tickLine={false} axisLine={false} />
-              <Tooltip
-                content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
-                    const data = payload[0].payload;
-                    const isFallow = data.ndvi < 0.25;
-                    return (
-                      <div className="rounded-2xl border border-[#E6EBF0] bg-white/95 backdrop-blur-md p-3.5 text-xs shadow-[0_8px_30px_rgba(15,23,42,0.08)] text-[#14232B] min-w-[190px]">
-                        <p className="font-extrabold text-[#14232B] text-sm border-b border-[#E6EBF0] pb-1">
-                          {isId ? `Bulan ${data.month}` : `Month of ${data.month}`}
-                        </p>
-                        <p className="text-[#237F8E] font-mono font-bold mt-1.5 text-sm tabular-nums">
-                          NDVI: {data.ndvi}
-                        </p>
-                        <div className="mt-1 flex items-center justify-between text-xs">
-                          <span className="text-[#5F6B74]">{isId ? 'Fase Tanam:' : 'Crop Phase:'}</span>
-                          <span className={`font-semibold px-2 py-0.5 rounded-full text-[10px] ${
-                            isFallow ? 'bg-red-50 text-[#B4443A]' : 'bg-[#E3F1F3] text-[#1B6572]'
-                          }`}>
-                            {data.phase}
-                          </span>
-                        </div>
-                        {isFallow && (
-                          <p className="text-[10px] text-[#B4443A] mt-1 pt-1 border-t border-red-100 flex items-center gap-1">
-                            <Info className="h-3 w-3 shrink-0" />
-                            {isId ? 'Tanah telanjang rentan erosi & gulma' : 'Bare soil exposed to erosion & weeds'}
+                {/* Reference Phase Color Bands across NDVI Y-scale */}
+                <ReferenceArea y1={0.7} y2={1.0} fill="#E7F2EB" fillOpacity={0.35} />
+                <ReferenceArea y1={0.4} y2={0.7} fill="#E3F1F3" fillOpacity={0.25} />
+                <ReferenceArea y1={0.25} y2={0.4} fill="#F4F7FA" fillOpacity={0.4} />
+                <ReferenceArea y1={0.0} y2={0.25} fill="#FDF4F3" fillOpacity={0.45} />
+
+                <XAxis dataKey="month" stroke="#94A3B8" tick={{ fontSize: 11, fill: '#5F6B74' }} tickLine={false} />
+                <YAxis domain={[0, 1]} stroke="#94A3B8" tick={{ fontSize: 11, fill: '#5F6B74' }} tickLine={false} axisLine={false} />
+                <Tooltip
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      const data = payload[0].payload;
+                      const isFallow = data.ndvi < 0.25;
+                      return (
+                        <div className="rounded-2xl border border-[#E6EBF0] bg-white/95 backdrop-blur-md p-3.5 text-xs shadow-[0_8px_30px_rgba(15,23,42,0.08)] text-[#14232B] min-w-[190px]">
+                          <p className="font-extrabold text-[#14232B] text-sm border-b border-[#E6EBF0] pb-1">
+                            {isId ? `Bulan ${data.month}` : `Month of ${data.month}`}
                           </p>
-                        )}
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
-              />
-              <Area
-                type="monotone"
-                dataKey="ndvi"
-                name={isId ? 'Nilai NDVI' : 'NDVI Value'}
-                stroke="#237F8E"
-                strokeWidth={2.8}
-                fillOpacity={1}
-                fill="url(#ndviGradient)"
-                dot={{ r: 3, fill: '#FFFFFF', stroke: '#237F8E', strokeWidth: 2 }}
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+                          <p className="text-[#237F8E] font-mono font-bold mt-1.5 text-sm tabular-nums">
+                            NDVI: {data.ndvi}
+                          </p>
+                          <div className="mt-1 flex items-center justify-between text-xs">
+                            <span className="text-[#5F6B74]">{isId ? 'Fase Tanam:' : 'Crop Phase:'}</span>
+                            <span className={`font-semibold px-2 py-0.5 rounded-full text-[10px] ${isFallow ? 'bg-red-50 text-[#B4443A]' : 'bg-[#E3F1F3] text-[#1B6572]'
+                              }`}>
+                              {data.phase}
+                            </span>
+                          </div>
+                          {isFallow && (
+                            <p className="text-[10px] text-[#B4443A] mt-1 pt-1 border-t border-red-100 flex items-center gap-1">
+                              <Info className="h-3 w-3 shrink-0" />
+                              {isId ? 'Tanah telanjang rentan erosi & gulma' : 'Bare soil exposed to erosion & weeds'}
+                            </p>
+                          )}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+                <Area
+                  type="monotone"
+                  dataKey="ndvi"
+                  name={isId ? 'Nilai NDVI' : 'NDVI Value'}
+                  stroke="#237F8E"
+                  strokeWidth={2.8}
+                  fillOpacity={1}
+                  fill="url(#ndviGradient)"
+                  dot={{ r: 3, fill: '#FFFFFF', stroke: '#237F8E', strokeWidth: 2 }}
+                />
+              </AreaChart>
+            </ResponsiveContainer>
           )}
         </div>
       </div>

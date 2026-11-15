@@ -619,7 +619,7 @@ export const getHonestLimitations = (lang: Language) => [
     id: 'decision-support',
     title: lang === 'en' ? 'This tool guides dialogue, it is not a final decree.' : 'Alat ini membantu menjelajah pilihan, bukan rekomendasi final.',
     desc: lang === 'en'
-      ? 'Field Shift is engineered as an extension dialogue tool between farmers and agronomists, not an automated system dictating unilateral farm mandates.'
+      ? 'ROTASI is engineered as an extension dialogue tool between farmers and agronomists, not an automated system dictating unilateral farm mandates.'
       : 'Sistem dirancang sebagai mitra diskusi antara petani dan penyuluh pertanian lapangan (PPL), bukan sistem otomatis yang menentukan keputusan tanam mutlak.',
   },
   {
@@ -675,6 +675,6 @@ export const VERIFIABLE_STATS: StatItem[] = [
     number: '26',
     label: 'Datasets Audited',
     detail: 'Rigorous open audit across Earth observation, pedology, and agrometeorology sources.',
-    source: 'Field Shift Provenance Registry',
+    source: 'ROTASI Provenance Registry',
   },
 ];

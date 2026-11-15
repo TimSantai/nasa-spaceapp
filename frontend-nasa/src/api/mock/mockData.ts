@@ -1,5 +1,5 @@
 /**
- * Offline fallback data. Not hand-written: it is a snapshot of the real Field Shift API output
+ * Offline fallback data. Not hand-written: it is a snapshot of the real ROTASI API output
  * (snapshot.json, regenerated from backend-nasa) so the UI stays honest when the backend is down.
  */
 import type { ClimatePhase, FieldProfile, Strategy } from '../../types/domain';

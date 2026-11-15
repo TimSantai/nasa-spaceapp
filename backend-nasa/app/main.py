@@ -23,8 +23,10 @@ from app.features.health.router import router as health_router
 logger = logging.getLogger(__name__)
 
 OPENAPI_DESCRIPTION = """
-**Field Shift API** — Decision-support backend for comparing crop rotation strategies using
+**ROTASI API** — Decision-support backend for comparing crop rotation strategies using
 NASA Earth observations, local soil and terrain data, and climate-conditioned risk scoring.
+
+ROTASI: Resilient Optimization Tool for Agro-Satellite Insights.
 
 ### Key Capabilities
 - **Climate-Conditioned Rotation Engine (`/api/v1/rotations`)**: Evaluates baseline and alternative
@@ -113,13 +115,16 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             await engine.dispose()
 
     app = FastAPI(
-        title="Field Shift API",
-        summary="NASA Space Apps 2026 — Crop Rotation Decision-Support & Data Harmonization API",
+        title="ROTASI API",
+        summary=(
+            "ROTASI: Resilient Optimization Tool for Agro-Satellite Insights"
+            " (NASA Space Apps 2026)"
+        ),
         description=OPENAPI_DESCRIPTION,
         version="0.1.0",
         openapi_tags=OPENAPI_TAGS,
         contact={
-            "name": "Field Shift Team (A2 Data & Backend Engineering)",
+            "name": "ROTASI Team (A2 Data & Backend Engineering)",
             "url": "https://www.spaceappschallenge.org/2026/challenges/adapting-farms-with-nasa-data/",
         },
         license_info={

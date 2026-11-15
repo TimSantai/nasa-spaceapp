@@ -12,7 +12,7 @@ const GLOSSARY_ITEMS: GlossaryItem[] = [
   {
     term: 'NDVI (Normalized Difference Vegetation Index)',
     category: 'NASA Satellite',
-    definition: 'Quantifies vegetation greenness and canopy photosynthetic density from -1.0 to +1.0. Used in Field Shift to detect crop emergence, peak vegetative vigor, harvest dates, and bare fallow (lahan bera) windows.',
+    definition: 'Quantifies vegetation greenness and canopy photosynthetic density from -1.0 to +1.0. Used in ROTASI to detect crop emergence, peak vegetative vigor, harvest dates, and bare fallow (lahan bera) windows.',
     formulaOrSensor: 'HLS 30m (Landsat-8/9 + Sentinel-2 MSI)',
   },
   {

@@ -39,7 +39,7 @@ interface LimitationsSectionProps {
                 </div>
                 <div>
                   <h3 className="text-base font-bold text-[#14232B]">
-                    {isId ? '5 Batasan Fundamental Sistem Field Shift' : '5 Fundamental Operational Boundaries'}
+                    {isId ? '5 Batasan Fundamental Sistem ROTASI' : '5 Fundamental Operational Boundaries of ROTASI'}
                   </h3>
                   <p className="text-xs text-[#5F6B74]">
                     {isId
