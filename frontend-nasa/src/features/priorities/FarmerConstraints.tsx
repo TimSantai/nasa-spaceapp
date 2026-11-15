@@ -113,7 +113,7 @@ export const FarmerConstraints: React.FC<FarmerConstraintsProps> = ({
             </p>
           </div>
           <div className="mt-3 pt-2 border-t border-gray-100 text-[11px] font-semibold text-gray-600">
-            {constraints.machineryAccess ? 'Mekanisasi tanah efisien' : '⚠️ Biaya tenaga kerja manual naik'}
+            {constraints.machineryAccess ? 'Tersedia (belum memengaruhi skor)' : 'Tidak tersedia (belum dimodelkan)'}
           </div>
         </button>
 
@@ -152,7 +152,7 @@ export const FarmerConstraints: React.FC<FarmerConstraintsProps> = ({
             </p>
           </div>
           <div className="mt-3 pt-2 border-t border-gray-100 text-[11px] font-semibold text-gray-600">
-            {constraints.marketAccess ? 'Pasar biji-bijian terjamin' : '⚠️ Memerlukan kontrak off-take'}
+            {constraints.marketAccess ? 'Ada pembeli (belum memengaruhi skor)' : 'Terbatas (belum dimodelkan)'}
           </div>
         </button>
       </div>

@@ -1,3 +1,4 @@
+import { blendedScore } from '../../lib/scoring';
 import React, { useState } from 'react';
 import type { FieldProfile, Strategy, PriorityWeights, ClimatePhase, FarmerConstraints, ClimateScenario, PplBriefMetadata } from '../../types/domain';
 import { Printer, CheckCircle2, FileText, UserCheck, ShieldCheck, Edit3 } from 'lucide-react';
@@ -21,7 +22,8 @@ export const SummaryBrief: React.FC<SummaryBriefProps> = ({
   scenario,
   verifiedChecks = {},
 }) => {
-  const topStrategy = strategies.find((s) => s.paretoStatus === 'Optimal') || strategies[0];
+  // Same ranking as the strategy board at its default caution level
+  const topStrategy = [...strategies].sort((a, b) => blendedScore(b) - blendedScore(a))[0] ?? strategies[0];
   const baselineStrategy = strategies.find((s) => s.isBaseline) || strategies[strategies.length - 1];
 
   const [metadata, setMetadata] = useState<PplBriefMetadata>({
@@ -148,7 +150,7 @@ export const SummaryBrief: React.FC<SummaryBriefProps> = ({
                 Field Shift Recommendation Summary
               </h2>
               <p className="text-xs text-[#5F6B74] mt-0.5">
-                Rekomendasi Adaptasi Pola Rotasi Tanam Berbasis Data Satelit NASA & Kalibrasi Lapangan
+                Rekomendasi Adaptasi Pola Rotasi Tanam Berbasis Data NASA & Indikator Agronomi (perlu verifikasi PPL)
               </p>
             </div>
             <div className="text-right">

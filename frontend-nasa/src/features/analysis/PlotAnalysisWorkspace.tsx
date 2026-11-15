@@ -106,10 +106,10 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 <button
                   onClick={onOpenDataSources}
                   className="flex items-center gap-1.5 rounded-full border border-[#E6EBF0] bg-[#F7F9FB] px-3 py-1.5 text-xs font-semibold text-[#5F6B74] transition hover:border-[#237F8E] hover:text-[#237F8E]"
-                  title="26 NASA Data Sources"
+                  title="Data catalog: 26 resources reviewed"
                 >
                   <Database className="h-3.5 w-3.5 text-[#237F8E]" />
-                  <span>26 Data Sources</span>
+                  <span>Data Catalog (26)</span>
                 </button>
               )}
               {onOpenGlossary && (

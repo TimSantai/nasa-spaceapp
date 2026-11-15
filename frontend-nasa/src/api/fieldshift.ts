@@ -84,7 +84,7 @@ function cropSequence(s: StrategyOut): string[] {
 
 const SOURCE_INFO: Record<string, Omit<DataSource, 'id' | 'name'>> = {
   'NASA POWER': { resolution: '0.5° daily, 1991–2025', type: 'Reanalysis', role: 'Rainfall, temperature, ET0 (Hargreaves) and root-zone soil wetness per season', url: 'https://power.larc.nasa.gov/' },
-  'NOAA ONI': { resolution: 'Monthly index', type: 'Agro Model', role: 'ENSO / IOD phase labels (Aug–Oct) to select analog years', url: 'https://www.cpc.ncep.noaa.gov/' },
+  'NOAA ONI': { resolution: 'Monthly index', type: 'Reanalysis', role: 'ENSO / IOD phase labels (Aug–Oct) to select analog years', url: 'https://www.cpc.ncep.noaa.gov/' },
   SRTM: { resolution: '30 m', type: 'Satellite', role: 'Slope share used in the erosion-exposure index', url: 'https://lpdaac.usgs.gov/products/srtmgl1v003/' },
   'USDA CDL': { resolution: '30 m annual', type: 'Satellite', role: 'Observed rotation baseline (US site)', url: 'https://croplandcros.scinet.usda.gov/' },
 };

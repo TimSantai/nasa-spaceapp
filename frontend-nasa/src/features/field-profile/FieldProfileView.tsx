@@ -52,9 +52,13 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({ field }) => 
             <span className="text-3xl font-extrabold tracking-tight text-[#0891b2] font-mono tabular-nums">{field.soil.awc}</span>
             <span className="text-xs font-semibold text-gray-500">mm/m</span>
           </div>
-          <p className="mt-1 text-xs text-gray-500">ISRIC SoilGrids & SMAP Assimilated</p>
+          <p className="mt-1 text-xs text-gray-500">SoilGrids 0–30 cm &middot; Saxton &amp; Rawls (2006)</p>
           <div className="mt-4 pt-3 border-t border-gray-100 text-xs font-medium text-[#0891b2]">
-            Sufficient for deep-root legumes
+            {field.soil.awc >= 140
+              ? 'High storage: carries wet-season surplus into MT3'
+              : field.soil.awc >= 100
+              ? 'Moderate storage between seasons'
+              : 'Low storage: dry-season crops rely on irrigation'}
           </div>
         </div>
 
@@ -72,22 +76,28 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({ field }) => 
           </div>
           <p className="mt-1 text-xs text-gray-500">{field.elevationMeters}m MSL &middot; {field.soil.erosionRisk}</p>
           <div className="mt-4 pt-3 border-t border-gray-100 text-xs font-medium text-[#dc2626]">
-            Requires continuous ground cover
+            {field.soil.erosionRisk === 'High'
+              ? 'Steep: avoid bare fallow, keep ground covered'
+              : field.soil.erosionRisk === 'Moderate'
+              ? 'Avoid long bare periods in the rainy season'
+              : 'Gentle slope: erosion mainly from bare fallow in heavy rain'}
           </div>
         </div>
 
         {/* Metric 4: Observed Current Practice */}
         <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-xs">
           <div className="flex items-center justify-between">
-            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Current Monoculture</span>
+            <span className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Current Rotation</span>
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-red-50 text-[#dc2626]">
               <Activity className="h-4 w-4" />
             </div>
           </div>
           <h3 className="mt-3 text-xl font-bold tracking-tight text-gray-900">{field.currentRotation[0]}</h3>
-          <p className="mt-1 text-xs text-gray-500">Dry Season Fallow Gap: 90+ days</p>
+          <p className="mt-1 text-xs text-gray-500">
+            Fallow seasons per year: {field.currentRotation.filter((c) => /fallow|bera/i.test(c)).length} of {field.currentRotation.length}
+          </p>
           <div className="mt-4 pt-3 border-t border-gray-100 text-xs font-medium text-[#dc2626]">
-            Vulnerable to El Niño flash drought
+            {field.dataAvailability.hasObservedRotation ? 'Observed rotation' : 'Team assumption: confirm with the farmer'}
           </div>
         </div>
       </div>
@@ -101,11 +111,11 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({ field }) => 
               Monthly Climatology 1991–2020 (NASA POWER)
             </h3>
             <p className="text-xs text-gray-500 mt-0.5">
-              25-year monthly precipitation totals and diurnal temperature extremes in Serayu Valley
+              Mean monthly rainfall and temperature, 1991–2020 normals of the nearest NASA POWER grid cell
             </p>
           </div>
           <span className="rounded-full bg-gray-100 px-3 py-1 text-xs text-gray-600 font-mono tabular-nums">
-            2000–2025 Calibrated
+            1991–2020 normals
           </span>
         </div>
 
@@ -170,6 +180,11 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({ field }) => 
         </div>
 
         <div className="mt-5 h-48 w-full">
+          {field.ndviTimeSeries.length === 0 ? (
+            <div className="flex h-full items-center justify-center rounded-xl border border-dashed border-gray-200 bg-gray-50 px-6 text-center text-xs text-gray-500">
+              HLS 30 m NDVI for this plot is still being extracted by NASA AppEEARS. The chart fills in once the data is processed.
+            </div>
+          ) : (
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={field.ndviTimeSeries} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
               <defs>
@@ -201,6 +216,7 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({ field }) => 
               <Area type="monotone" dataKey="ndvi" stroke="#1a7a6d" strokeWidth={2.5} fillOpacity={1} fill="url(#ndviGradient)" />
             </AreaChart>
           </ResponsiveContainer>
+          )}
         </div>
       </div>
 

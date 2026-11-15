@@ -56,7 +56,7 @@ export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
           className="hidden sm:flex items-center gap-1.5 rounded-full border border-[#E6EBF0] bg-white/95 px-3.5 py-2 text-xs font-semibold text-[#14232B] shadow-float backdrop-blur-md transition hover:border-[#237F8E] hover:text-[#237F8E]"
         >
           <Layers className="h-3.5 w-3.5 text-[#237F8E]" />
-          <span>{isId ? '26 Data Sumber' : '26 Data Sources'}</span>
+          <span>{isId ? 'Katalog Data (26)' : 'Data Catalog (26)'}</span>
         </button>
 
         <button

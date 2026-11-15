@@ -39,7 +39,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
               <span className={`rounded-full border px-3 py-0.5 text-xs font-semibold ${confidenceBadge}`}>
                 {strategy.confidence} Confidence Tier
               </span>
-              <span className="text-xs text-[#5F6B74]">NASA Evidence Dossier &middot; Validasi Ilmiah Multi-Sensor</span>
+              <span className="text-xs text-[#5F6B74]">NASA Evidence Dossier &middot; Bukti Data & Batasan Model</span>
             </div>
             <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#14232B]">{strategy.name}</h2>
             <p className="mt-1 text-xs text-[#5F6B74]">{strategy.confidenceReason}</p>
@@ -121,7 +121,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
               <h3 className="font-bold text-sm text-red-700">Keterbatasan Informasi & Batasan Epistemik</h3>
             </div>
             <p className="mt-1 text-xs text-red-600">
-              Mandat NASA Space Apps: Keterbukaan variabel lapangan yang belum terukur mencegah rekomendasi otomatis yang over-confident.
+              Batasan ini ditampilkan agar rekomendasi tidak terlihat lebih pasti daripada datanya.
             </p>
             <ul className="mt-3 space-y-2">
               {strategy.evidence.dataGaps.map((gap, i) => (

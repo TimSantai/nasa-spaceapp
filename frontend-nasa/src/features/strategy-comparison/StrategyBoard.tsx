@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Strategy, PriorityWeights, ClimatePhase, FarmerConstraints, ClimateScenario } from '../../types/domain';
+import { DEFAULT_CAUTION } from '../../lib/scoring';
 import { ShieldCheck, FileText, Award, ArrowUpDown, Droplets, Sprout, TrendingUp, ArrowRight, AlertTriangle } from 'lucide-react';
 
 interface StrategyBoardProps {
@@ -18,7 +19,7 @@ export const StrategyBoard: React.FC<StrategyBoardProps> = ({
   onOpenEvidence,
 }) => {
   // Caution slider: 0 = Pure Mean, 1 = Pure CVaR (Worst Case)
-  const [cautionLevel, setCautionLevel] = useState<number>(0.4);
+  const [cautionLevel, setCautionLevel] = useState<number>(DEFAULT_CAUTION);
 
   // Check which constraints a strategy violates
   const getViolations = (strat: Strategy): string[] => {
@@ -83,7 +84,7 @@ export const StrategyBoard: React.FC<StrategyBoardProps> = ({
               </h3>
             </div>
             <p className="mt-1 text-xs text-gray-500">
-              Interpolasikan antara hasil rata-rata multi-tahun dan risiko tahun terburuk (analogi 15% musim kering terekstrem)
+              Interpolasikan antara hasil rata-rata multi-tahun dan risiko tahun terburuk (rata-rata 20% tahun analog terburuk, CVaR20)
             </p>
           </div>
 

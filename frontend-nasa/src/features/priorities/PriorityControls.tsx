@@ -59,7 +59,7 @@ export const PriorityControls: React.FC<PriorityControlsProps> = ({
               Fase Monsun Terproyeksi (Pacific ENSO / Indian Ocean Dipole)
             </h3>
             <p className="text-xs text-gray-500 mt-0.5">
-              Simulasi risiko penurunan hasil panen terhadap tahun-tahun iklim analog historis
+              Memilih tahun analog historis (1991–2024) dengan fase iklim yang sama sebagai dasar perhitungan
             </p>
           </div>
           <span className="text-xs text-[#1a7a6d] font-semibold bg-[#e8f5f2] px-3.5 py-1 rounded-full border border-[#bfe3db]">
@@ -82,7 +82,7 @@ export const PriorityControls: React.FC<PriorityControlsProps> = ({
               <span>El Niño (Kekeringan Parah)</span>
             </div>
             <p className="mt-1.5 text-xs text-gray-500 leading-relaxed">
-              Monsun terlambat datang, kemarau lebih cepat, waduk surut. Bobot risiko terburuk (CVaR) diperbesar.
+              Memakai tahun-tahun El Niño historis (label ONI Agu–Okt) sebagai analog musim tanam berikutnya.
             </p>
           </button>
 
@@ -148,7 +148,7 @@ export const PriorityControls: React.FC<PriorityControlsProps> = ({
               Bobot Preferensi Multi-Objektif Petani
             </h3>
             <p className="text-xs text-gray-500 mt-0.5">
-              Kalibrasikan keputusan trade-off berdasarkan prioritas hasil panen, ketahanan air, dan kesehatan tanah
+              Atur prioritas antara kebutuhan air, kesehatan tanah, tutupan, erosi, dan siklus hama
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">

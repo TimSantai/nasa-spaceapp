@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
+import { applyWeights } from './lib/scoring';
 import { MOCK_FIELDS, SNAPSHOT_CROP_LABELS, snapshotStrategies } from './api/mock/mockData';
 import { baselineFromRotation, fetchFields, fetchSiteInfo, fetchStrategies, siteOf } from './api/fieldshift';
 import { FieldMap } from './features/map/FieldMap';
@@ -120,6 +121,9 @@ export function App() {
     };
   }, [selectedField, climatePhase, scenario, dataMode, baselineKey]);
 
+  // Every score shown (cards, consultation brief) uses the farmer's current weights
+  const weightedStrategies = useMemo(() => applyWeights(currentStrategies, weights), [currentStrategies, weights]);
+
   // Handle URL hash changes
   useEffect(() => {
     const handleHashChange = () => {
@@ -185,7 +189,7 @@ export function App() {
       <div className="min-h-screen bg-[#F4F7FA] text-[#14232B]">
         <PlotAnalysisWorkspace
           field={selectedField}
-          strategies={currentStrategies}
+          strategies={weightedStrategies}
           weights={weights}
           onWeightsChange={setWeights}
           climatePhase={climatePhase}

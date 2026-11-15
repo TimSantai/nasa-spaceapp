@@ -48,8 +48,8 @@ const CARDS: ValueCard[] = [
     title: 'Evidence-Based & Open',
     subtitle: 'Auditable Science',
     icon: FlaskConical,
-    tags: ['Pareto Optimal', 'Auditable Weights', 'Uncertainty Bounds', '100% Open Data', 'Peer-Reviewed'],
-    desc: 'No black-box AI scores. Every weight and confidence interval is transparent, backed by agronomic field trials, and fully verifiable by agricultural researchers.',
+    tags: ['Pareto Optimal', 'Auditable Weights', 'Stated Limitations', '100% Open Data', 'Open Source'],
+    desc: 'No black-box AI scores. Every weight and confidence interval is transparent, documented with its assumptions and limits, and reproducible from open NASA and USDA data.',
     isDark: false,
   },
   {
