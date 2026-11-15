@@ -1,12 +1,12 @@
 import React from 'react';
-import { Sprout, BookOpen, Home, Layers, Globe } from 'lucide-react';
+import { Sprout, Home, Globe } from 'lucide-react';
 import type { Language } from '../../types/landing';
 
 interface FloatingMapHeaderProps {
   currentLang?: Language;
   onToggleLang?: () => void;
-  onOpenGlossary: () => void;
-  onOpenDataSources: () => void;
+  onOpenGlossary?: () => void;
+  onOpenDataSources?: () => void;
   onBackToLanding: () => void;
   selectedVillage: string;
   dataMode?: 'live' | 'snapshot';
@@ -15,8 +15,8 @@ interface FloatingMapHeaderProps {
 export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
   currentLang = 'id',
   onToggleLang,
-  onOpenGlossary,
-  onOpenDataSources,
+  // onOpenGlossary,
+  // onOpenDataSources,
   onBackToLanding,
   selectedVillage,
   dataMode = 'snapshot',
@@ -54,9 +54,8 @@ export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
       {/* Floating Utilities */}
       <div className="pointer-events-auto flex items-center gap-2">
         {/* Real-time backend & NASA Satellite Sync status indicator */}
-        <button
-          onClick={onOpenDataSources}
-          className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold shadow-float backdrop-blur-md transition-all duration-150 active:scale-95 cursor-pointer ${
+        <div
+          className={`flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-semibold shadow-float backdrop-blur-md transition-all duration-150 ${
             dataMode === 'live'
               ? 'border-emerald-200 bg-emerald-50/95 text-emerald-800 hover:bg-emerald-100'
               : 'border-sky-200 bg-sky-50/95 text-sky-800 hover:bg-sky-100'
@@ -80,8 +79,9 @@ export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
           <span className="text-[11px] font-bold">
             {dataMode === 'live' ? 'NASA Live' : 'NASA Cache'}
           </span>
-        </button>
+        </div>
 
+        {/* Temporarily hidden: Data Catalog and Glossary buttons
         <button
           onClick={onOpenDataSources}
           className="hidden sm:flex items-center gap-1.5 rounded-full border border-[#E6EBF0] bg-white/95 px-3.5 py-2 text-xs font-semibold text-[#14232B] shadow-float backdrop-blur-md transition-all duration-150 active:scale-95 hover:border-[#237F8E] hover:text-[#237F8E] cursor-pointer motion-reduce:transition-none"
@@ -97,6 +97,7 @@ export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
           <BookOpen className="h-3.5 w-3.5 text-[#237F8E]" />
           <span>{isId ? 'Glosarium' : 'Glossary'}</span>
         </button>
+        */}
 
         {onToggleLang && (
           <button

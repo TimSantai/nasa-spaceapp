@@ -1,5 +1,5 @@
 import React from 'react';
-import { Sprout, BookOpen, Home, Layers, Globe } from 'lucide-react';
+import { Sprout, Home, Globe } from 'lucide-react';
 import type { Language } from '../types/landing';
 
 interface HeaderProps {
@@ -16,8 +16,8 @@ interface HeaderProps {
 export const Header: React.FC<HeaderProps> = ({
   activeTab,
   onTabChange,
-  onOpenGlossary,
-  onOpenDataSources,
+  // onOpenGlossary,
+  // onOpenDataSources,
   onBackToLanding,
   selectedVillage,
   currentLang = 'id',
@@ -114,6 +114,7 @@ export const Header: React.FC<HeaderProps> = ({
 
         {/* Right CTA Buttons */}
         <div className="flex items-center gap-2">
+          {/* Temporarily hidden: Data Catalog and Glossary
           {onOpenDataSources && (
             <button
               onClick={onOpenDataSources}
@@ -131,6 +132,7 @@ export const Header: React.FC<HeaderProps> = ({
             <BookOpen className="h-3.5 w-3.5 text-[#237F8E]" />
             <span>{isId ? 'Glosarium' : 'Glossary'}</span>
           </button>
+          */}
 
           {onToggleLang && (
             <button

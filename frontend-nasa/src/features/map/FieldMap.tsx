@@ -353,7 +353,7 @@ export function FieldMap({
   return (
     <div className="relative h-screen w-screen overflow-hidden bg-[#F4F7FA]">
       {/* 1. Floating Header */}
-      {onOpenGlossary && onOpenDataSources && onBackToLanding && (
+      {onBackToLanding && (
         <FloatingMapHeader
           currentLang={currentLang}
           onToggleLang={onToggleLang}

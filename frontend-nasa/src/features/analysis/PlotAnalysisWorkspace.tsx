@@ -22,7 +22,6 @@ import {
   FileText,
   Database,
   MapPin,
-  BookOpen,
   CheckCircle2,
   ChevronRight,
   X,
@@ -123,8 +122,8 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
   verifiedChecks,
   onOpenEvidence,
   onBackToMap,
-  onOpenGlossary,
-  onOpenDataSources,
+  // onOpenGlossary,
+  // onOpenDataSources,
   currentLang = 'id',
   onToggleLang,
   dataMode = 'snapshot',
@@ -254,7 +253,8 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
             </button>
           </div>
 
-          {/* Quick Dialog Actions */}
+          {/* Quick Dialog Actions (Temporarily hidden: Data Catalog & Glossary) */}
+          {/*
           <div className="space-y-2 pt-2">
             <span className="text-[10px] font-bold uppercase tracking-wider text-[#5F6B74] block">
               {isId ? 'Referensi & Dokumentasi' : 'References & Docs'}
@@ -288,6 +288,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
               )}
             </div>
           </div>
+          */}
         </div>
 
         <div className="pt-4 border-t border-[#E6EBF0] space-y-2">
@@ -574,6 +575,8 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 </span>
               </div>
 
+              {/* Quick Dialog Actions (Temporarily hidden: Data Catalog & Glossary) */}
+              {/*
               <div className="grid grid-cols-2 gap-2 text-xs">
                 {onOpenDataSources && (
                   <button
@@ -596,6 +599,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                   </button>
                 )}
               </div>
+              */}
 
               <div className="text-[10px] text-[#5F6B74] text-center pt-1 font-mono">
                 &copy; 2026 FIELD SHIFT &middot; NASA Space Apps
