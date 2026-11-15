@@ -813,6 +813,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                   value={baseline}
                   initial={initialBaseline}
                   onChange={onBaselineChange}
+                  currentLang={currentLang}
                 />
               )}
               {dataMode !== 'live' && (
@@ -833,6 +834,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 onConstraintsChange={onConstraintsChange}
                 scenario={scenario}
                 onScenarioChange={onScenarioChange}
+                currentLang={currentLang}
               />
 
               {/* Strategy Comparison Columns */}
@@ -844,6 +846,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 scenario={scenario}
                 onOpenEvidence={onOpenEvidence}
                 isCalculating={isCalculating}
+                currentLang={currentLang}
               />
             </div>
           )}
@@ -883,6 +886,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 constraints={constraints}
                 scenario={scenario}
                 verifiedChecks={verifiedChecks}
+                currentLang={currentLang}
               />
             </div>
           )}

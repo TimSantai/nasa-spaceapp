@@ -136,6 +136,7 @@ export function LandingPage({
         strategy={evidenceStrategy}
         isOpen={!!evidenceStrategy}
         onClose={() => setEvidenceStrategy(null)}
+        currentLang={currentLang}
       />
     </div>
   );

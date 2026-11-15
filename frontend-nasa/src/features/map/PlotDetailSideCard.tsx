@@ -1,6 +1,7 @@
 import React from 'react';
 import type { FieldProfile } from '../../types/domain';
 import type { Language } from '../../types/landing';
+import { formatFreeRotationItem } from '../../lib/cropTranslation';
 import { X, ArrowRight, Layers, CheckCircle2, Sprout, Satellite } from 'lucide-react';
 
 interface PlotDetailSideCardProps {
@@ -141,7 +142,7 @@ export const PlotDetailSideCard: React.FC<PlotDetailSideCardProps> = ({
                 key={`${crop}-${idx}`}
                 className="rounded-lg bg-white px-2.5 py-1 text-[11px] font-medium text-[#14232B] border border-[#E6EBF0]"
               >
-                {crop}
+                {formatFreeRotationItem(crop, currentLang)}
               </span>
             ))}
           </div>

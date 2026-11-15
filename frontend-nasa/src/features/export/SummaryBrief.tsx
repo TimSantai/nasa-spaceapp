@@ -1,6 +1,8 @@
 import { blendedScore } from '../../lib/scoring';
 import React, { useState } from 'react';
 import type { FieldProfile, Strategy, PriorityWeights, ClimatePhase, FarmerConstraints, ClimateScenario, PplBriefMetadata } from '../../types/domain';
+import type { Language } from '../../types/landing';
+import { formatStrategyTitle } from '../../lib/cropTranslation';
 import { Printer, CheckCircle2, FileText, UserCheck, ShieldCheck, Edit3 } from 'lucide-react';
 
 interface SummaryBriefProps {
@@ -11,6 +13,7 @@ interface SummaryBriefProps {
   constraints?: FarmerConstraints;
   scenario?: ClimateScenario;
   verifiedChecks?: Record<string, boolean>;
+  currentLang?: Language;
 }
 
 export const SummaryBrief: React.FC<SummaryBriefProps> = ({
@@ -21,6 +24,7 @@ export const SummaryBrief: React.FC<SummaryBriefProps> = ({
   constraints,
   scenario,
   verifiedChecks = {},
+  currentLang = 'id',
 }) => {
   // Same ranking as the strategy board at its default caution level
   const topStrategy = [...strategies].sort((a, b) => blendedScore(b) - blendedScore(a))[0] ?? strategies[0];
@@ -224,7 +228,7 @@ export const SummaryBrief: React.FC<SummaryBriefProps> = ({
               PRAKTEK EKSISTING (BASELINE)
             </span>
             <h4 className="mt-2 text-base font-bold text-[#14232B] print:text-black">
-              {baselineStrategy.name}
+              {formatStrategyTitle(baselineStrategy.name, currentLang)}
             </h4>
             <div className="mt-3 space-y-1 text-xs text-[#5F6B74] print:text-slate-600">
               <p>Skor Rata-Rata Ketahanan: <strong className="text-[#14232B] print:text-black tabular-nums">{baselineStrategy.scores.mean.overall}/100</strong></p>
@@ -241,7 +245,7 @@ export const SummaryBrief: React.FC<SummaryBriefProps> = ({
               ADAPTASI YANG DIREKOMENDASIKAN
             </span>
             <h4 className="mt-2 text-base font-bold text-[#14232B] print:text-teal-950">
-              {topStrategy.name}
+              {formatStrategyTitle(topStrategy.name, currentLang)}
             </h4>
             <div className="mt-3 space-y-1 text-xs text-[#1E5B4F] print:text-teal-800">
               <p>Skor Rata-Rata Ketahanan: <strong className="text-[#14232B] print:text-black tabular-nums">{topStrategy.scores.mean.overall}/100</strong></p>

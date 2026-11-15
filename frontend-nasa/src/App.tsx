@@ -314,6 +314,7 @@ export function App() {
           onClose={() => setEvidenceStrategy(null)}
           verifiedChecks={verifiedChecks}
           onToggleCheck={handleToggleCheck}
+          currentLang={currentLang}
         />
 
         <DataSourcesModal
@@ -366,6 +367,7 @@ export function App() {
         onClose={() => setEvidenceStrategy(null)}
         verifiedChecks={verifiedChecks}
         onToggleCheck={handleToggleCheck}
+        currentLang={currentLang}
       />
 
       <DataSourcesModal
