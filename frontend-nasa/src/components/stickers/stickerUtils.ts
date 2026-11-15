@@ -1,5 +1,8 @@
 export type StickerSize = 'xs' | 'sm' | 'md' | 'lg';
 
+export const METRIC_STICKER_TYPES = ['area', 'slope', 'elevation', 'awc', 'pedology'] as const;
+export type MetricStickerType = (typeof METRIC_STICKER_TYPES)[number];
+
 export const SIZE_PX: Record<StickerSize, number> = {
   xs: 16,
   sm: 22,

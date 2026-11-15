@@ -17,7 +17,8 @@ import type { FieldProfile } from '../../types/domain';
 import type { Language } from '../../types/landing';
 import { formatFreeRotationItem } from '../../lib/cropTranslation';
 import { CropSticker } from '../../components/stickers/CropSticker';
-import { ShieldAlert, Thermometer, Activity, Droplets, Mountain, Sprout, Info } from 'lucide-react';
+import { MetricSticker } from '../../components/stickers/MetricSticker';
+import { ShieldAlert, Thermometer, Activity, Info } from 'lucide-react';
 import { MiniParcelMap } from '../map/MiniParcelMap';
 
 interface FieldProfileViewProps {
@@ -54,9 +55,7 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#5F6B74]">
               {isId ? 'Matriks Pedologi' : 'Pedological Matrix'}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E3F1F3] text-[#237F8E] border border-[#237F8E]/20">
-              <Sprout className="h-4 w-4" />
-            </div>
+            <MetricSticker type="pedology" size="sm" />
           </div>
           <h3 className="mt-2.5 text-xl font-bold tracking-tight text-[#14232B] truncate">
             {field.soil.texture}
@@ -78,9 +77,7 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#5F6B74]">
               {isId ? 'Kapasitas Lengas (AWC)' : 'Available Water Cap. (AWC)'}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E3F1F3] text-[#237F8E] border border-[#237F8E]/20">
-              <Droplets className="h-4 w-4" />
-            </div>
+            <MetricSticker type="awc" size="sm" />
           </div>
           <div className="mt-2.5 flex items-baseline gap-1.5">
             <span className="text-3xl font-extrabold tracking-tight text-[#237F8E] font-mono tabular-nums">
@@ -112,9 +109,7 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
             <span className="text-[11px] font-bold uppercase tracking-wider text-[#5F6B74]">
               {isId ? 'Topografi & Elevasi' : 'Topography & Elevation'}
             </span>
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-amber-50 text-[#B7791F] border border-amber-200/50">
-              <Mountain className="h-4 w-4" />
-            </div>
+            <MetricSticker type="slope" size="sm" />
           </div>
           <div className="mt-2.5 flex items-baseline gap-1.5">
             <span className="text-3xl font-extrabold tracking-tight text-[#14232B] font-mono tabular-nums">

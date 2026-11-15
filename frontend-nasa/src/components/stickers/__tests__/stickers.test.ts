@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { normalizeCropKey, normalizeSeasonKey } from '../stickerUtils.ts';
+import { normalizeCropKey, normalizeSeasonKey, METRIC_STICKER_TYPES } from '../stickerUtils.ts';
 
 test('normalizeCropKey: normalizes synonyms and crop strings', () => {
   assert.equal(normalizeCropKey('rice'), 'rice');
@@ -55,4 +55,13 @@ test('normalizeCropKey: handles empty or invalid crop strings gracefully', () =>
   assert.equal(normalizeCropKey(''), 'default');
   assert.equal(normalizeCropKey('   '), 'default');
   assert.equal(normalizeCropKey('alfalfa ×3 yr'), 'default');
+});
+
+test('MetricSticker types: valid metric types coverage', () => {
+  assert.equal(METRIC_STICKER_TYPES.length, 5);
+  assert.ok(METRIC_STICKER_TYPES.includes('area'));
+  assert.ok(METRIC_STICKER_TYPES.includes('slope'));
+  assert.ok(METRIC_STICKER_TYPES.includes('elevation'));
+  assert.ok(METRIC_STICKER_TYPES.includes('awc'));
+  assert.ok(METRIC_STICKER_TYPES.includes('pedology'));
 });
