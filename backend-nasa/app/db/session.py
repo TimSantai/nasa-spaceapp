@@ -32,3 +32,19 @@ async def get_db_session(request: Request) -> AsyncIterator[AsyncSession]:
         except BaseException:
             await session.rollback()
             raise
+
+
+async def get_optional_db_session(request: Request) -> AsyncIterator[AsyncSession | None]:
+    """Yield an AsyncSession if the database is configured on app.state, else None."""
+    session_factory = getattr(request.app.state, "db_session_factory", None)
+    if session_factory is None:
+        yield None
+        return
+
+    factory = cast(AsyncSessionFactory, session_factory)
+    async with factory() as session:
+        try:
+            yield session
+        except BaseException:
+            await session.rollback()
+            raise

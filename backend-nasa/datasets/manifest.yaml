@@ -1,13 +1,43 @@
-# Record every dataset placed in datasets/ (files themselves stay out of Git).
+# Record every dataset placed in datasets/.
+# Heavy raw/derived artefacts (rasters, NetCDF, HDF5, ZIPs) stay out of Git.
 # One entry per download/processing run; never edit past entries, append new ones.
-datasets: []
-# - id: imerg_daily_nevada
-#   source: GPM_3IMERGDF
-#   version: "07"
-#   doi: 10.5067/GPM/IMERGDF/DAY/07
-#   bbox: [-119.35, 38.80, -119.00, 39.20]
-#   period: ["2015-01-01", "2025-12-31"]
-#   downloaded_at: 2026-11-14
-#   files: 4018
-#   sha256_listing: datasets/imerg_daily_nevada/SHA256SUMS
-#   owner: A2
+datasets:
+  - id: nasa_harmonized_banyumas_20261115
+    site: banyumas
+    sources: [NASA_POWER_AG, GPM_IMERG_V07, NASA_SRTMGL1, NOAA_ONI_DMI, HLS_V2, SOILGRIDS_250M]
+    bbox: [109.05, -7.65, 109.45, -7.20]
+    period: ["1991-01-01", "2025-12-31"]
+    harmonized_at: "2026-11-15"
+    records: 102
+    owner: A2
+  - id: nasa_harmonized_nevada_mason_valley_20261115
+    site: nevada_mason_valley
+    sources: [NASA_POWER_AG, GPM_IMERG_V07, NASA_SRTMGL1, NOAA_ONI_DMI, HLS_V2, SOILGRIDS_250M]
+    bbox: [-119.35, 38.80, -119.00, 39.20]
+    period: ["1991-01-01", "2025-12-31"]
+    harmonized_at: "2026-11-15"
+    records: 68
+    owner: A2
+  - id: banyumas_processed_runtime_light
+    source: fieldshift-data-kit/process_fields.py, process_climate.py, process_terrain.py
+    version: "2026-11-15"
+    description: >-
+      Lightweight processed Banyumas runtime data bundled for local/demo API use:
+      331 representative village/kelurahan field profiles, seasonal climate indicators,
+      current climate outlook, and terrain summary. Large rasters and raw downloads remain
+      external to the repository.
+    site: banyumas
+    bbox: [108.85, -7.70, 109.50, -7.20]
+    files:
+      - path: datasets/processed/banyumas/fields/fields.json
+        bytes: 1197096
+        sha256: 3e4876f041e2d6ee9af9ff139675f96a9c2e00c35005359fd43377f449698239
+      - path: datasets/processed/banyumas/climate/season_indicators.csv
+        bytes: 11877
+        sha256: d8e9f07974bae99940fcf9754bce286c38cd5751b21edbfe6cc18966171c957c
+      - path: datasets/processed/banyumas/climate/outlook.json
+        bytes: 12995
+        sha256: 5cf33f3260ce9e6a8103fe9120e53a9642049392785143fa26e41dc82491c440
+      - path: datasets/processed/banyumas/terrain/summary.json
+        bytes: 503
+        sha256: 5ea0b950a714e089ae1a7bf20a84f3737ff483e0895448621d120bd0b3e55a1d

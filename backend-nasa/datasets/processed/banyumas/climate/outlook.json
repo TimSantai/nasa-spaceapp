@@ -1,0 +1,569 @@
+{
+  "site": "banyumas",
+  "planning_year": 2025,
+  "enso_phase": "neutral",
+  "iod_phase": "negative",
+  "oni_aso": -0.42,
+  "dmi_aso": -0.44,
+  "seasons": {
+    "MT1_wet": {
+      "deficit_mm": {
+        "all": {
+          "mean": 768.643,
+          "cvar20": 481.407,
+          "n": 34,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 799.629,
+          "cvar20": 575.002,
+          "n": 16,
+          "shift_vs_all": 30.986,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 873.63,
+          "cvar20": 715.956,
+          "n": 6,
+          "shift_vs_all": 104.986,
+          "low_confidence": false
+        }
+      },
+      "et0_mm": {
+        "all": {
+          "mean": 458.326,
+          "cvar20": 501.184,
+          "n": 34,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 454.903,
+          "cvar20": 484.426,
+          "n": 16,
+          "shift_vs_all": -3.423,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 433.129,
+          "cvar20": 441.326,
+          "n": 6,
+          "shift_vs_all": -25.197,
+          "low_confidence": false
+        }
+      },
+      "frost_days": {
+        "all": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 34,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 16,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 6,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        }
+      },
+      "gwetroot_mean": {
+        "all": {
+          "mean": 0.83,
+          "cvar20": 0.672,
+          "n": 34,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.845,
+          "cvar20": 0.737,
+          "n": 16,
+          "shift_vs_all": 0.014,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.944,
+          "cvar20": 0.911,
+          "n": 6,
+          "shift_vs_all": 0.113,
+          "low_confidence": false
+        }
+      },
+      "gwetroot_min": {
+        "all": {
+          "mean": 0.686,
+          "cvar20": 0.522,
+          "n": 34,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.695,
+          "cvar20": 0.553,
+          "n": 16,
+          "shift_vs_all": 0.01,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.861,
+          "cvar20": 0.776,
+          "n": 6,
+          "shift_vs_all": 0.175,
+          "low_confidence": false
+        }
+      },
+      "heat_days": {
+        "all": {
+          "mean": 0.029,
+          "cvar20": 0.143,
+          "n": 34,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.062,
+          "cvar20": 0.25,
+          "n": 16,
+          "shift_vs_all": 0.033,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 6,
+          "shift_vs_all": -0.029,
+          "low_confidence": false
+        }
+      },
+      "max_dry_spell_d": {
+        "all": {
+          "mean": 3.0,
+          "cvar20": 5.571,
+          "n": 34,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 3.438,
+          "cvar20": 5.75,
+          "n": 16,
+          "shift_vs_all": 0.438,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 3.0,
+          "cvar20": 4.5,
+          "n": 6,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        }
+      },
+      "precip_mm": {
+        "all": {
+          "mean": 1226.969,
+          "cvar20": 967.461,
+          "n": 34,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 1254.532,
+          "cvar20": 1046.953,
+          "n": 16,
+          "shift_vs_all": 27.563,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 1306.758,
+          "cvar20": 1148.941,
+          "n": 6,
+          "shift_vs_all": 79.789,
+          "low_confidence": false
+        }
+      }
+    },
+    "MT2_wet_dry": {
+      "deficit_mm": {
+        "all": {
+          "mean": 387.346,
+          "cvar20": 121.909,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 389.875,
+          "cvar20": 104.206,
+          "n": 17,
+          "shift_vs_all": 2.529,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 363.73,
+          "cvar20": 285.186,
+          "n": 6,
+          "shift_vs_all": -23.615,
+          "low_confidence": false
+        }
+      },
+      "et0_mm": {
+        "all": {
+          "mean": 406.109,
+          "cvar20": 424.343,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 406.2,
+          "cvar20": 424.381,
+          "n": 17,
+          "shift_vs_all": 0.091,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 405.886,
+          "cvar20": 419.335,
+          "n": 6,
+          "shift_vs_all": -0.223,
+          "low_confidence": false
+        }
+      },
+      "frost_days": {
+        "all": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 17,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 6,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        }
+      },
+      "gwetroot_mean": {
+        "all": {
+          "mean": 0.913,
+          "cvar20": 0.863,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.92,
+          "cvar20": 0.878,
+          "n": 17,
+          "shift_vs_all": 0.007,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.928,
+          "cvar20": 0.913,
+          "n": 6,
+          "shift_vs_all": 0.015,
+          "low_confidence": false
+        }
+      },
+      "gwetroot_min": {
+        "all": {
+          "mean": 0.824,
+          "cvar20": 0.743,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.83,
+          "cvar20": 0.738,
+          "n": 17,
+          "shift_vs_all": 0.007,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.839,
+          "cvar20": 0.812,
+          "n": 6,
+          "shift_vs_all": 0.015,
+          "low_confidence": false
+        }
+      },
+      "heat_days": {
+        "all": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 17,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 6,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        }
+      },
+      "max_dry_spell_d": {
+        "all": {
+          "mean": 8.343,
+          "cvar20": 16.429,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 8.412,
+          "cvar20": 16.0,
+          "n": 17,
+          "shift_vs_all": 0.069,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 10.167,
+          "cvar20": 17.0,
+          "n": 6,
+          "shift_vs_all": 1.824,
+          "low_confidence": false
+        }
+      },
+      "precip_mm": {
+        "all": {
+          "mean": 793.455,
+          "cvar20": 539.492,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 796.075,
+          "cvar20": 524.429,
+          "n": 17,
+          "shift_vs_all": 2.62,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 769.617,
+          "cvar20": 690.267,
+          "n": 6,
+          "shift_vs_all": -23.838,
+          "low_confidence": false
+        }
+      }
+    },
+    "MT3_dry": {
+      "deficit_mm": {
+        "all": {
+          "mean": -112.541,
+          "cvar20": -501.691,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": -213.387,
+          "cvar20": -511.972,
+          "n": 17,
+          "shift_vs_all": -100.846,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": -306.906,
+          "cvar20": -506.64,
+          "n": 6,
+          "shift_vs_all": -194.365,
+          "low_confidence": false
+        }
+      },
+      "et0_mm": {
+        "all": {
+          "mean": 494.572,
+          "cvar20": 550.886,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 508.673,
+          "cvar20": 551.799,
+          "n": 17,
+          "shift_vs_all": 14.102,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 512.272,
+          "cvar20": 538.218,
+          "n": 6,
+          "shift_vs_all": 17.7,
+          "low_confidence": false
+        }
+      },
+      "frost_days": {
+        "all": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 17,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 6,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        }
+      },
+      "gwetroot_mean": {
+        "all": {
+          "mean": 0.73,
+          "cvar20": 0.611,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.713,
+          "cvar20": 0.6,
+          "n": 17,
+          "shift_vs_all": -0.017,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.697,
+          "cvar20": 0.662,
+          "n": 6,
+          "shift_vs_all": -0.033,
+          "low_confidence": false
+        }
+      },
+      "gwetroot_min": {
+        "all": {
+          "mean": 0.628,
+          "cvar20": 0.514,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.6,
+          "cvar20": 0.51,
+          "n": 17,
+          "shift_vs_all": -0.028,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.57,
+          "cvar20": 0.53,
+          "n": 6,
+          "shift_vs_all": -0.058,
+          "low_confidence": false
+        }
+      },
+      "heat_days": {
+        "all": {
+          "mean": 0.114,
+          "cvar20": 0.571,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 0.118,
+          "cvar20": 0.5,
+          "n": 17,
+          "shift_vs_all": 0.003,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 0.0,
+          "cvar20": 0.0,
+          "n": 6,
+          "shift_vs_all": -0.114,
+          "low_confidence": false
+        }
+      },
+      "max_dry_spell_d": {
+        "all": {
+          "mean": 32.857,
+          "cvar20": 74.571,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 41.765,
+          "cvar20": 83.25,
+          "n": 17,
+          "shift_vs_all": 8.908,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 36.667,
+          "cvar20": 48.0,
+          "n": 6,
+          "shift_vs_all": 3.81,
+          "low_confidence": false
+        }
+      },
+      "precip_mm": {
+        "all": {
+          "mean": 382.03,
+          "cvar20": 46.632,
+          "n": 35,
+          "shift_vs_all": 0.0,
+          "low_confidence": false
+        },
+        "enso": {
+          "mean": 295.286,
+          "cvar20": 33.546,
+          "n": 17,
+          "shift_vs_all": -86.744,
+          "low_confidence": false
+        },
+        "iod": {
+          "mean": 205.366,
+          "cvar20": 31.136,
+          "n": 6,
+          "shift_vs_all": -176.664,
+          "low_confidence": false
+        }
+      }
+    }
+  },
+  "method": "historical analogs (same-phase years 1991-2024), not a forecast"
+}

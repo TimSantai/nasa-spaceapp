@@ -8,6 +8,7 @@ from app.db.session import (
     SessionFactory,
     create_session_factory,
     get_db_session,
+    get_optional_db_session,
 )
 
 __all__ = [
@@ -19,5 +20,6 @@ __all__ = [
     "create_session_factory",
     "get_database_config",
     "get_db_session",
+    "get_optional_db_session",
     "is_database_healthy",
 ]

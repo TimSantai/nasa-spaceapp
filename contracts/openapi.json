@@ -2,7 +2,16 @@
   "openapi": "3.1.0",
   "info": {
     "title": "Field Shift API",
-    "description": "Crop-rotation decision support API",
+    "summary": "NASA Space Apps 2026 — Crop Rotation Decision-Support & Data Harmonization API",
+    "description": "\n**Field Shift API** — Decision-support backend for comparing crop rotation strategies using\nNASA Earth observations, local soil and terrain data, and climate-conditioned risk scoring.\n\n### Key Capabilities\n- **Climate-Conditioned Rotation Engine (`/api/v1/rotations`)**: Evaluates baseline and alternative\n  crop rotations across historical analog years matching the forecasted **ENSO** (`el_nino`,\n  `la_nina`, `neutral`) and **IOD** (`positive`, `negative`, `neutral`) phases. Computes mean and\n  worst-20% (**CVaR20**) irrigation demand, soil health heuristics, RUSLE slope erosion exposure,\n  Pareto dominance, and pre-normalized `0-100` scores (`scores_100`).\n- **Automatic AI-to-Database Persistence (`PostGIS`)**: Every AI comparison and NASA dataset\n  ingestion automatically upserts structured records (`regions`, `parcels`, `crops`, `strategies`,\n  `strategy_items`, `scenario_outcomes`, `evidence_cards`, `data_gaps`, `climate_year_labels`)\n  into PostgreSQL/PostGIS when `DATABASE_URL` is configured, with graceful fallback in offline mode.\n- **Agricultural Field Profiles (`/api/v1/fields`)**: Serves harmonized field profiles combining\n  **NASA SRTM 30m** slope, **SoilGrids 250m / USDA SSURGO** soil properties, **NASA POWER** monthly\n  normals, and **NASA HLS 30m NDVI** phenology curves.\n- **NASA Data Ingestion, Zonal Harmonization & JSON Export (`/api/v1/climate`)**: Runs the A2\n  pipeline to harmonize NASA POWER, GPM IMERG, SRTM, NOAA ONI/DMI, and HLS NDVI data, updates\n  `datasets/manifest.yaml`, and exports optimized `scores.json` bundles with duplicate site-level\n  gaps hoisted out.\n\n### Response Envelope\nEvery endpoint returns a consistent `ApiResponse[T]` envelope:\n```json\n{\n  \"success\": true,\n  \"data\": { ... },\n  \"error\": null,\n  \"meta\": null\n}\n```\n",
+    "contact": {
+      "name": "Field Shift Team (A2 Data & Backend Engineering)",
+      "url": "https://www.spaceappschallenge.org/2026/challenges/adapting-farms-with-nasa-data/"
+    },
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
     "version": "0.1.0"
   },
   "paths": {
@@ -32,11 +41,12 @@
         "tags": [
           "rotations"
         ],
-        "summary": "Sites",
+        "summary": "List harmonized study sites and available crops",
+        "description": "Returns all study sites (`banyumas`, `nevada_mason_valley`) that have harmonized NASA climate and terrain datasets ready in `PROCESSED_DIR`, including season slots, crop catalog keys, latest observed ENSO/IOD phases, and provenance sources.",
         "operationId": "sites_api_v1_rotations_sites_get",
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "List of harmonized study sites wrapped in ApiResponse",
             "content": {
               "application/json": {
                 "schema": {
@@ -53,7 +63,8 @@
         "tags": [
           "rotations"
         ],
-        "summary": "Compare Rotations",
+        "summary": "Compare crop rotation strategies and persist AI results to PostGIS",
+        "description": "Evaluates at least three crop rotation strategies (including the baseline rotation) against historical climate analog years matching the requested ENSO/IOD phase. Computes mean and worst-20% (CVaR20) irrigation demand, soil health heuristics, RUSLE slope-adjusted erosion exposure, Pareto dominance, and normalized 0-100 scores. Whenever a PostgreSQL/PostGIS database session is configured, the AI comparison output (strategies, sequence items, scenario outcomes, evidence cards, and data gaps) is automatically upserted into the database.",
         "operationId": "compare_rotations_api_v1_rotations_compare_post",
         "requestBody": {
           "content": {
@@ -67,7 +78,7 @@
         },
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Ranked crop rotation strategies, executive summary, and DB sync status",
             "content": {
               "application/json": {
                 "schema": {
@@ -76,15 +87,14 @@
               }
             }
           },
+          "400": {
+            "description": "Invalid domain parameters (e.g., all zero weights or invalid crop)"
+          },
+          "404": {
+            "description": "Requested site or field_id was not found"
+          },
           "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
+            "description": "Validation error or missing processed dataset files"
           }
         }
       }
@@ -94,7 +104,8 @@
         "tags": [
           "fields"
         ],
-        "summary": "List Fields",
+        "summary": "List agricultural field profiles for a study site",
+        "description": "Returns all harmonized agricultural field profiles (`fields.json`) for the given study site, serialized in `camelCase` to match `FieldProfile` in the React frontend. Includes SRTM elevation/slope, SoilGrids/SSURGO soil properties, 12-month NASA POWER climate normals, HLS 30m NDVI phenology time-series, and explicit data-availability confidence disclosure. Automatically syncs parcel geometries to PostGIS when active.",
         "operationId": "list_fields_api_v1_fields_get",
         "parameters": [
           {
@@ -104,14 +115,16 @@
             "schema": {
               "type": "string",
               "pattern": "^[a-z0-9_]{1,40}$",
+              "description": "Study site identifier (`banyumas` or `nevada_mason_valley`)",
               "default": "banyumas",
               "title": "Site"
-            }
+            },
+            "description": "Study site identifier (`banyumas` or `nevada_mason_valley`)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "List of field profiles in camelCase",
             "content": {
               "application/json": {
                 "schema": {
@@ -120,15 +133,11 @@
               }
             }
           },
+          "404": {
+            "description": "Unknown study site key"
+          },
           "422": {
-            "description": "Validation Error",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
-                }
-              }
-            }
+            "description": "Missing or invalid field profile dataset"
           }
         }
       }
@@ -138,7 +147,8 @@
         "tags": [
           "fields"
         ],
-        "summary": "Get Field",
+        "summary": "Get a single agricultural field profile by ID",
+        "description": "Returns one harmonized field profile (`FieldProfileOut`) by its unique `field_id` (e.g., `banyumas-karangrau-01`, `banyumas-sumbang-02`, `banyumas-rawalo-03`) and syncs its parcel boundary and soil record to PostGIS when active.",
         "operationId": "get_field_api_v1_fields__field_id__get",
         "parameters": [
           {
@@ -147,8 +157,13 @@
             "required": true,
             "schema": {
               "type": "string",
+              "description": "Unique field identifier (e.g. `banyumas-karangrau-01`)",
+              "examples": [
+                "banyumas-karangrau-01"
+              ],
               "title": "Field Id"
-            }
+            },
+            "description": "Unique field identifier (e.g. `banyumas-karangrau-01`)"
           },
           {
             "name": "site",
@@ -157,14 +172,16 @@
             "schema": {
               "type": "string",
               "pattern": "^[a-z0-9_]{1,40}$",
+              "description": "Study site identifier (`banyumas` or `nevada_mason_valley`)",
               "default": "banyumas",
               "title": "Site"
-            }
+            },
+            "description": "Study site identifier (`banyumas` or `nevada_mason_valley`)"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful Response",
+            "description": "Single field profile in camelCase",
             "content": {
               "application/json": {
                 "schema": {
@@ -173,15 +190,176 @@
               }
             }
           },
+          "404": {
+            "description": "Site or field_id was not found"
+          },
           "422": {
-            "description": "Validation Error",
+            "description": "Missing or invalid field profile dataset"
+          }
+        }
+      }
+    },
+    "/api/v1/climate/ingest": {
+      "post": {
+        "tags": [
+          "climate"
+        ],
+        "summary": "Ingest & harmonize NASA datasets, export JSON, and sync to PostGIS",
+        "description": "Runs the A2 NASA data ingestion and zonal harmonization pipeline for the requested site (`banyumas` or `nevada_mason_valley`). Generates harmonized seasonal climate indicators (`NASA POWER`, `GPM IMERG`, `NOAA ONI/DMI`), SRTM terrain slope shares, field profiles (`SoilGrids 250m` / `SSURGO` + `HLS 30m NDVI`), and precomputed `scores.json` with duplicate site-level gaps hoisted out. Also updates `datasets/manifest.yaml` and pushes `Region`, `DataSource`, and `ClimateYearLabel` records to PostgreSQL/PostGIS when `DATABASE_URL` is configured.",
+        "operationId": "ingest_nasa_data_api_v1_climate_ingest_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IngestRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Ingestion summary, JSON optimization report, and database sync status",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/HTTPValidationError"
+                  "$ref": "#/components/schemas/ApiResponse_IngestResponseOut_"
                 }
               }
             }
+          },
+          "404": {
+            "description": "Unknown study site key"
+          },
+          "422": {
+            "description": "Request validation failed"
+          }
+        }
+      }
+    },
+    "/api/v1/climate/{site}": {
+      "get": {
+        "tags": [
+          "climate"
+        ],
+        "summary": "Get harmonized NASA climate indicators and ENSO/IOD summary",
+        "description": "Returns the harmonized NASA POWER / IMERG seasonal climate indicators, latest ENSO/IOD phase outlook, SRTM steep-slope share, and per-phase climate averages for the specified study site. By default `compact=true` omits the raw 1991-2024 row list so the JSON response stays concise and fast; pass `compact=false` to include every historical seasonal record.",
+        "operationId": "get_climate_summary_api_v1_climate__site__get",
+        "parameters": [
+          {
+            "name": "site",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]{1,40}$",
+              "description": "Study site key (`banyumas` or `nevada_mason_valley`)",
+              "examples": [
+                "banyumas",
+                "nevada_mason_valley"
+              ],
+              "title": "Site"
+            },
+            "description": "Study site key (`banyumas` or `nevada_mason_valley`)"
+          },
+          {
+            "name": "enso_phase",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "el_nino",
+                    "la_nina",
+                    "neutral"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Optional filter by historical ENSO phase",
+              "title": "Enso Phase"
+            },
+            "description": "Optional filter by historical ENSO phase"
+          },
+          {
+            "name": "compact",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "If true (default), returns concise phase averages without dumping raw seasonal rows",
+              "default": true,
+              "title": "Compact"
+            },
+            "description": "If true (default), returns concise phase averages without dumping raw seasonal rows"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Harmonized climate summary and optional seasonal time-series records",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_ClimateSiteSummaryOut_"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown study site key"
+          },
+          "422": {
+            "description": "Processed climate data missing for this site"
+          }
+        }
+      }
+    },
+    "/api/v1/climate/{site}/export": {
+      "get": {
+        "tags": [
+          "climate"
+        ],
+        "summary": "Export optimized precomputed JSON bundle and payload audit report",
+        "description": "Generates and returns the optimized JSON export bundle (`scores.json` contract) across all ENSO phases (`el_nino`, `neutral`, `la_nina`), along with a `JsonQualityReportOut` showing raw vs optimized byte size, percentage reduction, and how repeated site-level data gaps were hoisted into `shared_site_gaps`.",
+        "operationId": "export_climate_and_scores_json_api_v1_climate__site__export_get",
+        "parameters": [
+          {
+            "name": "site",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[a-z0-9_]{1,40}$",
+              "description": "Study site key (`banyumas` or `nevada_mason_valley`)",
+              "examples": [
+                "banyumas",
+                "nevada_mason_valley"
+              ],
+              "title": "Site"
+            },
+            "description": "Study site key (`banyumas` or `nevada_mason_valley`)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Optimized JSON bundle and payload size audit report",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ApiResponse_ExportBundleOut_"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Unknown study site key"
+          },
+          "422": {
+            "description": "Processed dataset missing for this site"
           }
         }
       }
@@ -193,18 +371,21 @@
         "properties": {
           "grouping": {
             "type": "string",
-            "title": "Grouping"
+            "title": "Grouping",
+            "description": "Phase grouping strategy (`enso+iod`, `enso`, `iod`, `all`)"
           },
           "phase": {
             "type": "string",
-            "title": "Phase"
+            "title": "Phase",
+            "description": "Conditioned climate phase label"
           },
           "years": {
             "items": {
               "type": "integer"
             },
             "type": "array",
-            "title": "Years"
+            "title": "Years",
+            "description": "Historical planning years matching the phase"
           }
         },
         "type": "object",
@@ -213,7 +394,51 @@
           "phase",
           "years"
         ],
-        "title": "AnalogsOut"
+        "title": "AnalogsOut",
+        "description": "Historical climate analog years selected for evaluation."
+      },
+      "ApiResponse_ClimateSiteSummaryOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ClimateSiteSummaryOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PageMeta"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "ApiResponse[ClimateSiteSummaryOut]"
       },
       "ApiResponse_ComparisonOut_": {
         "properties": {
@@ -257,6 +482,49 @@
           "success"
         ],
         "title": "ApiResponse[ComparisonOut]"
+      },
+      "ApiResponse_ExportBundleOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExportBundleOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PageMeta"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "ApiResponse[ExportBundleOut]"
       },
       "ApiResponse_FieldProfileOut_": {
         "properties": {
@@ -343,6 +611,49 @@
           "success"
         ],
         "title": "ApiResponse[HealthData]"
+      },
+      "ApiResponse_IngestResponseOut_": {
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "title": "Success"
+          },
+          "data": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/IngestResponseOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "error": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ErrorInfo"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "meta": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PageMeta"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "success"
+        ],
+        "title": "ApiResponse[IngestResponseOut]"
       },
       "ApiResponse_list_FieldProfileOut__": {
         "properties": {
@@ -475,13 +786,90 @@
         ],
         "title": "ClimateMonth"
       },
+      "ClimateSiteSummaryOut": {
+        "properties": {
+          "site": {
+            "type": "string",
+            "title": "Site"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "latest_enso_phase": {
+            "type": "string",
+            "title": "Latest Enso Phase"
+          },
+          "latest_iod_phase": {
+            "type": "string",
+            "title": "Latest Iod Phase"
+          },
+          "steep_slope_share": {
+            "type": "number",
+            "title": "Steep Slope Share",
+            "description": "Share of site area with SRTM slope > 10%"
+          },
+          "satellite_soil_moisture": {
+            "type": "boolean",
+            "title": "Satellite Soil Moisture"
+          },
+          "satellite_vegetation": {
+            "type": "boolean",
+            "title": "Satellite Vegetation"
+          },
+          "sources": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Sources"
+          },
+          "total_seasonal_records": {
+            "type": "integer",
+            "title": "Total Seasonal Records"
+          },
+          "phase_summaries": {
+            "items": {
+              "$ref": "#/components/schemas/SeasonPhaseSummaryOut"
+            },
+            "type": "array",
+            "title": "Phase Summaries",
+            "description": "Concise per-phase averages so consumers do not need to parse all raw rows"
+          },
+          "records": {
+            "items": {
+              "$ref": "#/components/schemas/SeasonIndicatorOut"
+            },
+            "type": "array",
+            "title": "Records",
+            "description": "Seasonal records (omitted when compact=true to keep JSON small)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "site",
+          "name",
+          "latest_enso_phase",
+          "latest_iod_phase",
+          "steep_slope_share",
+          "satellite_soil_moisture",
+          "satellite_vegetation",
+          "sources",
+          "total_seasonal_records",
+          "phase_summaries"
+        ],
+        "title": "ClimateSiteSummaryOut",
+        "description": "Harmonized NASA climate, ENSO/IOD outlook, and SRTM terrain summary for a site."
+      },
       "CompareRequest": {
         "properties": {
           "site": {
             "type": "string",
             "pattern": "^[a-z0-9_]{1,40}$",
             "title": "Site",
+            "description": "Study site identifier (`banyumas` or `nevada_mason_valley`)",
             "examples": [
+              "banyumas",
               "nevada_mason_valley"
             ]
           },
@@ -565,6 +953,12 @@
             ],
             "title": "Baseline",
             "description": "Farmer's current rotation: one {season: crop} object per year; seasons left out are fallow. Replaces the default baseline."
+          },
+          "compact": {
+            "type": "boolean",
+            "title": "Compact",
+            "description": "If true, deduplicates shared site-level data gaps from individual strategy cards.",
+            "default": false
           }
         },
         "additionalProperties": false,
@@ -572,7 +966,27 @@
         "required": [
           "site"
         ],
-        "title": "CompareRequest"
+        "title": "CompareRequest",
+        "description": "Request payload for comparing crop rotation strategies under climate-conditioned analogs.",
+        "examples": [
+          {
+            "compact": false,
+            "enso_phase": "el_nino",
+            "field_id": "banyumas-karangrau-01",
+            "priorities": {
+              "erosion": 1.0,
+              "pest_break": 0.5,
+              "soil_health": 1.0,
+              "water": 1.0
+            },
+            "risk_aversion": 0.5,
+            "scenario": {
+              "rain_anomaly_pct": 0,
+              "temp_delta_c": 0
+            },
+            "site": "banyumas"
+          }
+        ]
       },
       "ComparisonOut": {
         "properties": {
@@ -614,6 +1028,34 @@
           "scenario": {
             "$ref": "#/components/schemas/ScenarioOut"
           },
+          "summary": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ComparisonSummaryOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "shared_site_gaps": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Shared Site Gaps",
+            "description": "Common site-level data gaps shared across all strategies"
+          },
+          "persistence": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PersistenceOut"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "disclaimer": {
             "type": "string",
             "title": "Disclaimer"
@@ -629,7 +1071,64 @@
           "scenario",
           "disclaimer"
         ],
-        "title": "ComparisonOut"
+        "title": "ComparisonOut",
+        "description": "Complete rotation comparison response with ranked strategies, summary, and DB sync status."
+      },
+      "ComparisonSummaryOut": {
+        "properties": {
+          "recommended_strategy_key": {
+            "type": "string",
+            "title": "Recommended Strategy Key",
+            "description": "Top-ranked strategy key"
+          },
+          "recommended_strategy_name": {
+            "type": "string",
+            "title": "Recommended Strategy Name",
+            "description": "Top-ranked strategy name"
+          },
+          "pareto_optimal_count": {
+            "type": "integer",
+            "title": "Pareto Optimal Count",
+            "description": "Number of non-dominated strategies"
+          },
+          "analog_years_count": {
+            "type": "integer",
+            "title": "Analog Years Count",
+            "description": "Number of historical climate analog years used"
+          },
+          "water_saved_vs_baseline_mm": {
+            "type": "number",
+            "title": "Water Saved Vs Baseline Mm",
+            "description": "Mean irrigation water saved by the top strategy vs baseline (mm/yr)"
+          },
+          "cvar_water_saved_mm": {
+            "type": "number",
+            "title": "Cvar Water Saved Mm",
+            "description": "Worst-case (CVaR20) irrigation water saved by top strategy vs baseline (mm/yr)"
+          },
+          "overall_confidence": {
+            "type": "string",
+            "enum": [
+              "low",
+              "medium",
+              "high"
+            ],
+            "title": "Overall Confidence",
+            "description": "Confidence rating of the top-ranked strategy"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recommended_strategy_key",
+          "recommended_strategy_name",
+          "pareto_optimal_count",
+          "analog_years_count",
+          "water_saved_vs_baseline_mm",
+          "cvar_water_saved_mm",
+          "overall_confidence"
+        ],
+        "title": "ComparisonSummaryOut",
+        "description": "Concise executive summary of the rotation comparison for quick inspection."
       },
       "DataAvailability": {
         "properties": {
@@ -717,35 +1216,40 @@
         "properties": {
           "why": {
             "type": "string",
-            "title": "Why"
+            "title": "Why",
+            "description": "Agronomic rationale for this rotation strategy"
           },
           "evidence": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Evidence"
+            "title": "Evidence",
+            "description": "Quantitative evidence from NASA climate & terrain data"
           },
           "benefits": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Benefits"
+            "title": "Benefits",
+            "description": "Improvements relative to the baseline rotation"
           },
           "gaps": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Gaps"
+            "title": "Gaps",
+            "description": "Explicitly disclosed information and modeling gaps"
           },
           "risks_for_local_review": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Risks For Local Review"
+            "title": "Risks For Local Review",
+            "description": "Checklist items that farmers and local extension officers (PPL) must verify"
           },
           "confidence": {
             "type": "string",
@@ -754,14 +1258,16 @@
               "medium",
               "high"
             ],
-            "title": "Confidence"
+            "title": "Confidence",
+            "description": "Data-availability-aware confidence level"
           },
           "confidence_reasons": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Confidence Reasons"
+            "title": "Confidence Reasons",
+            "description": "Reasons explaining the confidence rating"
           }
         },
         "type": "object",
@@ -774,7 +1280,58 @@
           "confidence",
           "confidence_reasons"
         ],
-        "title": "EvidenceCardOut"
+        "title": "EvidenceCardOut",
+        "description": "Transparent decision-support evidence card with NASA provenance and data gaps."
+      },
+      "ExportBundleOut": {
+        "properties": {
+          "schema_version": {
+            "type": "string",
+            "title": "Schema Version",
+            "default": "1.1.0"
+          },
+          "site": {
+            "type": "string",
+            "title": "Site"
+          },
+          "generated_at": {
+            "type": "string",
+            "title": "Generated At"
+          },
+          "shared_site_gaps": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Shared Site Gaps"
+          },
+          "fields_count": {
+            "type": "integer",
+            "title": "Fields Count"
+          },
+          "json_report": {
+            "$ref": "#/components/schemas/JsonQualityReportOut"
+          },
+          "comparisons": {
+            "additionalProperties": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "type": "object",
+            "title": "Comparisons"
+          }
+        },
+        "type": "object",
+        "required": [
+          "site",
+          "generated_at",
+          "shared_site_gaps",
+          "fields_count",
+          "json_report",
+          "comparisons"
+        ],
+        "title": "ExportBundleOut",
+        "description": "Exported precomputed JSON bundle (`scores.json`) with payload quality diagnostics."
       },
       "FieldContextOut": {
         "properties": {
@@ -797,7 +1354,8 @@
           "slope_pct",
           "awc_mm_per_m"
         ],
-        "title": "FieldContextOut"
+        "title": "FieldContextOut",
+        "description": "Field-specific terrain and soil parameters used in the water balance and RUSLE S-factor."
       },
       "FieldProfileOut": {
         "properties": {
@@ -942,19 +1500,6 @@
         ],
         "title": "FieldSoil"
       },
-      "HTTPValidationError": {
-        "properties": {
-          "detail": {
-            "items": {
-              "$ref": "#/components/schemas/ValidationError"
-            },
-            "type": "array",
-            "title": "Detail"
-          }
-        },
-        "type": "object",
-        "title": "HTTPValidationError"
-      },
       "HealthData": {
         "properties": {
           "status": {
@@ -973,39 +1518,211 @@
         ],
         "title": "HealthData"
       },
+      "IngestRequest": {
+        "properties": {
+          "site": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]{1,40}$",
+            "title": "Site",
+            "description": "Target study site (`banyumas` or `nevada_mason_valley`)",
+            "default": "banyumas",
+            "examples": [
+              "banyumas",
+              "nevada_mason_valley"
+            ]
+          },
+          "enable_satellite_flags": {
+            "type": "boolean",
+            "title": "Enable Satellite Flags",
+            "description": "Switch on AppEEARS SMAP soil moisture and HLS NDVI availability flags",
+            "default": true
+          },
+          "update_manifest": {
+            "type": "boolean",
+            "title": "Update Manifest",
+            "description": "Append provenance record to datasets/manifest.yaml",
+            "default": true
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "title": "IngestRequest",
+        "description": "Request body to run NASA dataset ingestion and zonal harmonization for a site.",
+        "examples": [
+          {
+            "enable_satellite_flags": true,
+            "site": "banyumas",
+            "update_manifest": true
+          }
+        ]
+      },
+      "IngestResponseOut": {
+        "properties": {
+          "site": {
+            "type": "string",
+            "title": "Site"
+          },
+          "seasons_written": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Seasons Written",
+            "description": "Number of seasonal climate rows written"
+          },
+          "fields_written": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Fields Written",
+            "description": "Number of harmonized field profiles written"
+          },
+          "files_generated": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Files Generated",
+            "description": "Relative paths written under PROCESSED_DIR"
+          },
+          "manifest_updated": {
+            "type": "boolean",
+            "title": "Manifest Updated",
+            "description": "True if datasets/manifest.yaml was updated"
+          },
+          "json_report": {
+            "$ref": "#/components/schemas/JsonQualityReportOut"
+          },
+          "persistence": {
+            "$ref": "#/components/schemas/PersistenceOut"
+          }
+        },
+        "type": "object",
+        "required": [
+          "site",
+          "seasons_written",
+          "fields_written",
+          "files_generated",
+          "manifest_updated",
+          "json_report",
+          "persistence"
+        ],
+        "title": "IngestResponseOut",
+        "description": "Summary returned after NASA dataset ingestion, harmonization, JSON export, and DB sync."
+      },
+      "JsonQualityReportOut": {
+        "properties": {
+          "site": {
+            "type": "string",
+            "title": "Site"
+          },
+          "raw_bytes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Raw Bytes",
+            "description": "Unoptimized JSON byte size"
+          },
+          "optimized_bytes": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Optimized Bytes",
+            "description": "Optimized & deduplicated JSON byte size"
+          },
+          "reduction_pct": {
+            "type": "number",
+            "title": "Reduction Pct",
+            "description": "Percentage payload size reduction"
+          },
+          "total_strategies": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Strategies"
+          },
+          "total_fields": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Total Fields"
+          },
+          "duplicate_gaps_removed": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Duplicate Gaps Removed",
+            "description": "Repeated site-level gap strings hoisted out of individual strategy cards"
+          },
+          "float_precision_digits": {
+            "type": "integer",
+            "title": "Float Precision Digits",
+            "default": 3
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "optimized",
+              "raw"
+            ],
+            "title": "Status",
+            "default": "optimized"
+          },
+          "recommendations": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Recommendations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "site",
+          "raw_bytes",
+          "optimized_bytes",
+          "reduction_pct",
+          "total_strategies",
+          "total_fields",
+          "duplicate_gaps_removed",
+          "recommendations"
+        ],
+        "title": "JsonQualityReportOut",
+        "description": "Diagnostic report auditing whether exported JSON is overly large and how it was optimized."
+      },
       "MetricsOut": {
         "properties": {
           "irrigation_mean_mm": {
             "type": "number",
-            "title": "Irrigation Mean Mm"
+            "title": "Irrigation Mean Mm",
+            "description": "Mean annual irrigation water demand (mm/yr)"
           },
           "irrigation_cvar_mm": {
             "type": "number",
-            "title": "Irrigation Cvar Mm"
+            "title": "Irrigation Cvar Mm",
+            "description": "CVaR20 irrigation demand in the driest 20% of analog years (mm/yr)"
           },
           "cover_share": {
             "type": "number",
-            "title": "Cover Share"
+            "title": "Cover Share",
+            "description": "Fraction of the year with living crop cover (0-1)"
           },
           "legume_share": {
             "type": "number",
-            "title": "Legume Share"
+            "title": "Legume Share",
+            "description": "Fraction of active crop months with N-fixing legumes"
           },
           "families": {
             "type": "integer",
-            "title": "Families"
+            "title": "Families",
+            "description": "Number of distinct botanical crop families in the rotation"
           },
           "pest_break_share": {
             "type": "number",
-            "title": "Pest Break Share"
+            "title": "Pest Break Share",
+            "description": "Fraction of season transitions where the dominant crop family changes"
           },
           "erosion_index": {
             "type": "number",
-            "title": "Erosion Index"
+            "title": "Erosion Index",
+            "description": "Bare-soil rainfall exposure weighted by RUSLE slope factor S"
           },
           "soil_health": {
             "type": "number",
-            "title": "Soil Health"
+            "title": "Soil Health",
+            "description": "Composite soil health heuristic (0-1) from cover, legumes, and diversity"
           }
         },
         "type": "object",
@@ -1019,7 +1736,8 @@
           "erosion_index",
           "soil_health"
         ],
-        "title": "MetricsOut"
+        "title": "MetricsOut",
+        "description": "Physical agronomic and water-balance indicators per rotation year."
       },
       "NdviPoint": {
         "properties": {
@@ -1084,6 +1802,58 @@
         ],
         "title": "PageMeta"
       },
+      "PersistenceOut": {
+        "properties": {
+          "pushed": {
+            "type": "boolean",
+            "title": "Pushed",
+            "description": "True if records were committed to PostgreSQL/PostGIS"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Persistence status code (`persisted`, `skipped_no_db`, etc.)"
+          },
+          "records_synced": {
+            "type": "integer",
+            "minimum": 0.0,
+            "title": "Records Synced",
+            "description": "Number of database rows inserted/updated"
+          },
+          "persisted_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Persisted At",
+            "description": "ISO-8601 UTC timestamp of DB commit"
+          },
+          "detail": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Detail",
+            "description": "Human-readable persistence diagnostic"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pushed",
+          "status",
+          "records_synced"
+        ],
+        "title": "PersistenceOut",
+        "description": "Audit status showing whether the AI comparison was pushed to PostgreSQL/PostGIS."
+      },
       "Priorities": {
         "properties": {
           "water": {
@@ -1099,6 +1869,7 @@
             "maximum": 1.0,
             "minimum": 0.0,
             "title": "Soil Health",
+            "description": "Weight for cover, legume share, and crop diversity",
             "default": 1.0
           },
           "erosion": {
@@ -1114,12 +1885,14 @@
             "maximum": 1.0,
             "minimum": 0.0,
             "title": "Pest Break",
+            "description": "Weight for breaking continuous crop family cycles",
             "default": 0.5
           }
         },
         "additionalProperties": false,
         "type": "object",
-        "title": "Priorities"
+        "title": "Priorities",
+        "description": "Farmer priority weights (0.0 to 1.0) across the four sustainability objectives."
       },
       "Provenance": {
         "properties": {
@@ -1176,7 +1949,8 @@
         },
         "additionalProperties": false,
         "type": "object",
-        "title": "ScenarioIn"
+        "title": "ScenarioIn",
+        "description": "What-if climate perturbation applied on top of historical analog years."
       },
       "ScenarioOut": {
         "properties": {
@@ -1194,53 +1968,209 @@
           "rain_anomaly_pct",
           "temp_delta_c"
         ],
-        "title": "ScenarioOut"
+        "title": "ScenarioOut",
+        "description": "Applied what-if climate anomaly parameters."
+      },
+      "ScoreBreakdown100Out": {
+        "properties": {
+          "water_efficiency": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Water Efficiency",
+            "description": "Relative water efficiency score (0-100)"
+          },
+          "soil_health": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Soil Health",
+            "description": "Soil health index scaled 0-100"
+          },
+          "cover_days": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Cover Days",
+            "description": "Living ground cover percentage (0-100)"
+          },
+          "erosion_control": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Erosion Control",
+            "description": "Relative erosion control score (0-100)"
+          },
+          "pest_break": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Pest Break",
+            "description": "Pest cycle interruption percentage (0-100)"
+          },
+          "overall": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 0.0,
+            "title": "Overall",
+            "description": "Priority-weighted overall score (0-100)"
+          }
+        },
+        "type": "object",
+        "required": [
+          "water_efficiency",
+          "soil_health",
+          "cover_days",
+          "erosion_control",
+          "pest_break",
+          "overall"
+        ],
+        "title": "ScoreBreakdown100Out",
+        "description": "Normalized 0-100 score breakdown ready for UI rendering."
+      },
+      "SeasonIndicatorOut": {
+        "properties": {
+          "season": {
+            "type": "string",
+            "title": "Season"
+          },
+          "planning_year": {
+            "type": "integer",
+            "title": "Planning Year"
+          },
+          "precip_mm": {
+            "type": "number",
+            "title": "Precip Mm"
+          },
+          "et0_mm": {
+            "type": "number",
+            "title": "Et0 Mm"
+          },
+          "enso_phase": {
+            "type": "string",
+            "title": "Enso Phase"
+          },
+          "iod_phase": {
+            "type": "string",
+            "title": "Iod Phase"
+          },
+          "tmean_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Tmean C"
+          }
+        },
+        "type": "object",
+        "required": [
+          "season",
+          "planning_year",
+          "precip_mm",
+          "et0_mm",
+          "enso_phase",
+          "iod_phase"
+        ],
+        "title": "SeasonIndicatorOut",
+        "description": "One harmonized seasonal climate record (NASA POWER + GPM IMERG + NOAA ONI/DMI)."
+      },
+      "SeasonPhaseSummaryOut": {
+        "properties": {
+          "enso_phase": {
+            "type": "string",
+            "title": "Enso Phase"
+          },
+          "sample_years": {
+            "type": "integer",
+            "title": "Sample Years"
+          },
+          "mean_precip_mm": {
+            "type": "number",
+            "title": "Mean Precip Mm"
+          },
+          "mean_et0_mm": {
+            "type": "number",
+            "title": "Mean Et0 Mm"
+          },
+          "mean_temp_c": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Mean Temp C"
+          }
+        },
+        "type": "object",
+        "required": [
+          "enso_phase",
+          "sample_years",
+          "mean_precip_mm",
+          "mean_et0_mm"
+        ],
+        "title": "SeasonPhaseSummaryOut",
+        "description": "Aggregated seasonal climate summary per ENSO phase (keeps JSON concise)."
       },
       "SiteInfo": {
         "properties": {
           "key": {
             "type": "string",
-            "title": "Key"
+            "title": "Key",
+            "description": "Unique site key"
           },
           "name": {
             "type": "string",
-            "title": "Name"
+            "title": "Name",
+            "description": "Human-readable site name"
           },
           "seasons": {
             "additionalProperties": {
               "type": "integer"
             },
             "type": "object",
-            "title": "Seasons"
+            "title": "Seasons",
+            "description": "Season slot names mapped to duration in months"
           },
           "crops": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Crops"
+            "title": "Crops",
+            "description": "Supported crop keys in the catalog"
           },
           "crop_labels": {
             "additionalProperties": {
               "type": "string"
             },
             "type": "object",
-            "title": "Crop Labels"
+            "title": "Crop Labels",
+            "description": "Crop keys mapped to display names"
           },
           "latest_enso_phase": {
             "type": "string",
-            "title": "Latest Enso Phase"
+            "title": "Latest Enso Phase",
+            "description": "Latest observed or outlook ENSO phase"
           },
           "latest_iod_phase": {
             "type": "string",
-            "title": "Latest Iod Phase"
+            "title": "Latest Iod Phase",
+            "description": "Latest observed or outlook IOD phase"
           },
           "sources": {
             "items": {
               "type": "string"
             },
             "type": "array",
-            "title": "Sources"
+            "title": "Sources",
+            "description": "NASA and partner datasets harmonized for this site"
           }
         },
         "type": "object",
@@ -1254,17 +2184,20 @@
           "latest_iod_phase",
           "sources"
         ],
-        "title": "SiteInfo"
+        "title": "SiteInfo",
+        "description": "Metadata and available seasons/crops for a harmonized study site."
       },
       "StrategyOut": {
         "properties": {
           "key": {
             "type": "string",
-            "title": "Key"
+            "title": "Key",
+            "description": "Strategy template identifier"
           },
           "name": {
             "type": "string",
-            "title": "Name"
+            "title": "Name",
+            "description": "Human-readable strategy name"
           },
           "kind": {
             "type": "string",
@@ -1272,7 +2205,8 @@
               "baseline",
               "alternative"
             ],
-            "title": "Kind"
+            "title": "Kind",
+            "description": "Baseline vs alternative option"
           },
           "sequence": {
             "items": {
@@ -1282,7 +2216,8 @@
               "type": "object"
             },
             "type": "array",
-            "title": "Sequence"
+            "title": "Sequence",
+            "description": "Season-by-season crop sequence per year"
           },
           "metrics": {
             "$ref": "#/components/schemas/MetricsOut"
@@ -1292,19 +2227,46 @@
               "type": "number"
             },
             "type": "object",
-            "title": "Utilities"
+            "title": "Utilities",
+            "description": "Min-max normalized utility per objective (0-1)"
           },
           "score": {
             "type": "number",
-            "title": "Score"
+            "title": "Score",
+            "description": "Weighted multi-objective utility score (0-1)"
           },
           "rank": {
             "type": "integer",
-            "title": "Rank"
+            "minimum": 1.0,
+            "title": "Rank",
+            "description": "Rank among compared strategies (1 = best)"
           },
           "pareto_optimal": {
             "type": "boolean",
-            "title": "Pareto Optimal"
+            "title": "Pareto Optimal",
+            "description": "True if non-dominated on the Pareto frontier"
+          },
+          "pareto_status": {
+            "type": "string",
+            "enum": [
+              "Optimal",
+              "Tradeoff",
+              "Dominated"
+            ],
+            "title": "Pareto Status",
+            "description": "UI-friendly Pareto classification (`Optimal`, `Tradeoff`, or `Dominated`)",
+            "default": "Tradeoff"
+          },
+          "scores_100": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/StrategyScores100Out"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Pre-normalized 0-100 scores for mean and worst-case (CVaR20) conditions"
           },
           "card": {
             "$ref": "#/components/schemas/EvidenceCardOut"
@@ -1323,48 +2285,44 @@
           "pareto_optimal",
           "card"
         ],
-        "title": "StrategyOut"
+        "title": "StrategyOut",
+        "description": "Evaluated crop rotation strategy with physical metrics, 0-100 scores, and evidence card."
       },
-      "ValidationError": {
+      "StrategyScores100Out": {
         "properties": {
-          "loc": {
-            "items": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "integer"
-                }
-              ]
-            },
-            "type": "array",
-            "title": "Location"
+          "mean": {
+            "$ref": "#/components/schemas/ScoreBreakdown100Out"
           },
-          "msg": {
-            "type": "string",
-            "title": "Message"
-          },
-          "type": {
-            "type": "string",
-            "title": "Error Type"
-          },
-          "input": {
-            "title": "Input"
-          },
-          "ctx": {
-            "type": "object",
-            "title": "Context"
+          "worst_case": {
+            "$ref": "#/components/schemas/ScoreBreakdown100Out"
           }
         },
         "type": "object",
         "required": [
-          "loc",
-          "msg",
-          "type"
+          "mean",
+          "worst_case"
         ],
-        "title": "ValidationError"
+        "title": "StrategyScores100Out",
+        "description": "Mean and worst-case (CVaR20) 0-100 score sets for a strategy."
       }
     }
-  }
+  },
+  "tags": [
+    {
+      "name": "health",
+      "description": "Service liveness and environment readiness probe."
+    },
+    {
+      "name": "rotations",
+      "description": "AI crop rotation comparison engine conditioned on ENSO/IOD analog years, CVaR20 tail-risk scoring, Pareto front classification, and PostGIS persistence."
+    },
+    {
+      "name": "fields",
+      "description": "Harmonized agricultural plot and village profiles (SRTM slope, SoilGrids/SSURGO AWC, NASA POWER climate normals, and HLS 30m NDVI phenology)."
+    },
+    {
+      "name": "climate",
+      "description": "A2 NASA data ingestion, zonal harmonization, seasonal climate summaries, and optimized JSON export (`scores.json`) with payload size diagnostics."
+    }
+  ]
 }
