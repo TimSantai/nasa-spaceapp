@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Daftar Rekomendasi Nama Brand & Website — NASA Space Apps Challenge 2026</title>
+  <style>
+    @page {
+      size: A4 portrait;
+      margin: 12mm 14mm 14mm 14mm;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+
+    body {
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+      color: #1e293b;
+      background-color: #ffffff;
+      line-height: 1.4;
+      font-size: 9.5pt;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Page Setup */
+    .page {
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+      min-height: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .page:last-of-type {
+      page-break-after: auto;
+      break-after: auto;
+    }
+
+    .page-content {
+      flex: 1;
+    }
+
+    /* Header Banner */
+    .header-box {
+      border: 1.5px solid #0284c7;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #0b192c 0%, #132f4c 55%, #174266 100%);
+      color: #ffffff;
+      padding: 12px 16px;
+      margin-bottom: 10px;
+      box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+    }
+
+    .badge-nasa {
+      display: inline-block;
+      background: #0284c7;
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 7.5pt;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      padding: 2.5px 9px;
+      border-radius: 999px;
+      margin-bottom: 6px;
+    }
+
+    .header-box h1 {
+      margin: 2px 0 4px 0;
+      font-size: 15.5pt;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      color: #ffffff;
+    }
+
+    .header-box .subtitle {
+      font-size: 9.8pt;
+      color: #bae6fd;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2);
+      padding-top: 8px;
+      font-size: 8pt;
+      color: #e2e8f0;
+    }
+
+    .meta-item strong {
+      color: #7dd3fc;
+    }
+
+    /* Headings */
+    h2 {
+      font-size: 11.5pt;
+      font-weight: 800;
+      color: #0f172a;
+      border-left: 3.5px solid #0284c7;
+      padding-left: 8px;
+      margin: 14px 0 8px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    h3 {
+      font-size: 10pt;
+      font-weight: 700;
+      color: #0369a1;
+      margin: 10px 0 5px 0;
+    }
+
+    p {
+      margin: 0 0 8px 0;
+      font-size: 9pt;
+      color: #334155;
+      text-align: justify;
+    }
+
+    /* Callout */
+    .callout {
+      background-color: #f0f9ff;
+      border-left: 3.5px solid #0284c7;
+      border-radius: 6px;
+      padding: 7px 11px;
+      margin-bottom: 9px;
+      font-size: 8.8pt;
+      color: #0c4a6e;
+    }
+
+    .callout strong {
+      color: #0369a1;
+    }
+
+    /* Table Matrix */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 6px 0 8px 0;
+      font-size: 8pt;
+    }
+
+    th {
+      background-color: #0f172a;
+      color: #ffffff;
+      font-weight: 700;
+      text-align: left;
+      padding: 4.8px 6.5px;
+      border: 1px solid #1e293b;
+      font-size: 8pt;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    td {
+      padding: 4.8px 6.5px;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      vertical-align: middle;
+    }
+
+    tr:nth-child(even) td {
+      background-color: #f8fafc;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 7.2pt;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .tag-top {
+      background-color: #dcfce7;
+      color: #15803d;
+      border: 1px solid #86efac;
+    }
+
+    .tag-rec {
+      background-color: #e0f2fe;
+      color: #0369a1;
+      border: 1px solid #7dd3fc;
+    }
+
+    .tag-alt {
+      background-color: #f1f5f9;
+      color: #475569;
+      border: 1px solid #cbd5e1;
+    }
+
+    /* Detailed Cards */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin: 6px 0 12px 0;
+    }
+
+    .name-card {
+      background: #ffffff;
+      border: 1.2px solid #e2e8f0;
+      border-radius: 7px;
+      padding: 9px 11px;
+      break-inside: avoid;
+    }
+
+    .name-card.featured {
+      border-color: #0284c7;
+      background: #f8fafc;
+      box-shadow: 0 2px 6px rgba(2, 132, 199, 0.07);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+      border-bottom: 1px dashed #e2e8f0;
+      padding-bottom: 4px;
+    }
+
+    .card-title {
+      font-size: 11pt;
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .card-title span {
+      color: #0284c7;
+    }
+
+    .card-meaning {
+      font-size: 8pt;
+      color: #0369a1;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-desc {
+      font-size: 8.2pt;
+      color: #475569;
+      line-height: 1.35;
+      margin-bottom: 6px;
+    }
+
+    .card-footer {
+      font-size: 7.6pt;
+      color: #64748b;
+      background: #f1f5f9;
+      padding: 4px 6px;
+      border-radius: 4px;
+    }
+
+    .card-footer strong {
+      color: #0f172a;
+    }
+
+    /* Top 3 Spotlight Box */
+    .spotlight-box {
+      border: 1.5px solid #0284c7;
+      border-radius: 8px;
+      padding: 11px 14px;
+      margin-bottom: 11px;
+      background: #ffffff;
+      break-inside: avoid;
+    }
+
+    .spotlight-box h4 {
+      margin: 0 0 2px 0;
+      font-size: 11pt;
+      color: #0369a1;
+      font-weight: 800;
+    }
+
+    .spotlight-box .tagline {
+      font-style: italic;
+      font-weight: 600;
+      color: #059669;
+      font-size: 8.4pt;
+      margin-bottom: 6px;
+    }
+
+    .spotlight-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      font-size: 8pt;
+    }
+
+    .spotlight-col {
+      background: #f8fafc;
+      padding: 6px 8px;
+      border-radius: 5px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .spotlight-col strong {
+      color: #0f172a;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    /* Footer */
+    .doc-footer {
+      border-top: 1px solid #cbd5e1;
+      padding-top: 6px;
+      font-size: 7.5pt;
+      color: #64748b;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HALAMAN 1 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <!-- HEADER -->
+      <div class="header-box">
+        <div class="badge-nasa">NASA Space Apps Challenge 2026 &bull; Local Event Purwokerto</div>
+        <h1>Daftar Rekomendasi Nama Brand &amp; Website</h1>
+        <div class="subtitle">Platform Pendukung Keputusan Rotasi Tanaman Berbasis Satelit NASA &amp; Mitigasi Risiko Iklim</div>
+        <div class="header-meta">
+          <div class="meta-item"><strong>Challenge:</strong> Field Shift: Adapting Farms with NASA Data</div>
+          <div class="meta-item"><strong>Tim:</strong> Pasukan Kebal When Yah / Tim Santai</div>
+          <div class="meta-item"><strong>Wilayah Pilot:</strong> Banyumas, Jawa Tengah &amp; US Pilot</div>
+          <div class="meta-item"><strong>Status:</strong> Dokumen Kurasi Strategis</div>
+        </div>
+      </div>
+
+      <!-- LATAR BELAKANG -->
+      <h2>1. Urgensi &amp; Rasionalisasi Branding</h2>
+      <div class="callout">
+        <strong>Mengapa Perlu Nama Brand Mandiri?</strong><br>
+        Saat ini platform menggunakan nama <em>"Field Shift"</em>, yang merupakan nama judul dari tantangan NASA (<em>Challenge: Field Shift: Adapting Farms with NASA Data</em>). Memakai nama brand mandiri memberikan keuntungan strategis:
+        <ul style="margin: 4px 0 0 16px; padding: 0;">
+          <li><strong>Meningkatkan Orisinalitas di Mata Juri:</strong> Tim diposisikan sebagai kreator produk solusi matang (<em>real product</em>), bukan sekadar peserta pengumpul lembar tugas.</li>
+          <li><strong>Memperkuat Pitching 3 Menit:</strong> Memberi batas tegas antara <em>problem brief</em> dari NASA dengan <em>unique value proposition</em> platform yang Anda bangun.</li>
+          <li><strong>Komunikasi Efektif dengan Stakeholder:</strong> Menghasilkan nama yang ramah bagi petani lokal, penyuluh (PPL), maupun juri global.</li>
+        </ul>
+      </div>
+
+      <!-- TABEL MATRIX LENGKAP -->
+      <h2>2. Matriks Komparasi 12 Kandidat Nama</h2>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 4%;">No</th>
+            <th style="width: 20%;">Nama Kandidat</th>
+            <th style="width: 17%;">Kategori</th>
+            <th style="width: 40%;">Makna Inti / Kepanjangan Ilmiah</th>
+            <th style="width: 19%;">Rekomendasi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>1</td>
+            <td><strong>TerraShift</strong></td>
+            <td>Global AgTech</td>
+            <td><em>Terra</em> (Bumi/Instrumen NASA) + <em>Shift</em> (Adaptasi Rotasi Lahan)</td>
+            <td><span class="tag tag-top">&starf; Top Pick (Global)</span></td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td><strong>ROTASI</strong></td>
+            <td>NASA Backronym</td>
+            <td><strong>R</strong>esilient <strong>O</strong>ptimization <strong>T</strong>ool for <strong>A</strong>gro-<strong>S</strong>atellite <strong>I</strong>nsights</td>
+            <td><span class="tag tag-top">&starf; Top Pick (Hybrid)</span></td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td><strong>Pranata Tani</strong></td>
+            <td>Kearifan Lokal</td>
+            <td>Modernisasi penanggalan musim <em>Pranata Mangsa</em> berbasis data NASA</td>
+            <td><span class="tag tag-top">&starf; Top Pick (Lokal)</span></td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td><strong>OrbitCrop</strong></td>
+            <td>Global AgTech</td>
+            <td>Kombinasi satelit orbit NASA dan manajemen komoditas petak sawah</td>
+            <td><span class="tag tag-rec">Sangat Disarankan</span></td>
+          </tr>
+          <tr>
+            <td>5</td>
+            <td><strong>GilirTani</strong></td>
+            <td>Lokal / Agronomi</td>
+            <td>Dari istilah resmi agronomi penyuluh: <em>"Gilir Tanaman"</em> (Pergiliran)</td>
+            <td><span class="tag tag-rec">Sangat Disarankan</span></td>
+          </tr>
+          <tr>
+            <td>6</td>
+            <td><strong>CropWeave</strong></td>
+            <td>Global AgTech</td>
+            <td>Menenun siklus tanaman (Padi &rarr; Palawija &rarr; Bera) agar hemat air</td>
+            <td><span class="tag tag-rec">Direkomendasikan</span></td>
+          </tr>
+          <tr>
+            <td>7</td>
+            <td><strong>ASTRA-Agri</strong></td>
+            <td>NASA Backronym</td>
+            <td><strong>A</strong>daptive <strong>S</strong>atellite <strong>T</strong>ransitions for <strong>R</strong>esilient <strong>A</strong>griculture</td>
+            <td><span class="tag tag-rec">Direkomendasikan</span></td>
+          </tr>
+          <tr>
+            <td>8</td>
+            <td><strong>TaniOrbit</strong></td>
+            <td>Lokal-Global</td>
+            <td>Sinergi bahasa rakyat petani dengan sains antariksa satelit orbit</td>
+            <td><span class="tag tag-rec">Direkomendasikan</span></td>
+          </tr>
+          <tr>
+            <td>9</td>
+            <td><strong>AgriVane</strong></td>
+            <td>Global AgTech</td>
+            <td>Terinspirasi dari penunjuk arah cuaca &amp; navigasi risiko ekstrem</td>
+            <td><span class="tag tag-alt">Opsi Alternatif</span></td>
+          </tr>
+          <tr>
+            <td>10</td>
+            <td><strong>FARMS</strong></td>
+            <td>NASA Backronym</td>
+            <td><strong>F</strong>ield <strong>A</strong>daptation &amp; <strong>R</strong>otation <strong>M</strong>odeling <strong>S</strong>ystem</td>
+            <td><span class="tag tag-alt">Opsi Alternatif</span></td>
+          </tr>
+          <tr>
+            <td>11</td>
+            <td><strong>Palawijaya</strong></td>
+            <td>Kearifan Lokal</td>
+            <td>Palawija (kacang hijau/sorgum) penyelamat bera menuju kejayaan tani</td>
+            <td><span class="tag tag-alt">Opsi Alternatif</span></td>
+          </tr>
+          <tr>
+            <td>12</td>
+            <td><strong>SHIFTS</strong></td>
+            <td>NASA Backronym</td>
+            <td><strong>S</strong>atellite-<strong>H</strong>ydrology <strong>I</strong>nformed <strong>F</strong>arm <strong>T</strong>ransition <strong>S</strong>ystem</td>
+            <td><span class="tag tag-alt">Opsi Alternatif</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="doc-footer">
+      <div>NASA Space Apps Challenge 2026 &bull; Tim Pasukan Kebal When Yah &bull; Purwokerto</div>
+      <div>Halaman 1 dari 4</div>
+    </div>
+  </div>
+
+  <!-- ==================== HALAMAN 2 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2>3. Bedah Eksplorasi Kandidat per Kluster</h2>
+
+      <h3>Kluster A: Modern AgTech &amp; Space Observation (Internasional)</h3>
+      <div class="card-grid">
+        <div class="name-card featured">
+          <div class="card-header">
+            <span class="card-title">Terra<span>Shift</span></span>
+            <span class="tag tag-top">Top Global</span>
+          </div>
+          <div class="card-meaning">Terra (Bumi/Satelit) + Shift (Perubahan Pola)</div>
+          <div class="card-desc">
+            Mengangkat skala proyek dari sekadar petak lokal menjadi platform observasi bumi. Menggemakan instrumen satelit legendaris NASA Terra, menjembatani observasi antariksa ke keputusan tanah tapak petani.
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Menjaga benang merah challenge asli, modern, sangat disukai juri internasional.</div>
+        </div>
+
+        <div class="name-card">
+          <div class="card-header">
+            <span class="card-title">Orbit<span>Crop</span></span>
+            <span class="tag tag-rec">AgTech</span>
+          </div>
+          <div class="card-meaning">Orbit Satelit &bull; Manajemen Tanaman</div>
+          <div class="card-desc">
+            Secara instan menjelaskan peran data satelit orbit NASA (HLS 30m, ECOSTRESS 70m, GPM IMERG) untuk membantu petani memilih jenis tanaman dan waktu tanam yang optimal.
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Sangat jelas, deskriptif, mudah diingat oleh siapa pun dalam 2 detik.</div>
+        </div>
+
+        <div class="name-card">
+          <div class="card-header">
+            <span class="card-title">Crop<span>Weave</span></span>
+            <span class="tag tag-rec">AgTech</span>
+          </div>
+          <div class="card-meaning">Weave: Menenun Siklus Suksesi Lahan</div>
+          <div class="card-desc">
+            Filosofis dan elegan. Menggambarkan bagaimana petani menenun suksesi tanaman (Padi &rarr; Kacang Hijau Vima-1 &rarr; Sorgum) untuk menutup jendela bera dan menekan risiko gagal panen.
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Brand unik, terdengar premium, mencerminkan optimasi multi-objektif Pareto.</div>
+        </div>
+
+        <div class="name-card">
+          <div class="card-header">
+            <span class="card-title">Agri<span>Vane</span></span>
+            <span class="tag tag-alt">AgTech</span>
+          </div>
+          <div class="card-meaning">Agriculture + Weather Vane</div>
+          <div class="card-desc">
+            Berperan sebagai kompas dan penunjuk arah iklim bagi petani saat menghadapi ketidakpastian monsoon delay serta ancaman kekeringan El Niño.
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Menekankan aspek ketahanan iklim dan fitur <em>Caution Slider</em>.</div>
+        </div>
+      </div>
+
+      <h3>Kluster B: Akronim Khas NASA (Backronym Ilmiah &amp; Prestisius)</h3>
+      <div class="card-grid">
+        <div class="name-card featured">
+          <div class="card-header">
+            <span class="card-title">ROTA<span>SI</span></span>
+            <span class="tag tag-top">Top Hybrid</span>
+          </div>
+          <div class="card-meaning">Resilient Optimization Tool for Agro-Satellite Insights</div>
+          <div class="card-desc">
+            Kombinasi dwifungsi: Bagi juri internasional merupakan akronim metodologis NASA yang formal, sedangkan bagi petani Indonesia merupakan istilah langsung pergiliran tanaman sawah.
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Sempurna untuk audiens lokal dan global; tidak perlu diterjemahkan lagi.</div>
+        </div>
+
+        <div class="name-card">
+          <div class="card-header">
+            <span class="card-title">ASTRA-<span>Agri</span></span>
+            <span class="tag tag-rec">Backronym</span>
+          </div>
+          <div class="card-meaning">Adaptive Satellite Transitions for Resilient Agriculture</div>
+          <div class="card-desc">
+            <em>Astra</em> (Latin: bintang/angkasa) menonjolkan kekuatan armada satelit NASA, dipadukan dengan kata <em>Agri</em> untuk menunjukkan aplikasi praktis di sektor pangan.
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Gagah, bernuansa akademis-teknis, memperkuat kredibilitas riset tim.</div>
+        </div>
+
+        <div class="name-card">
+          <div class="card-header">
+            <span class="card-title">FARMS</span>
+            <span class="tag tag-alt">Backronym</span>
+          </div>
+          <div class="card-meaning">Field Adaptation &amp; Rotation Modeling System</div>
+          <div class="card-desc">
+            Akronim gaya NASA klasik. Secara akurat merepresentasikan sistem permodelan rotasi tanaman adaptif sesuai mandat panduan challenge NASA Space Apps.
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Mudah dilafalkan, sangat formal, standar penamaan proyek riset internasional.</div>
+        </div>
+
+        <div class="name-card">
+          <div class="card-header">
+            <span class="card-title">SHIFTS</span>
+            <span class="tag tag-alt">Backronym</span>
+          </div>
+          <div class="card-meaning">Satellite-Hydrology Informed Farm Transition System</div>
+          <div class="card-desc">
+            Mempertahankan kata <em>Shift</em> dengan memberi kepanjangan ilmiah yang menyoroti data hidrologi satelit (GPM hujan, SMAP lengas tanah, ECOSTRESS stres air).
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Mengoptimalkan nama challenge asli menjadi sebuah sistem komputasi berbobot.</div>
+        </div>
+      </div>
+
+      <h3>Kluster C: Berakar Budaya Lokal &amp; Kontekstual Indonesia (Banyumas Pilot)</h3>
+      <div class="card-grid">
+        <div class="name-card featured">
+          <div class="card-header">
+            <span class="card-title">Pranata <span>Tani</span></span>
+            <span class="tag tag-top">Top Lokal</span>
+          </div>
+          <div class="card-meaning">Modernisasi Kearifan Pranata Mangsa Jawa Berbasis Satelit</div>
+          <div class="card-desc">
+            Mengangkat kearifan lokal Jawa <em>Pranata Mangsa</em> (penanggalan musim tradisional) yang kini sering meleset akibat anomali iklim, lalu direvitalisasi menggunakan pengamatan satelit antariksa NASA.
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Memiliki kekuatan <em>emotional storytelling</em> tertinggi di hadapan juri lokal.</div>
+        </div>
+
+        <div class="name-card">
+          <div class="card-header">
+            <span class="card-title">Gilir<span>Tani</span></span>
+            <span class="tag tag-rec">Agronomi</span>
+          </div>
+          <div class="card-meaning">Gilir Tanaman: Bahasa Resmi Penyuluhan Pertanian</div>
+          <div class="card-desc">
+            Istilah baku yang digunakan para Penyuluh Pertanian Lapangan (PPL) dan Dinas Pertanian untuk jadwal pergiliran tanaman. Platform ini menjadi asisten digital penentu giliran tanam.
+          </div>
+          <div class="card-footer"><strong>Kelebihan:</strong> Sangat dekat dengan realitas penyuluh pertanian di lapangan Banyumas.</div>
+        </div>
+      </div>
+    </div>
+    <div class="doc-footer">
+      <div>NASA Space Apps Challenge 2026 &bull; Tim Pasukan Kebal When Yah &bull; Purwokerto</div>
+      <div>Halaman 2 dari 4</div>
+    </div>
+  </div>
+
+  <!-- ==================== HALAMAN 3 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2>4. Bedah Mendalam Top 3 Rekomendasi Utama</h2>
+      <p>Berikut adalah 3 opsi nama terbaik yang memiliki daya dobrak paling kuat beserta narasi pitching dan identitas visualnya:</p>
+
+      <!-- SPOTLIGHT 1: TERRASHIFT -->
+      <div class="spotlight-box">
+        <h4>1. TerraShift &mdash; Rekomendasi #1 untuk Panggung Global NASA Space Apps</h4>
+        <div class="tagline">&ldquo;Earth-Observing Satellites for Ground-Level Farming Decisions&rdquo;</div>
+        <div class="spotlight-grid">
+          <div class="spotlight-col">
+            <strong>Mengapa Sangat Kuat?</strong>
+            Menghormati kata <em>"Shift"</em> dari tantangan NASA, namun mengganti <em>"Field"</em> menjadi <em>"Terra"</em> (Earth Observation). Mencerminkan bahwa armada satelit NASA di orbit bumi dimanfaatkan untuk menyelamatkan panen di petak sawah.
+          </div>
+          <div class="spotlight-col">
+            <strong>Sudut Pandang Pitching (Hook 30 Detik):</strong>
+            <em>"Kami menghadirkan TerraShift &mdash; jembatan data antariksa yang menerjemahkan citra satelit NASA menjadi keputusan rotasi tanaman yang aman dan minim risiko bagi petani di tengah ketidakpastian iklim ekstrem."</em>
+          </div>
+          <div class="spotlight-col">
+            <strong>Rekomendasi Tagline Resmi:</strong>
+            &bull; EN: <em>Adapting Crops, Securing Harvests with NASA Data.</em><br>
+            &bull; ID: <em>Data Antariksa untuk Kepastian Panen Petani.</em>
+          </div>
+          <div class="spotlight-col">
+            <strong>Konsep Logo &amp; UI Navbar:</strong>
+            &bull; Lambang: Daun bertunas muda yang dikelilingi orbit satelit elips.<br>
+            &bull; Tampilan Navbar: <code>TERRA &bull; SHIFT</code> (Aksen Mint &amp; Cyan NASA).
+          </div>
+        </div>
+      </div>
+
+      <!-- SPOTLIGHT 2: ROTASI -->
+      <div class="spotlight-box">
+        <h4>2. ROTASI &mdash; Rekomendasi #1 untuk Format Hybrid (Lokal &amp; Global)</h4>
+        <div class="tagline">&ldquo;Resilient Optimization Tool for Agro-Satellite Insights&rdquo; / &ldquo;Cerdas Bergilir, Panen Terukir&rdquo;</div>
+        <div class="spotlight-grid">
+          <div class="spotlight-col">
+            <strong>Mengapa Sangat Kuat?</strong>
+            Memiliki kecerdasan penamaan ganda: Bagi juri internasional merupakan akronim riset NASA yang solid, sementara di telinga petani dan penyuluh Indonesia langsung dipahami fungsinya tanpa perlu repot dijelaskan.
+          </div>
+          <div class="spotlight-col">
+            <strong>Sudut Pandang Pitching (Hook 30 Detik):</strong>
+            <em>"Inilah ROTASI: platform yang tidak mendikte petani, melainkan membandingkan trade-off air, hasil, dan risiko tahun terburuk (CVaR) berdasarkan 25 tahun rekaman iklim analog satelit NASA."</em>
+          </div>
+          <div class="spotlight-col">
+            <strong>Rekomendasi Tagline Resmi:</strong>
+            &bull; EN: <em>Climate-Adaptive Crop Rotation Backed by NASA Observations.</em><br>
+            &bull; ID: <em>Keputusan Rotasi Tepat, Petani Berdaya, Panen Terjaga.</em>
+          </div>
+          <div class="spotlight-col">
+            <strong>Konsep Logo &amp; UI Navbar:</strong>
+            &bull; Lambang: Siklus 3 panah melingkar (Padi, Palawija, Pupuk Hijau).<br>
+            &bull; Tampilan Navbar: <code>ROTASI &bull; AGRI</code> atau <code>ROTASI.ID</code>.
+          </div>
+        </div>
+      </div>
+
+      <!-- SPOTLIGHT 3: PRANATA TANI -->
+      <div class="spotlight-box">
+        <h4>3. Pranata Tani &mdash; Rekomendasi #1 untuk Storytelling Budaya &amp; Empati Sosial</h4>
+        <div class="tagline">&ldquo;Kearifan Tani Nusantara, Dipandu Mata Satelit Antariksa&rdquo;</div>
+        <div class="spotlight-grid">
+          <div class="spotlight-col">
+            <strong>Mengapa Sangat Kuat?</strong>
+            Mengangkat isu nyata di Banyumas: Petani dulu mengandalkan penanggalan <em>Pranata Mangsa</em>. Kini iklim tak menentu dan kearifan kuno sering meleset. Pranata Tani hadir meremajakan kearifan lokal dengan sains satelit modern.
+          </div>
+          <div class="spotlight-col">
+            <strong>Sudut Pandang Pitching (Hook 30 Detik):</strong>
+            <em>"Leluhur kita memiliki Pranata Mangsa. Di era krisis iklim saat ini, kami mempersembahkan Pranata Tani &mdash; menghidupkan kembali kearifan musim dengan panduan konstelasi satelit NASA."</em>
+          </div>
+          <div class="spotlight-col">
+            <strong>Rekomendasi Tagline Resmi:</strong>
+            &bull; ID: <em>Kearifan Tani Nusantara, Dipandu Data Antariksa.</em><br>
+            &bull; EN: <em>Ancestral Farming Wisdom Reimagined by NASA Satellites.</em>
+          </div>
+          <div class="spotlight-col">
+            <strong>Konsep Logo &amp; UI Navbar:</strong>
+            &bull; Lambang: Stilasi Gunungan wayang bermotif orbit satelit.<br>
+            &bull; Tampilan Navbar: <code>PRANATA &bull; TANI</code> (Nuansa Hijau Padi &amp; Teal).
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="doc-footer">
+      <div>NASA Space Apps Challenge 2026 &bull; Tim Pasukan Kebal When Yah &bull; Purwokerto</div>
+      <div>Halaman 3 dari 4</div>
+    </div>
+  </div>
+
+  <!-- ==================== HALAMAN 4 ==================== -->
+  <div class="page">
+    <div class="page-content">
+      <h2>5. Panduan Keputusan Tim &amp; Rencana Transisi</h2>
+
+      <h3>Decision Matrix: Pilih Nama Sesuai Karakter Dewan Juri</h3>
+      <table>
+        <thead>
+          <tr>
+            <th style="width: 25%;">Kondisi Juri &amp; Panggung</th>
+            <th style="width: 22%;">Rekomendasi Nama</th>
+            <th style="width: 53%;">Alasan Strategis</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Juri Global NASA Space Apps</strong> (Fokus pada inovasi data satelit &amp; skalabilitas global)</td>
+            <td><strong>TerraShift</strong></td>
+            <td>Terdengar profesional di panggung internasional, netral secara bahasa, dan langsung diasosiasikan dengan instrumen Earth Observation NASA.</td>
+          </tr>
+          <tr>
+            <td><strong>Juri Campuran (Dosen/Akademisi + Praktisi IT)</strong></td>
+            <td><strong>ROTASI</strong></td>
+            <td>Memiliki bobot ilmiah tinggi berkat backronym-nya, sekaligus menunjukkan empati terhadap istilah teknis agronomi yang sebenarnya.</td>
+          </tr>
+          <tr>
+            <td><strong>Juri Lokal Purwokerto / Pejabat Dinas Pertanian Banyumas</strong></td>
+            <td><strong>Pranata Tani</strong></td>
+            <td>Menciptakan ikatan emosional instan. Menunjukkan bahwa teknologi NASA tidak elitis, melainkan berakar kuat memecahkan masalah petani lokal.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>Checklist Transisi Teknis di Codebase (Bila Nama Telah Dipilih)</h3>
+      <div class="callout" style="font-size: 8.3pt;">
+        Jika tim telah sepakat memilih salah satu nama di atas, berikut titik-titik file yang perlu diselaraskan dalam kode frontend:
+        <ul style="margin: 4px 0 0 16px; padding: 0;">
+          <li><code>frontend-nasa/src/components/landing/LandingNavbar.tsx</code>: Update teks logo brand di bar navigasi atas.</li>
+          <li><code>frontend-nasa/src/data/landingContent.ts</code>: Perbarui string judul dan deskripsi <em>"Why Us"</em>.</li>
+          <li><code>frontend-nasa/src/components/landing/HeroSection.tsx</code>: Update teks headline utama dan badge peluncuran.</li>
+          <li><code>frontend-nasa/index.html</code>: Perbarui <code>&lt;title&gt;</code> tag dan meta description browser.</li>
+          <li><code>README.md</code> &amp; Slide Pitching: Selaraskan judul proyek dan narasi pitching hook 30 detik.</li>
+        </ul>
+      </div>
+
+      <div style="margin-top: 24px; padding: 14px 18px; border-radius: 8px; background: #f8fafc; border: 1.5px dashed #94a3b8; text-align: center;">
+        <div style="font-size: 10pt; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
+          Siap Melangkah ke Tahap Presentasi!
+        </div>
+        <div style="font-size: 8.5pt; color: #475569; max-width: 90%; margin: 0 auto;">
+          Dokumen ini dirancang sebagai panduan musyawarah tim <em>Pasukan Kebal When Yah / Tim Santai</em> untuk menentukan identitas final sebelum demo produk dan pitching di hadapan juri.
+        </div>
+      </div>
+    </div>
+    <div class="doc-footer">
+      <div>NASA Space Apps Challenge 2026 &bull; Tim Pasukan Kebal When Yah &bull; Purwokerto</div>
+      <div>Halaman 4 dari 4</div>
+    </div>
+  </div>
+
+</body>
+</html>
