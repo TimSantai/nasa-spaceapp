@@ -46,7 +46,7 @@ export const ClimateScenarioSlider: React.FC<ClimateScenarioSliderProps> = ({
             Simulasi Skenario Stres Iklim & Curah Hujan
           </h3>
           <p className="text-xs text-gray-500 mt-0.5">
-            Uji ketahanan rotasi jika musim kemarau lebih kering atau terjadi anomali pemanasan suhu
+            Uji ketahanan rotasi jika curah hujan berubah atau suhu menghangat: engine menghitung ulang ET0 dan kebutuhan irigasi di semua tahun analog
           </p>
         </div>
         <div className="flex items-center gap-2">

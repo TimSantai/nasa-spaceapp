@@ -18,7 +18,7 @@ const CARDS: FeatureCard[] = [
   {
     id: 'spaceborne',
     title: 'Spaceborne Telemetry',
-    subtitle: 'NASA POWER, SMAP & ECOSTRESS 30m grid data',
+    subtitle: 'NASA POWER climate 1991–2025, SRTM terrain & SoilGrids',
     image:
       'https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=800&q=80',
     alt: 'Agricultural drone surveying green tea and rice terraces',
@@ -36,7 +36,7 @@ const CARDS: FeatureCard[] = [
   {
     id: 'precision',
     title: 'Precision Field Impact',
-    subtitle: '+32% yield loss reduction & balanced soil moisture',
+    subtitle: 'Erosion exposure ~8× lower than rice–rice–fallow (engine output, Banyumas)',
     image:
       'https://images.unsplash.com/photo-1586771107445-d3ca888129ff?auto=format&fit=crop&w=800&q=80',
     alt: 'Precision drone spraying over fertile green farmland',

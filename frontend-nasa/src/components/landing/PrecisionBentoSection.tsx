@@ -34,8 +34,8 @@ const CROPS: CropData[] = [
     name: 'Padi Sawah',
     nameEn: 'Lowland Rice',
     score: 84,
-    resilienceTextId: '+32% Efisiensi Air vs Monokultur',
-    resilienceTextEn: '+32% Water Efficiency vs Monoculture',
+    resilienceTextId: 'Baseline: kebutuhan irigasi terendah',
+    resilienceTextEn: 'Baseline: lowest irrigation need',
     monthlyScores: [
       { month: 'Mei', value: 38 },
       { month: 'Jun', value: 52 },
@@ -50,8 +50,8 @@ const CROPS: CropData[] = [
     name: 'Jagung Hibrida',
     nameEn: 'Hybrid Corn',
     score: 91,
-    resilienceTextId: '+41% Toleransi Kekeringan El Niño',
-    resilienceTextEn: '+41% El Niño Drought Tolerance',
+    resilienceTextId: 'Rotasi padi–jagung–kacang: tutupan 96%',
+    resilienceTextEn: 'Rice–maize–groundnut: 96% living cover',
     monthlyScores: [
       { month: 'Mei', value: 45 },
       { month: 'Jun', value: 60 },
@@ -66,8 +66,8 @@ const CROPS: CropData[] = [
     name: 'Kedelai Anjasmoro',
     nameEn: 'Soybean (Legume)',
     score: 88,
-    resilienceTextId: '+48 kg/Ha Fiksasi Nitrogen Alami',
-    resilienceTextEn: '+48 kg/Ha Natural Nitrogen Fixation',
+    resilienceTextId: 'Legum: menambah nitrogen biologis (tidak dikuantifikasi)',
+    resilienceTextEn: 'Legume: adds biological nitrogen (not quantified)',
     monthlyScores: [
       { month: 'Mei', value: 30 },
       { month: 'Jun', value: 48 },
@@ -82,8 +82,8 @@ const CROPS: CropData[] = [
     name: 'Kacang Hijau',
     nameEn: 'Mung Bean',
     score: 94,
-    resilienceTextId: 'Panen Cepat 60 Hari & Hemat Air',
-    resilienceTextEn: 'Fast 60-Day Harvest & Ultra Water-Saving',
+    resilienceTextId: 'Siklus pendek, cocok untuk sisa lengas MT3',
+    resilienceTextEn: 'Short cycle, suits residual MT3 moisture',
     monthlyScores: [
       { month: 'Mei', value: 40 },
       { month: 'Jun', value: 65 },
@@ -109,13 +109,13 @@ export function PrecisionBentoSection({
   const precisionTelemetry = [
     {
       title: isId ? 'Indeks Kesehatan Vegetasi' : 'Crop Health Index',
-      desc: isId ? 'NDVI & EVI Sentinel-2 & MODIS 250m' : 'Real-time plant canopy insights (NDVI)',
+      desc: isId ? 'NDVI HLS 30 m (sedang diproses AppEEARS)' : 'HLS 30 m NDVI (AppEEARS, in progress)',
       icon: Activity,
-      stat: '0.74 NDVI',
+      stat: 'Pending',
     },
     {
       title: isId ? 'Suhu Permukaan Lahan' : 'Field Temperature',
-      desc: isId ? 'Sensor Termal ECOSTRESS 70m' : '24/7 Land Surface Temp (LST)',
+      desc: isId ? 'NASA POWER Tmax harian (Jan, normal 1991–2020)' : 'NASA POWER daily Tmax (Jan, 1991–2020 normal)',
       icon: Thermometer,
       stat: '28.4°C',
     },
@@ -127,36 +127,36 @@ export function PrecisionBentoSection({
     },
     {
       title: isId ? 'Kadar Air Perakaran' : 'Soil Moisture Level',
-      desc: isId ? 'NASA SMAP Radar/Radiometer 0–100cm' : 'Root-zone smart moisture tracking',
+      desc: isId ? 'NASA POWER soil wetness zona akar (SMAP menyusul)' : 'NASA POWER root-zone wetness (SMAP being added)',
       icon: Droplets,
-      stat: '27.4 vol%',
+      stat: '0.88 (Jan)',
     },
   ];
 
   const fieldMetrics = [
     {
-      title: isId ? 'Lahan Terpetakan' : 'Fields Monitored',
-      sub: isId ? 'Resolusi spasial 30m WGS84' : 'Real-time satellite field coverage',
-      value: '14,250 Ha',
+      title: isId ? 'Lahan Pertanian Dianalisis' : 'Cropland Analysed',
+      sub: isId ? 'Mason Valley, USDA CDL 30 m' : 'Mason Valley, USDA CDL 30 m',
+      value: '21,700 Ha',
       img: 'https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=120&q=80',
     },
     {
-      title: isId ? 'Plot Petani Terhubung' : 'Farmers Connected',
-      sub: isId ? 'Validasi sentra Jawa & Bali' : 'Active smallholder farmer network',
-      value: '3,150 Plot',
+      title: isId ? 'Plot Demo' : 'Demo Plots',
+      sub: isId ? 'Banyumas, Jawa Tengah' : 'Banyumas, Central Java',
+      value: '3 Plot',
       img: 'https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=120&q=80',
     },
     {
-      title: isId ? 'Peningkatan Produktivitas' : 'Productivity Increase',
-      sub: isId ? 'Dibandingkan risiko kekeringan' : 'Compared to drought monoculture',
-      value: '+32%',
+      title: isId ? 'Paparan Erosi Lebih Rendah' : 'Lower Erosion Exposure',
+      sub: isId ? 'Padi–jagung–kacang vs padi–padi–bera' : 'Rice–maize–groundnut vs rice–rice–fallow',
+      value: '~8×',
       valueColor: 'text-emerald-700',
       img: 'https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&w=120&q=80',
     },
     {
       title: isId ? 'Sensor Satelit NASA' : 'NASA Satellite Feeds',
-      sub: isId ? 'Asimilasi harian otomatis' : 'POWER, SMAP, ECOSTRESS, MODIS',
-      value: '26 Feeds',
+      sub: isId ? 'POWER, SRTM, CDL, SoilGrids, ONI/DMI' : 'POWER, SRTM, CDL, SoilGrids, ONI/DMI',
+      value: '6 Sources',
       img: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=120&q=80',
     },
     {
@@ -327,7 +327,7 @@ export function PrecisionBentoSection({
               <div>
                 <div className="flex items-center justify-between pb-3 border-b border-white/15">
                   <span className="text-sm font-bold text-white tracking-wide">
-                    {isId ? 'Skor Ketahanan Panen:' : 'Crop Growth Score:'}{' '}
+                    {isId ? 'Ilustrasi skor (bukan output model):' : 'Illustrative score (not model output):'}{' '}
                     <span className="text-emerald-400 font-mono text-base font-extrabold">
                       {activeCrop.score}%
                     </span>
@@ -369,8 +369,8 @@ export function PrecisionBentoSection({
                 <div className="rounded-2xl bg-slate-900/80 backdrop-blur-md p-4 border border-white/15 shadow-xl">
                   <div className="flex items-center justify-between text-[11px] text-slate-300 mb-3">
                     <span className="font-semibold">{isId ? 'Proyeksi Biomassa' : 'Biomass Progression'}</span>
-                    <span className="font-mono text-emerald-400 font-bold">
-                      +{Math.round(activeCrop.score * 0.35)}% Resilience
+                    <span className="font-mono text-amber-300 font-bold">
+                      {isId ? 'Ilustrasi' : 'Illustrative'}
                     </span>
                   </div>
 

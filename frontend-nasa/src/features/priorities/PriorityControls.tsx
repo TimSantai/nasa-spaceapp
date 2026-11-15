@@ -32,16 +32,16 @@ export const PriorityControls: React.FC<PriorityControlsProps> = ({
     });
   };
 
-  const applyPreset = (preset: 'balanced' | 'drought' | 'soil' | 'labor') => {
+  const applyPreset = (preset: 'balanced' | 'drought' | 'soil' | 'pest') => {
     if (preset === 'balanced') {
-      onWeightsChange({ yield: 20, waterEfficiency: 20, soilHealth: 20, coverDays: 20, laborDemand: 20 });
+      onWeightsChange({ waterEfficiency: 20, soilHealth: 20, coverDays: 20, erosionControl: 20, pestBreak: 20 });
     } else if (preset === 'drought') {
-      onWeightsChange({ yield: 15, waterEfficiency: 35, soilHealth: 15, coverDays: 25, laborDemand: 10 });
+      onWeightsChange({ waterEfficiency: 45, soilHealth: 15, coverDays: 15, erosionControl: 15, pestBreak: 10 });
       onClimatePhaseChange('el_nino');
     } else if (preset === 'soil') {
-      onWeightsChange({ yield: 15, waterEfficiency: 15, soilHealth: 40, coverDays: 25, laborDemand: 5 });
-    } else if (preset === 'labor') {
-      onWeightsChange({ yield: 25, waterEfficiency: 15, soilHealth: 10, coverDays: 10, laborDemand: 40 });
+      onWeightsChange({ waterEfficiency: 10, soilHealth: 35, coverDays: 20, erosionControl: 30, pestBreak: 5 });
+    } else if (preset === 'pest') {
+      onWeightsChange({ waterEfficiency: 15, soilHealth: 15, coverDays: 10, erosionControl: 10, pestBreak: 50 });
     }
   };
 
@@ -178,27 +178,27 @@ export const PriorityControls: React.FC<PriorityControlsProps> = ({
             </button>
             <button
               type="button"
-              onClick={() => applyPreset('labor')}
+              onClick={() => applyPreset('pest')}
               className="rounded-full bg-slate-100 border border-slate-200 px-3 py-1 text-xs font-semibold text-slate-700 hover:bg-slate-200 transition"
             >
-              Low Labor
+              Pest Cycle
             </button>
           </div>
         </div>
 
         <div className="mt-6 space-y-5">
-          {/* Yield */}
+          {/* Erosion */}
           <div>
             <div className="flex items-center justify-between text-xs">
-              <span className="font-semibold text-gray-800">Hasil Panen & Margin Finansial</span>
-              <span className="font-mono text-[#1a7a6d] font-bold tabular-nums">{weights.yield}%</span>
+              <span className="font-semibold text-gray-800">Perlindungan Erosi (Hujan di Tanah Terbuka &times; Lereng)</span>
+              <span className="font-mono text-[#1a7a6d] font-bold tabular-nums">{weights.erosionControl}%</span>
             </div>
             <input
               type="range"
               min={0}
               max={50}
-              value={weights.yield}
-              onChange={(e) => handleSliderChange('yield', Number(e.target.value))}
+              value={weights.erosionControl}
+              onChange={(e) => handleSliderChange('erosionControl', Number(e.target.value))}
               className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-full bg-gray-100 accent-[#1a7a6d]"
             />
           </div>
@@ -251,18 +251,18 @@ export const PriorityControls: React.FC<PriorityControlsProps> = ({
             />
           </div>
 
-          {/* Labor */}
+          {/* Pest cycle */}
           <div>
             <div className="flex items-center justify-between text-xs">
-              <span className="font-semibold text-gray-800">Kemudahan Tenaga Kerja & Kompleksitas Input Rendah</span>
-              <span className="font-mono text-slate-600 font-bold tabular-nums">{weights.laborDemand}%</span>
+              <span className="font-semibold text-gray-800">Pemutus Siklus Hama (Pergantian Famili Tanaman)</span>
+              <span className="font-mono text-slate-600 font-bold tabular-nums">{weights.pestBreak}%</span>
             </div>
             <input
               type="range"
               min={0}
               max={50}
-              value={weights.laborDemand}
-              onChange={(e) => handleSliderChange('laborDemand', Number(e.target.value))}
+              value={weights.pestBreak}
+              onChange={(e) => handleSliderChange('pestBreak', Number(e.target.value))}
               className="mt-2 h-2 w-full cursor-pointer appearance-none rounded-full bg-gray-100 accent-[#475569]"
             />
           </div>

@@ -25,10 +25,10 @@ export const SummaryBrief: React.FC<SummaryBriefProps> = ({
   const baselineStrategy = strategies.find((s) => s.isBaseline) || strategies[strategies.length - 1];
 
   const [metadata, setMetadata] = useState<PplBriefMetadata>({
-    farmerName: 'Bpk. Slamet Sugiharto',
-    poktanName: 'Kelompok Tani Sri Rejeki II',
-    pplOfficerName: 'Ir. Bambang Sutrisno (PPL Wilbin Rawalo)',
-    notes: 'Rekomendasi adaptasi pola tanam ini telah disesuaikan dengan anomali curah hujan BMKG/NASA POWER. Ketersediaan benih kedelai varietas Anjasmoro telah dikoordinasikan dengan BBI. Pasokan air saluran tersier dijadwalkan berkala tiap 10 hari.',
+    farmerName: '',
+    poktanName: '',
+    pplOfficerName: '',
+    notes: 'Perbandingan berbasis tahun analog iklim NASA POWER (1991–2025) dan indikator air, tanah, erosi. Perlu dicek PPL: ketersediaan air musim kemarau, benih, drainase, dan pasar.',
   });
 
   const [isEditingMetadata, setIsEditingMetadata] = useState(false);
@@ -210,7 +210,7 @@ export const SummaryBrief: React.FC<SummaryBriefProps> = ({
 
           {/* Calibrated Weights Bar */}
           <div className="mt-2 rounded-xl bg-[#F7F9FB] border border-[#E6EBF0] px-4 py-2 text-[11px] text-[#5F6B74]">
-            <strong>Bobot Multi-Objektif Terkalibrasi:</strong> Hasil Panen {weights.yield}% &middot; Efisiensi Air {weights.waterEfficiency}% &middot; Kesehatan Tanah {weights.soilHealth}% &middot; Tutupan Tanah {weights.coverDays}% &middot; Penghematan Tenaga {weights.laborDemand}%
+            <strong>Bobot Multi-Objektif Terkalibrasi:</strong> Efisiensi Air {weights.waterEfficiency}% &middot; Kesehatan Tanah {weights.soilHealth}% &middot; Tutupan Tanah {weights.coverDays}% &middot; Perlindungan Erosi {weights.erosionControl}% &middot; Pemutus Siklus Hama {weights.pestBreak}%
           </div>
         </div>
 

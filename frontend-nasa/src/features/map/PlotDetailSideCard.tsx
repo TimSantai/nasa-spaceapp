@@ -136,8 +136,8 @@ export const PlotDetailSideCard: React.FC<PlotDetailSideCardProps> = ({
           <Satellite className="h-4 w-4 shrink-0 text-[#237F8E]" />
           <span>
             {isId
-              ? 'Terasimilasi 25 tahun NASA POWER, HLS 30m, ECOSTRESS 70m, dan SMAP 9km.'
-              : 'Assimilated 25-yr NASA POWER, HLS 30m, ECOSTRESS 70m, & SMAP 9km.'}
+              ? 'NASA POWER 1991–2025, SRTM 30 m dan SoilGrids; NDVI HLS dan SMAP menyusul.'
+              : 'NASA POWER 1991–2025, SRTM 30 m & SoilGrids; HLS NDVI and SMAP being added.'}
           </span>
         </div>
 

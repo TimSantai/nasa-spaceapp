@@ -560,7 +560,7 @@ export function HeroSection({
               </div>
             </div>
 
-            {/* Card 2: Soil Moisture & Canopy (SMAP & ECOSTRESS) */}
+            {/* Card 2: Soil moisture & terrain (NASA POWER, SRTM) */}
             <div className="rounded-2xl sm:rounded-3xl border border-slate-200/90 bg-white/95 backdrop-blur-md p-5 sm:p-6 shadow-[0_10px_30px_rgba(15,23,42,0.06)] hover:shadow-lg hover:border-[#237F8E]/40 transition-all duration-300 flex flex-col justify-between group">
               <div className="flex items-start gap-4">
                 <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#E3F1F3] text-[#237F8E] group-hover:bg-[#d5ebed] transition">
@@ -576,7 +576,7 @@ export function HeroSection({
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-[#5F6B74] leading-relaxed">
-                    SMAP 0–100cm root-zone moisture depth and ECOSTRESS canopy evapotranspiration index.
+                    NASA POWER root-zone soil wetness (SMAP L4 being added) and SRTM slope for erosion risk.
                   </p>
                 </div>
               </div>
@@ -584,9 +584,7 @@ export function HeroSection({
               {/* Live Metric Data Pill */}
               <div className="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
                 <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#E3F1F3] px-2.5 py-1 font-mono font-bold text-[#1B6572] border border-[#237F8E]/25">
-                  <span>Root: {effectiveWeather.soilMoisture}</span>
-                  <span className="text-slate-300">&middot;</span>
-                  <span>NDVI {effectiveWeather.ndvi}</span>
+                  <span>Root (est.): {effectiveWeather.soilMoisture}</span>
                 </span>
                 <span className="text-[11px] text-[#5F6B74] font-mono">
                   {effectiveWeather.evapotranspiration}
@@ -605,8 +603,8 @@ export function HeroSection({
                     <h3 className="font-bold text-[#14232B] text-sm sm:text-base leading-snug">
                       Adaptive Rotation
                     </h3>
-                    <span className="rounded-md bg-[#E3F1F3] border border-[#237F8E]/30 px-2 py-0.5 text-[9px] font-bold text-[#1B6572] shrink-0">
-                      Score {effectiveWeather.rotationScore}/100
+                    <span className="rounded-md bg-amber-50 border border-amber-200 px-2 py-0.5 text-[9px] font-bold text-amber-700 shrink-0">
+                      Weather hint, not model output
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-[#5F6B74] leading-relaxed truncate" title={effectiveWeather.recommendedRotation}>

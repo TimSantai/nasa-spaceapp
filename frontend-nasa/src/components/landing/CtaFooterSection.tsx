@@ -104,7 +104,7 @@ export function CtaFooterSection({ onOpenWorkspace }: CtaFooterSectionProps) {
 
             {/* Attribution & Copyright */}
             <div className="flex flex-wrap items-center justify-center gap-4 text-[#5F6B74] font-medium text-[11px] sm:text-xs">
-              <span>Powered by NASA POWER, SMAP, ECOSTRESS & MODIS</span>
+              <span>Powered by NASA POWER, SRTM & AppEEARS (HLS, SMAP)</span>
               <span className="hidden sm:inline text-slate-300">|</span>
               <span>&copy; {new Date().getFullYear()} Field Shift. Open Data Initiative.</span>
             </div>

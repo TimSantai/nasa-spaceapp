@@ -1,0 +1,1105 @@
+{
+ "generatedAt": "2026-11-15",
+ "note": "Offline snapshot of real Field Shift API results (used only when the backend is unreachable).",
+ "sites": [
+  {
+   "key": "nevada_mason_valley",
+   "name": "Mason Valley, Lyon County, Nevada (US pilot)",
+   "seasons": {
+    "winter_recharge": 5,
+    "growing": 6
+   },
+   "crops": [
+    "alfalfa",
+    "clover",
+    "corn",
+    "groundnut",
+    "maize",
+    "onion",
+    "rice",
+    "soybean",
+    "triticale",
+    "winter_wheat"
+   ],
+   "latest_enso_phase": "neutral",
+   "latest_iod_phase": "negative",
+   "sources": [
+    "NASA POWER daily (1991-2025)",
+    "NOAA ONI / DMI",
+    "SRTM 1 arc-second",
+    "USDA CDL 2016-2023"
+   ]
+  },
+  {
+   "key": "banyumas",
+   "name": "Banyumas, Central Java (Indonesia demo)",
+   "seasons": {
+    "MT1_wet": 4,
+    "MT2_wet_dry": 4,
+    "MT3_dry": 4
+   },
+   "crops": [
+    "alfalfa",
+    "clover",
+    "corn",
+    "groundnut",
+    "maize",
+    "onion",
+    "rice",
+    "soybean",
+    "triticale",
+    "winter_wheat"
+   ],
+   "latest_enso_phase": "neutral",
+   "latest_iod_phase": "negative",
+   "sources": [
+    "NASA POWER daily (1991-2025)",
+    "NOAA ONI / DMI",
+    "SRTM 1 arc-second"
+   ]
+  }
+ ],
+ "fields": [
+  {
+   "id": "banyumas-karangrau-01",
+   "name": "Plot Karangrau Block 4B",
+   "regency": "Banyumas",
+   "district": "Banyumas",
+   "village": "Karangrau",
+   "coordinates": [
+    -7.5186,
+    109.2942
+   ],
+   "elevationMeters": 26,
+   "areaHectares": 2.4,
+   "currentRotation": [
+    "Paddy (Wet Season)",
+    "Paddy (Dry Season 1)",
+    "Fallow (Dry Season 2)"
+   ],
+   "soil": {
+    "type": "SoilGrids 250 m estimate",
+    "texture": "Clay Loam",
+    "organicMatter": "10.8% (from SOC 63 g/kg)",
+    "awc": 142.0,
+    "slope": 3.0,
+    "erosionRisk": "Low"
+   },
+   "climateHistory": [
+    {
+     "month": "Jan",
+     "rainfall": 319.9,
+     "tempMin": 22.8,
+     "tempMax": 28.4,
+     "soilMoisture": 0.876
+    },
+    {
+     "month": "Feb",
+     "rainfall": 303.2,
+     "tempMin": 22.9,
+     "tempMax": 28.4,
+     "soilMoisture": 0.925
+    },
+    {
+     "month": "Mar",
+     "rainfall": 261.0,
+     "tempMin": 23.0,
+     "tempMax": 28.7,
+     "soilMoisture": 0.938
+    },
+    {
+     "month": "Apr",
+     "rainfall": 217.8,
+     "tempMin": 23.2,
+     "tempMax": 29.0,
+     "soilMoisture": 0.936
+    },
+    {
+     "month": "May",
+     "rainfall": 199.9,
+     "tempMin": 22.5,
+     "tempMax": 29.1,
+     "soilMoisture": 0.908
+    },
+    {
+     "month": "Jun",
+     "rainfall": 133.2,
+     "tempMin": 21.5,
+     "tempMax": 28.5,
+     "soilMoisture": 0.871
+    },
+    {
+     "month": "Jul",
+     "rainfall": 84.2,
+     "tempMin": 20.2,
+     "tempMax": 28.0,
+     "soilMoisture": 0.815
+    },
+    {
+     "month": "Aug",
+     "rainfall": 44.8,
+     "tempMin": 19.6,
+     "tempMax": 28.4,
+     "soilMoisture": 0.741
+    },
+    {
+     "month": "Sep",
+     "rainfall": 80.5,
+     "tempMin": 20.5,
+     "tempMax": 29.7,
+     "soilMoisture": 0.682
+    },
+    {
+     "month": "Oct",
+     "rainfall": 208.4,
+     "tempMin": 21.9,
+     "tempMax": 30.4,
+     "soilMoisture": 0.684
+    },
+    {
+     "month": "Nov",
+     "rainfall": 310.8,
+     "tempMin": 22.9,
+     "tempMax": 29.4,
+     "soilMoisture": 0.764
+    },
+    {
+     "month": "Dec",
+     "rainfall": 334.5,
+     "tempMin": 22.8,
+     "tempMax": 28.6,
+     "soilMoisture": 0.827
+    }
+   ],
+   "ndviTimeSeries": [],
+   "dataAvailability": {
+    "hasObservedRotation": false,
+    "hasFieldSoilSurvey": false,
+    "hasSatelliteNdvi": false,
+    "hasDailyPrecipitation": true,
+    "overallConfidence": "LOW",
+    "missingDataNotes": [
+     "Current rotation is the team's assumption; confirm with the farmer.",
+     "Soil values are SoilGrids 250 m model estimates, not a field survey.",
+     "Rainfall and soil wetness are NASA POWER reanalysis (~0.5 degree grid).",
+     "SoilGrids organic matter is above 8 %, outside the AWC equation's range (capped at 8 %); AWC is indicative. Check with a local soil test.",
+     "HLS NDVI not yet downloaded (AppEEARS job hls_fields)."
+    ]
+   },
+   "provenance": {
+    "elevationSlope": "SRTMGL1 v003, 3x3 mean around the point",
+    "soil": "SoilGrids 2.0 0-30 cm, nearest grid point 2.25 km; sand 27.4%, silt 34.0%, clay 38.6%; AWC by Saxton & Rawls (2006)",
+    "climate": "NASA POWER power_-7.75_+109.25.csv, monthly normals 1991-2020",
+    "ndvi": null
+   }
+  },
+  {
+   "id": "banyumas-sumbang-02",
+   "name": "Sumbang Highland Terrace 2A",
+   "regency": "Banyumas",
+   "district": "Sumbang",
+   "village": "Kotayasa",
+   "coordinates": [
+    -7.3512,
+    109.2568
+   ],
+   "elevationMeters": 255,
+   "areaHectares": 1.8,
+   "currentRotation": [
+    "Paddy (Wet Season)",
+    "Horticulture (Chili/Tomato)",
+    "Fallow"
+   ],
+   "soil": {
+    "type": "SoilGrids 250 m estimate",
+    "texture": "Clay",
+    "organicMatter": "13.1% (from SOC 76 g/kg)",
+    "awc": 106.0,
+    "slope": 12.0,
+    "erosionRisk": "Moderate"
+   },
+   "climateHistory": [
+    {
+     "month": "Jan",
+     "rainfall": 329.6,
+     "tempMin": 23.1,
+     "tempMax": 28.2,
+     "soilMoisture": 0.816
+    },
+    {
+     "month": "Feb",
+     "rainfall": 317.8,
+     "tempMin": 23.1,
+     "tempMax": 27.9,
+     "soilMoisture": 0.893
+    },
+    {
+     "month": "Mar",
+     "rainfall": 248.3,
+     "tempMin": 23.3,
+     "tempMax": 28.4,
+     "soilMoisture": 0.922
+    },
+    {
+     "month": "Apr",
+     "rainfall": 189.7,
+     "tempMin": 23.7,
+     "tempMax": 28.8,
+     "soilMoisture": 0.917
+    },
+    {
+     "month": "May",
+     "rainfall": 148.2,
+     "tempMin": 23.2,
+     "tempMax": 29.3,
+     "soilMoisture": 0.885
+    },
+    {
+     "month": "Jun",
+     "rainfall": 98.1,
+     "tempMin": 22.2,
+     "tempMax": 28.9,
+     "soilMoisture": 0.843
+    },
+    {
+     "month": "Jul",
+     "rainfall": 58.0,
+     "tempMin": 21.0,
+     "tempMax": 28.9,
+     "soilMoisture": 0.782
+    },
+    {
+     "month": "Aug",
+     "rainfall": 36.0,
+     "tempMin": 20.5,
+     "tempMax": 29.7,
+     "soilMoisture": 0.704
+    },
+    {
+     "month": "Sep",
+     "rainfall": 56.9,
+     "tempMin": 21.3,
+     "tempMax": 31.3,
+     "soilMoisture": 0.641
+    },
+    {
+     "month": "Oct",
+     "rainfall": 125.4,
+     "tempMin": 22.7,
+     "tempMax": 31.4,
+     "soilMoisture": 0.627
+    },
+    {
+     "month": "Nov",
+     "rainfall": 222.1,
+     "tempMin": 23.5,
+     "tempMax": 30.1,
+     "soilMoisture": 0.683
+    },
+    {
+     "month": "Dec",
+     "rainfall": 284.1,
+     "tempMin": 23.2,
+     "tempMax": 28.9,
+     "soilMoisture": 0.748
+    }
+   ],
+   "ndviTimeSeries": [],
+   "dataAvailability": {
+    "hasObservedRotation": false,
+    "hasFieldSoilSurvey": false,
+    "hasSatelliteNdvi": false,
+    "hasDailyPrecipitation": true,
+    "overallConfidence": "LOW",
+    "missingDataNotes": [
+     "Current rotation is the team's assumption; confirm with the farmer.",
+     "Soil values are SoilGrids 250 m model estimates, not a field survey.",
+     "Rainfall and soil wetness are NASA POWER reanalysis (~0.5 degree grid).",
+     "SoilGrids organic matter is above 8 %, outside the AWC equation's range (capped at 8 %); AWC is indicative. Check with a local soil test.",
+     "HLS NDVI not yet downloaded (AppEEARS job hls_fields)."
+    ]
+   },
+   "provenance": {
+    "elevationSlope": "SRTMGL1 v003, 3x3 mean around the point",
+    "soil": "SoilGrids 2.0 0-30 cm, nearest grid point 3.33 km; sand 20.3%, silt 28.6%, clay 51.1%; AWC by Saxton & Rawls (2006)",
+    "climate": "NASA POWER power_-7.25_+109.25.csv, monthly normals 1991-2020",
+    "ndvi": null
+   }
+  },
+  {
+   "id": "banyumas-rawalo-03",
+   "name": "Rawalo Lowland Basin 1C",
+   "regency": "Banyumas",
+   "district": "Rawalo",
+   "village": "Rawalo",
+   "coordinates": [
+    -7.5255,
+    109.1623
+   ],
+   "elevationMeters": 12,
+   "areaHectares": 3.1,
+   "currentRotation": [
+    "Paddy (Wet Season)",
+    "Paddy (Dry Season 1)",
+    "Fallow (Dry Season 2)"
+   ],
+   "soil": {
+    "type": "SoilGrids 250 m estimate",
+    "texture": "Clay Loam",
+    "organicMatter": "18.7% (from SOC 108 g/kg)",
+    "awc": 148.0,
+    "slope": 2.9,
+    "erosionRisk": "Low"
+   },
+   "climateHistory": [
+    {
+     "month": "Jan",
+     "rainfall": 319.9,
+     "tempMin": 22.8,
+     "tempMax": 28.4,
+     "soilMoisture": 0.876
+    },
+    {
+     "month": "Feb",
+     "rainfall": 303.2,
+     "tempMin": 22.9,
+     "tempMax": 28.4,
+     "soilMoisture": 0.925
+    },
+    {
+     "month": "Mar",
+     "rainfall": 261.0,
+     "tempMin": 23.0,
+     "tempMax": 28.7,
+     "soilMoisture": 0.938
+    },
+    {
+     "month": "Apr",
+     "rainfall": 217.8,
+     "tempMin": 23.2,
+     "tempMax": 29.0,
+     "soilMoisture": 0.936
+    },
+    {
+     "month": "May",
+     "rainfall": 199.9,
+     "tempMin": 22.5,
+     "tempMax": 29.1,
+     "soilMoisture": 0.908
+    },
+    {
+     "month": "Jun",
+     "rainfall": 133.2,
+     "tempMin": 21.5,
+     "tempMax": 28.5,
+     "soilMoisture": 0.871
+    },
+    {
+     "month": "Jul",
+     "rainfall": 84.2,
+     "tempMin": 20.2,
+     "tempMax": 28.0,
+     "soilMoisture": 0.815
+    },
+    {
+     "month": "Aug",
+     "rainfall": 44.8,
+     "tempMin": 19.6,
+     "tempMax": 28.4,
+     "soilMoisture": 0.741
+    },
+    {
+     "month": "Sep",
+     "rainfall": 80.5,
+     "tempMin": 20.5,
+     "tempMax": 29.7,
+     "soilMoisture": 0.682
+    },
+    {
+     "month": "Oct",
+     "rainfall": 208.4,
+     "tempMin": 21.9,
+     "tempMax": 30.4,
+     "soilMoisture": 0.684
+    },
+    {
+     "month": "Nov",
+     "rainfall": 310.8,
+     "tempMin": 22.9,
+     "tempMax": 29.4,
+     "soilMoisture": 0.764
+    },
+    {
+     "month": "Dec",
+     "rainfall": 334.5,
+     "tempMin": 22.8,
+     "tempMax": 28.6,
+     "soilMoisture": 0.827
+    }
+   ],
+   "ndviTimeSeries": [],
+   "dataAvailability": {
+    "hasObservedRotation": false,
+    "hasFieldSoilSurvey": false,
+    "hasSatelliteNdvi": false,
+    "hasDailyPrecipitation": true,
+    "overallConfidence": "LOW",
+    "missingDataNotes": [
+     "Current rotation is the team's assumption; confirm with the farmer.",
+     "Soil values are SoilGrids 250 m model estimates, not a field survey.",
+     "Rainfall and soil wetness are NASA POWER reanalysis (~0.5 degree grid).",
+     "SoilGrids organic matter is above 8 %, outside the AWC equation's range (capped at 8 %); AWC is indicative. Check with a local soil test.",
+     "HLS NDVI not yet downloaded (AppEEARS job hls_fields)."
+    ]
+   },
+   "provenance": {
+    "elevationSlope": "SRTMGL1 v003, 3x3 mean around the point",
+    "soil": "SoilGrids 2.0 0-30 cm, nearest grid point 1.41 km; sand 26.3%, silt 36.8%, clay 36.9%; AWC by Saxton & Rawls (2006)",
+    "climate": "NASA POWER power_-7.75_+109.25.csv, monthly normals 1991-2020",
+    "ndvi": null
+   }
+  }
+ ],
+ "compare": {
+  "el_nino": {
+   "site": "banyumas",
+   "analogs": {
+    "grouping": "enso",
+    "phase": "el_nino",
+    "years": [
+     1991,
+     1997,
+     2002,
+     2004,
+     2006,
+     2009,
+     2015,
+     2018,
+     2023
+    ]
+   },
+   "weights": {
+    "water": 1.0,
+    "soil_health": 1.0,
+    "erosion": 1.0,
+    "pest_break": 0.5
+   },
+   "risk_aversion": 0.5,
+   "strategies": [
+    {
+     "key": "id_rice_maize_groundnut",
+     "name": "Rice - maize - groundnut (diversified)",
+     "kind": "alternative",
+     "sequence": [
+      {
+       "MT1_wet": "Rice (paddy)",
+       "MT2_wet_dry": "Maize",
+       "MT3_dry": "Groundnut"
+      }
+     ],
+     "metrics": {
+      "irrigation_mean_mm": 157.7,
+      "irrigation_cvar_mm": 439.6,
+      "cover_share": 0.958,
+      "legume_share": 0.304,
+      "families": 3,
+      "pest_break_share": 1.0,
+      "erosion_index": 112.4,
+      "soil_health": 0.754
+     },
+     "utilities": {
+      "water": 0.0,
+      "soil_health": 1.0,
+      "erosion": 1.0,
+      "pest_break": 1.0
+     },
+     "score": 0.714,
+     "rank": 1,
+     "pareto_optimal": true,
+     "card": {
+      "why": "Replaces the second rice crop with maize and adds groundnut, lowering paddy water use and diversifying crop families.",
+      "evidence": [
+       "Climate analogs (enso = el_nino, n=9): 1991, 1997, 2002, 2004, 2006, 2009, 2015, 2018, 2023. Seasonal rainfall and ET0 from NASA POWER daily data (1991-2025).",
+       "Irrigation need 158 mm per rotation year on average; 440 mm in the worst 20 % of analog years.",
+       "49% of the site area has slopes above 10 % (SRTM)."
+      ],
+      "benefits": [
+       "Living cover 96% of the year vs 67% now.",
+       "More legume months, which add biological nitrogen.",
+       "Less rain falling on bare soil, lowering erosion exposure.",
+       "More changes of crop family, which can interrupt pest cycles."
+      ],
+      "gaps": [
+       "Soil drainage class is not available for Banyumas at field scale.",
+       "Rainfall and soil wetness come from NASA POWER (reanalysis-based, ~0.5 degree).",
+       "SMAP satellite soil moisture not yet included.",
+       "MODIS NDVI (bare-field timing, crop stress) not yet included.",
+       "ET0 uses Hargreaves-Samani from temperature; months outside the modelled seasons are not counted.",
+       "Crop prices, yields and labour are not modelled."
+      ],
+      "risks_for_local_review": [
+       "Maize and groundnut need well-drained fields; check drainage locally.",
+       "Market access for maize and groundnut must be confirmed."
+      ],
+      "confidence": "medium",
+      "confidence_reasons": [
+       "No satellite soil moisture yet."
+      ]
+     }
+    },
+    {
+     "key": "id_rice_rice_soybean",
+     "name": "Rice - rice - soybean in the dry season",
+     "kind": "alternative",
+     "sequence": [
+      {
+       "MT1_wet": "Rice (paddy)",
+       "MT2_wet_dry": "Rice (paddy)",
+       "MT3_dry": "Soybean"
+      }
+     ],
+     "metrics": {
+      "irrigation_mean_mm": 133.2,
+      "irrigation_cvar_mm": 383.4,
+      "cover_share": 0.917,
+      "legume_share": 0.273,
+      "families": 2,
+      "pest_break_share": 0.667,
+      "erosion_index": 224.7,
+      "soil_health": 0.619
+     },
+     "utilities": {
+      "water": 0.155,
+      "soil_health": 0.679,
+      "erosion": 0.857,
+      "pest_break": 0.0
+     },
+     "score": 0.483,
+     "rank": 2,
+     "pareto_optimal": true,
+     "card": {
+      "why": "A short legume in the dry season adds cover, nitrogen and income, and breaks the rice pest cycle.",
+      "evidence": [
+       "Climate analogs (enso = el_nino, n=9): 1991, 1997, 2002, 2004, 2006, 2009, 2015, 2018, 2023. Seasonal rainfall and ET0 from NASA POWER daily data (1991-2025).",
+       "Irrigation need 133 mm per rotation year on average; 383 mm in the worst 20 % of analog years.",
+       "49% of the site area has slopes above 10 % (SRTM)."
+      ],
+      "benefits": [
+       "Living cover 92% of the year vs 67% now.",
+       "More legume months, which add biological nitrogen.",
+       "Less rain falling on bare soil, lowering erosion exposure."
+      ],
+      "gaps": [
+       "Paddy percolation and puddling are not modelled.",
+       "Rainfall and soil wetness come from NASA POWER (reanalysis-based, ~0.5 degree).",
+       "SMAP satellite soil moisture not yet included.",
+       "MODIS NDVI (bare-field timing, crop stress) not yet included.",
+       "ET0 uses Hargreaves-Samani from temperature; months outside the modelled seasons are not counted.",
+       "Crop prices, yields and labour are not modelled."
+      ],
+      "risks_for_local_review": [
+       "Dry-season water may not be enough in dry analog years."
+      ],
+      "confidence": "medium",
+      "confidence_reasons": [
+       "No satellite soil moisture yet."
+      ]
+     }
+    },
+    {
+     "key": "id_baseline_rice_rice_fallow",
+     "name": "Assumed current: rice - rice - dry-season fallow",
+     "kind": "baseline",
+     "sequence": [
+      {
+       "MT1_wet": "Rice (paddy)",
+       "MT2_wet_dry": "Rice (paddy)",
+       "MT3_dry": "fallow"
+      }
+     ],
+     "metrics": {
+      "irrigation_mean_mm": 13.9,
+      "irrigation_cvar_mm": 62.6,
+      "cover_share": 0.667,
+      "legume_share": 0.0,
+      "families": 1,
+      "pest_break_share": 0.667,
+      "erosion_index": 898.9,
+      "soil_health": 0.333
+     },
+     "utilities": {
+      "water": 1.0,
+      "soil_health": 0.0,
+      "erosion": 0.0,
+      "pest_break": 0.0
+     },
+     "score": 0.286,
+     "rank": 3,
+     "pareto_optimal": true,
+     "card": {
+      "why": "Common irrigated-lowland pattern used as a placeholder; replace it with the farmer's own rotation (no satellite crop map is used for Indonesia).",
+      "evidence": [
+       "Climate analogs (enso = el_nino, n=9): 1991, 1997, 2002, 2004, 2006, 2009, 2015, 2018, 2023. Seasonal rainfall and ET0 from NASA POWER daily data (1991-2025).",
+       "Irrigation need 14 mm per rotation year on average; 63 mm in the worst 20 % of analog years.",
+       "49% of the site area has slopes above 10 % (SRTM)."
+      ],
+      "benefits": [
+       "Reference point: other strategies are compared against this rotation."
+      ],
+      "gaps": [
+       "Baseline is an assumption until the farmer enters the actual rotation.",
+       "Rainfall and soil wetness come from NASA POWER (reanalysis-based, ~0.5 degree).",
+       "SMAP satellite soil moisture not yet included.",
+       "MODIS NDVI (bare-field timing, crop stress) not yet included.",
+       "ET0 uses Hargreaves-Samani from temperature; months outside the modelled seasons are not counted.",
+       "Crop prices, yields and labour are not modelled."
+      ],
+      "risks_for_local_review": [
+       "Bare dry season leaves soil exposed and earns no income."
+      ],
+      "confidence": "low",
+      "confidence_reasons": [
+       "Rotation is an assumption, not observed.",
+       "No satellite soil moisture yet."
+      ]
+     }
+    }
+   ],
+   "field_ctx": null,
+   "scenario": {
+    "rain_anomaly_pct": 0.0,
+    "temp_delta_c": 0.0
+   },
+   "disclaimer": "Decision support only. Results come from historical climate analogs and simple water and soil indicators; they do not replace farmer judgement or local agronomic advice."
+  },
+  "neutral": {
+   "site": "banyumas",
+   "analogs": {
+    "grouping": "enso",
+    "phase": "neutral",
+    "years": [
+     1992,
+     1993,
+     1994,
+     1996,
+     2000,
+     2001,
+     2003,
+     2005,
+     2008,
+     2012,
+     2013,
+     2014,
+     2016,
+     2017,
+     2019,
+     2024
+    ]
+   },
+   "weights": {
+    "water": 1.0,
+    "soil_health": 1.0,
+    "erosion": 1.0,
+    "pest_break": 0.5
+   },
+   "risk_aversion": 0.5,
+   "strategies": [
+    {
+     "key": "id_rice_maize_groundnut",
+     "name": "Rice - maize - groundnut (diversified)",
+     "kind": "alternative",
+     "sequence": [
+      {
+       "MT1_wet": "Rice (paddy)",
+       "MT2_wet_dry": "Maize",
+       "MT3_dry": "Groundnut"
+      }
+     ],
+     "metrics": {
+      "irrigation_mean_mm": 315.6,
+      "irrigation_cvar_mm": 575.6,
+      "cover_share": 0.958,
+      "legume_share": 0.304,
+      "families": 3,
+      "pest_break_share": 1.0,
+      "erosion_index": 57.5,
+      "soil_health": 0.754
+     },
+     "utilities": {
+      "water": 0.0,
+      "soil_health": 1.0,
+      "erosion": 1.0,
+      "pest_break": 1.0
+     },
+     "score": 0.714,
+     "rank": 1,
+     "pareto_optimal": true,
+     "card": {
+      "why": "Replaces the second rice crop with maize and adds groundnut, lowering paddy water use and diversifying crop families.",
+      "evidence": [
+       "Climate analogs (enso = neutral, n=16): 1992, 1993, 1994, 1996, 2000, 2001, 2003, 2005, 2008, 2012, 2013, 2014, 2016, 2017, 2019, 2024. Seasonal rainfall and ET0 from NASA POWER daily data (1991-2025).",
+       "Irrigation need 316 mm per rotation year on average; 576 mm in the worst 20 % of analog years.",
+       "49% of the site area has slopes above 10 % (SRTM)."
+      ],
+      "benefits": [
+       "Living cover 96% of the year vs 67% now.",
+       "More legume months, which add biological nitrogen.",
+       "Less rain falling on bare soil, lowering erosion exposure.",
+       "More changes of crop family, which can interrupt pest cycles."
+      ],
+      "gaps": [
+       "Soil drainage class is not available for Banyumas at field scale.",
+       "Rainfall and soil wetness come from NASA POWER (reanalysis-based, ~0.5 degree).",
+       "SMAP satellite soil moisture not yet included.",
+       "MODIS NDVI (bare-field timing, crop stress) not yet included.",
+       "ET0 uses Hargreaves-Samani from temperature; months outside the modelled seasons are not counted.",
+       "Crop prices, yields and labour are not modelled."
+      ],
+      "risks_for_local_review": [
+       "Maize and groundnut need well-drained fields; check drainage locally.",
+       "Market access for maize and groundnut must be confirmed."
+      ],
+      "confidence": "medium",
+      "confidence_reasons": [
+       "No satellite soil moisture yet."
+      ]
+     }
+    },
+    {
+     "key": "id_rice_rice_soybean",
+     "name": "Rice - rice - soybean in the dry season",
+     "kind": "alternative",
+     "sequence": [
+      {
+       "MT1_wet": "Rice (paddy)",
+       "MT2_wet_dry": "Rice (paddy)",
+       "MT3_dry": "Soybean"
+      }
+     ],
+     "metrics": {
+      "irrigation_mean_mm": 268.0,
+      "irrigation_cvar_mm": 517.3,
+      "cover_share": 0.917,
+      "legume_share": 0.273,
+      "families": 2,
+      "pest_break_share": 0.667,
+      "erosion_index": 115.1,
+      "soil_health": 0.619
+     },
+     "utilities": {
+      "water": 0.159,
+      "soil_health": 0.679,
+      "erosion": 0.857,
+      "pest_break": 0.0
+     },
+     "score": 0.484,
+     "rank": 2,
+     "pareto_optimal": true,
+     "card": {
+      "why": "A short legume in the dry season adds cover, nitrogen and income, and breaks the rice pest cycle.",
+      "evidence": [
+       "Climate analogs (enso = neutral, n=16): 1992, 1993, 1994, 1996, 2000, 2001, 2003, 2005, 2008, 2012, 2013, 2014, 2016, 2017, 2019, 2024. Seasonal rainfall and ET0 from NASA POWER daily data (1991-2025).",
+       "Irrigation need 268 mm per rotation year on average; 517 mm in the worst 20 % of analog years.",
+       "49% of the site area has slopes above 10 % (SRTM)."
+      ],
+      "benefits": [
+       "Living cover 92% of the year vs 67% now.",
+       "More legume months, which add biological nitrogen.",
+       "Less rain falling on bare soil, lowering erosion exposure."
+      ],
+      "gaps": [
+       "Paddy percolation and puddling are not modelled.",
+       "Rainfall and soil wetness come from NASA POWER (reanalysis-based, ~0.5 degree).",
+       "SMAP satellite soil moisture not yet included.",
+       "MODIS NDVI (bare-field timing, crop stress) not yet included.",
+       "ET0 uses Hargreaves-Samani from temperature; months outside the modelled seasons are not counted.",
+       "Crop prices, yields and labour are not modelled."
+      ],
+      "risks_for_local_review": [
+       "Dry-season water may not be enough in dry analog years."
+      ],
+      "confidence": "medium",
+      "confidence_reasons": [
+       "No satellite soil moisture yet."
+      ]
+     }
+    },
+    {
+     "key": "id_baseline_rice_rice_fallow",
+     "name": "Assumed current: rice - rice - dry-season fallow",
+     "kind": "baseline",
+     "sequence": [
+      {
+       "MT1_wet": "Rice (paddy)",
+       "MT2_wet_dry": "Rice (paddy)",
+       "MT3_dry": "fallow"
+      }
+     ],
+     "metrics": {
+      "irrigation_mean_mm": 58.7,
+      "irrigation_cvar_mm": 167.0,
+      "cover_share": 0.667,
+      "legume_share": 0.0,
+      "families": 1,
+      "pest_break_share": 0.667,
+      "erosion_index": 460.3,
+      "soil_health": 0.333
+     },
+     "utilities": {
+      "water": 1.0,
+      "soil_health": 0.0,
+      "erosion": 0.0,
+      "pest_break": 0.0
+     },
+     "score": 0.286,
+     "rank": 3,
+     "pareto_optimal": true,
+     "card": {
+      "why": "Common irrigated-lowland pattern used as a placeholder; replace it with the farmer's own rotation (no satellite crop map is used for Indonesia).",
+      "evidence": [
+       "Climate analogs (enso = neutral, n=16): 1992, 1993, 1994, 1996, 2000, 2001, 2003, 2005, 2008, 2012, 2013, 2014, 2016, 2017, 2019, 2024. Seasonal rainfall and ET0 from NASA POWER daily data (1991-2025).",
+       "Irrigation need 59 mm per rotation year on average; 167 mm in the worst 20 % of analog years.",
+       "49% of the site area has slopes above 10 % (SRTM)."
+      ],
+      "benefits": [
+       "Reference point: other strategies are compared against this rotation."
+      ],
+      "gaps": [
+       "Baseline is an assumption until the farmer enters the actual rotation.",
+       "Rainfall and soil wetness come from NASA POWER (reanalysis-based, ~0.5 degree).",
+       "SMAP satellite soil moisture not yet included.",
+       "MODIS NDVI (bare-field timing, crop stress) not yet included.",
+       "ET0 uses Hargreaves-Samani from temperature; months outside the modelled seasons are not counted.",
+       "Crop prices, yields and labour are not modelled."
+      ],
+      "risks_for_local_review": [
+       "Bare dry season leaves soil exposed and earns no income."
+      ],
+      "confidence": "low",
+      "confidence_reasons": [
+       "Rotation is an assumption, not observed.",
+       "No satellite soil moisture yet."
+      ]
+     }
+    }
+   ],
+   "field_ctx": null,
+   "scenario": {
+    "rain_anomaly_pct": 0.0,
+    "temp_delta_c": 0.0
+   },
+   "disclaimer": "Decision support only. Results come from historical climate analogs and simple water and soil indicators; they do not replace farmer judgement or local agronomic advice."
+  },
+  "la_nina": {
+   "site": "banyumas",
+   "analogs": {
+    "grouping": "enso",
+    "phase": "la_nina",
+    "years": [
+     1995,
+     1998,
+     1999,
+     2007,
+     2010,
+     2011,
+     2020,
+     2021,
+     2022
+    ]
+   },
+   "weights": {
+    "water": 1.0,
+    "soil_health": 1.0,
+    "erosion": 1.0,
+    "pest_break": 0.5
+   },
+   "risk_aversion": 0.5,
+   "strategies": [
+    {
+     "key": "id_rice_maize_groundnut",
+     "name": "Rice - maize - groundnut (diversified)",
+     "kind": "alternative",
+     "sequence": [
+      {
+       "MT1_wet": "Rice (paddy)",
+       "MT2_wet_dry": "Maize",
+       "MT3_dry": "Groundnut"
+      }
+     ],
+     "metrics": {
+      "irrigation_mean_mm": 292.3,
+      "irrigation_cvar_mm": 461.3,
+      "cover_share": 0.958,
+      "legume_share": 0.304,
+      "families": 3,
+      "pest_break_share": 1.0,
+      "erosion_index": 60.3,
+      "soil_health": 0.754
+     },
+     "utilities": {
+      "water": 0.0,
+      "soil_health": 1.0,
+      "erosion": 1.0,
+      "pest_break": 1.0
+     },
+     "score": 0.714,
+     "rank": 1,
+     "pareto_optimal": true,
+     "card": {
+      "why": "Replaces the second rice crop with maize and adds groundnut, lowering paddy water use and diversifying crop families.",
+      "evidence": [
+       "Climate analogs (enso = la_nina, n=9): 1995, 1998, 1999, 2007, 2010, 2011, 2020, 2021, 2022. Seasonal rainfall and ET0 from NASA POWER daily data (1991-2025).",
+       "Irrigation need 292 mm per rotation year on average; 461 mm in the worst 20 % of analog years.",
+       "49% of the site area has slopes above 10 % (SRTM)."
+      ],
+      "benefits": [
+       "Living cover 96% of the year vs 67% now.",
+       "More legume months, which add biological nitrogen.",
+       "Less rain falling on bare soil, lowering erosion exposure.",
+       "More changes of crop family, which can interrupt pest cycles."
+      ],
+      "gaps": [
+       "Soil drainage class is not available for Banyumas at field scale.",
+       "Rainfall and soil wetness come from NASA POWER (reanalysis-based, ~0.5 degree).",
+       "SMAP satellite soil moisture not yet included.",
+       "MODIS NDVI (bare-field timing, crop stress) not yet included.",
+       "ET0 uses Hargreaves-Samani from temperature; months outside the modelled seasons are not counted.",
+       "Crop prices, yields and labour are not modelled."
+      ],
+      "risks_for_local_review": [
+       "Maize and groundnut need well-drained fields; check drainage locally.",
+       "Market access for maize and groundnut must be confirmed."
+      ],
+      "confidence": "medium",
+      "confidence_reasons": [
+       "No satellite soil moisture yet."
+      ]
+     }
+    },
+    {
+     "key": "id_rice_rice_soybean",
+     "name": "Rice - rice - soybean in the dry season",
+     "kind": "alternative",
+     "sequence": [
+      {
+       "MT1_wet": "Rice (paddy)",
+       "MT2_wet_dry": "Rice (paddy)",
+       "MT3_dry": "Soybean"
+      }
+     ],
+     "metrics": {
+      "irrigation_mean_mm": 245.5,
+      "irrigation_cvar_mm": 405.8,
+      "cover_share": 0.917,
+      "legume_share": 0.273,
+      "families": 2,
+      "pest_break_share": 0.667,
+      "erosion_index": 120.7,
+      "soil_health": 0.619
+     },
+     "utilities": {
+      "water": 0.163,
+      "soil_health": 0.679,
+      "erosion": 0.857,
+      "pest_break": 0.0
+     },
+     "score": 0.485,
+     "rank": 2,
+     "pareto_optimal": true,
+     "card": {
+      "why": "A short legume in the dry season adds cover, nitrogen and income, and breaks the rice pest cycle.",
+      "evidence": [
+       "Climate analogs (enso = la_nina, n=9): 1995, 1998, 1999, 2007, 2010, 2011, 2020, 2021, 2022. Seasonal rainfall and ET0 from NASA POWER daily data (1991-2025).",
+       "Irrigation need 246 mm per rotation year on average; 406 mm in the worst 20 % of analog years.",
+       "49% of the site area has slopes above 10 % (SRTM)."
+      ],
+      "benefits": [
+       "Living cover 92% of the year vs 67% now.",
+       "More legume months, which add biological nitrogen.",
+       "Less rain falling on bare soil, lowering erosion exposure."
+      ],
+      "gaps": [
+       "Paddy percolation and puddling are not modelled.",
+       "Rainfall and soil wetness come from NASA POWER (reanalysis-based, ~0.5 degree).",
+       "SMAP satellite soil moisture not yet included.",
+       "MODIS NDVI (bare-field timing, crop stress) not yet included.",
+       "ET0 uses Hargreaves-Samani from temperature; months outside the modelled seasons are not counted.",
+       "Crop prices, yields and labour are not modelled."
+      ],
+      "risks_for_local_review": [
+       "Dry-season water may not be enough in dry analog years."
+      ],
+      "confidence": "medium",
+      "confidence_reasons": [
+       "No satellite soil moisture yet."
+      ]
+     }
+    },
+    {
+     "key": "id_baseline_rice_rice_fallow",
+     "name": "Assumed current: rice - rice - dry-season fallow",
+     "kind": "baseline",
+     "sequence": [
+      {
+       "MT1_wet": "Rice (paddy)",
+       "MT2_wet_dry": "Rice (paddy)",
+       "MT3_dry": "fallow"
+      }
+     ],
+     "metrics": {
+      "irrigation_mean_mm": 39.8,
+      "irrigation_cvar_mm": 88.1,
+      "cover_share": 0.667,
+      "legume_share": 0.0,
+      "families": 1,
+      "pest_break_share": 0.667,
+      "erosion_index": 482.7,
+      "soil_health": 0.333
+     },
+     "utilities": {
+      "water": 1.0,
+      "soil_health": 0.0,
+      "erosion": 0.0,
+      "pest_break": 0.0
+     },
+     "score": 0.286,
+     "rank": 3,
+     "pareto_optimal": true,
+     "card": {
+      "why": "Common irrigated-lowland pattern used as a placeholder; replace it with the farmer's own rotation (no satellite crop map is used for Indonesia).",
+      "evidence": [
+       "Climate analogs (enso = la_nina, n=9): 1995, 1998, 1999, 2007, 2010, 2011, 2020, 2021, 2022. Seasonal rainfall and ET0 from NASA POWER daily data (1991-2025).",
+       "Irrigation need 40 mm per rotation year on average; 88 mm in the worst 20 % of analog years.",
+       "49% of the site area has slopes above 10 % (SRTM)."
+      ],
+      "benefits": [
+       "Reference point: other strategies are compared against this rotation."
+      ],
+      "gaps": [
+       "Baseline is an assumption until the farmer enters the actual rotation.",
+       "Rainfall and soil wetness come from NASA POWER (reanalysis-based, ~0.5 degree).",
+       "SMAP satellite soil moisture not yet included.",
+       "MODIS NDVI (bare-field timing, crop stress) not yet included.",
+       "ET0 uses Hargreaves-Samani from temperature; months outside the modelled seasons are not counted.",
+       "Crop prices, yields and labour are not modelled."
+      ],
+      "risks_for_local_review": [
+       "Bare dry season leaves soil exposed and earns no income."
+      ],
+      "confidence": "low",
+      "confidence_reasons": [
+       "Rotation is an assumption, not observed.",
+       "No satellite soil moisture yet."
+      ]
+     }
+    }
+   ],
+   "field_ctx": null,
+   "scenario": {
+    "rain_anomaly_pct": 0.0,
+    "temp_delta_c": 0.0
+   },
+   "disclaimer": "Decision support only. Results come from historical climate analogs and simple water and soil indicators; they do not replace farmer judgement or local agronomic advice."
+  }
+ }
+}

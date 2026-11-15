@@ -11,7 +11,7 @@ export const getNasaSensors = (lang: Language): DataSensor[] => [
       ? 'Crop phenology curves, NDVI trajectory, and fallow window detection.'
       : 'Deteksi siklus tanam, kurva fenologi NDVI, dan durasi lahan bera (fallow window).',
     scaleType: 'plot',
-    status: 'active',
+    status: 'optional',
     description: lang === 'en'
       ? 'Harmonized Landsat-8 and Sentinel-2 multispectral surface reflectance at high spatial resolution.'
       : 'Harmonized Landsat-8 dan Sentinel-2 menyediakan citra multispektral permukaan daratan resolusi tinggi.',
@@ -26,7 +26,7 @@ export const getNasaSensors = (lang: Language): DataSensor[] => [
       ? 'Evaporative Stress Index (ESI) detecting crop water stress before visible wilting.'
       : 'Indeks Stres Evaporatif (Evaporative Stress Index / ESI) berbasis suhu kanopi tanaman.',
     scaleType: 'plot',
-    status: 'active',
+    status: 'backup',
     description: lang === 'en'
       ? 'Thermal infrared radiometer aboard ISS tracking actual vs potential crop transpiration.'
       : 'Mengukur stres transpirasi tanaman dan konsumsi air aktual vs potensial sebelum gejala visual tampak.',
@@ -56,7 +56,7 @@ export const getNasaSensors = (lang: Language): DataSensor[] => [
       ? '25-year daily rainfall reconstruction and monsoon onset delay detection.'
       : 'Rekonstruksi curah hujan harian 25 tahun dan penentuan tanggal awal musim hujan (monsoon onset).',
     scaleType: 'regional',
-    status: 'active',
+    status: 'backup',
     description: lang === 'en'
       ? 'Multi-satellite constellation precipitation calibrated against global gauge networks.'
       : 'Kombinasi sensor gelombang mikro pasif konstelasi satelit global dan kalibrasi stasiun hujan darat.',
@@ -71,7 +71,7 @@ export const getNasaSensors = (lang: Language): DataSensor[] => [
       ? 'Root-zone soil moisture (0–100 cm) available during critical dry transitions.'
       : 'Estimasi lengas tanah zona perakaran (root-zone 0–100 cm) selama masa transisi musim kemarau.',
     scaleType: 'basin',
-    status: 'context',
+    status: 'optional',
     description: lang === 'en'
       ? 'L-band radar assimilation with catchment land surface models; used as regional basin context.'
       : 'Asimilasi observasi radar L-band dengan model permukaan tanah catchment-scale, disajikan sebagai konteks cekungan DAS.',
@@ -86,7 +86,7 @@ export const getNasaSensors = (lang: Language): DataSensor[] => [
       ? 'Solar irradiance, thermal limits (Tmin/Tmax), humidity, and FAO Penman-Monteith ET0.'
       : 'Radiasi matahari harian, suhu ekstrem (Tmin/Tmax), kelembapan relatif, dan estimasi ET0 FAO Penman-Monteith.',
     scaleType: 'regional',
-    status: 'context',
+    status: 'active',
     description: lang === 'en'
       ? 'Long-term agrometeorological dataset for crop water balance and growing degree days (GDD).'
       : 'Data agrometeorologi jangka panjang untuk mensimulasikan neraca air tanaman dan derajat hari tumbuh (GDD).',
@@ -101,7 +101,7 @@ export const getNasaSensors = (lang: Language): DataSensor[] => [
       ? 'Soil texture fractions (clay/silt/sand), pH, organic carbon, and available water capacity (AWC).'
       : 'Distribusi fraksi tanah (liat, lempung, pasir), pH, bahan organik, dan kapasitas simpan air (AWC).',
     scaleType: 'regional',
-    status: 'context',
+    status: 'active',
     description: lang === 'en'
       ? 'Global machine-learning soil property predictions at 250m spatial resolution.'
       : 'Pemodelan machine learning sifat fisik dan kimiawi tanah global dengan resolusi 250m.',
@@ -135,7 +135,7 @@ export const getAllDataResources = (lang: Language): DataSensor[] => [
       ? 'Field-scale actual crop water consumption flux (ETa).'
       : 'Estimasi fluks konsumsi air tanaman aktual (ETa) per petak sawah.',
     scaleType: 'plot',
-    status: 'active',
+    status: 'backup',
     description: lang === 'en'
       ? 'Priestley-Taylor JPL model decoupling canopy transpiration from soil evaporation.'
       : 'Model Priestley-Taylor JPL menghitung evaporasi kanopi dan tanah secara terpisah.',
@@ -225,7 +225,7 @@ export const getAllDataResources = (lang: Language): DataSensor[] => [
       ? 'Ultra-high resolution vegetation indices (NDVI, NDRE) for bund delineation.'
       : 'Indeks vegetasi resolusi ultra-tinggi (NDVI, NDRE) untuk batas pematang mikro.',
     scaleType: 'plot',
-    status: 'active',
+    status: 'context',
     description: lang === 'en'
       ? '13 spectral bands with red-edge channels for crop canopy nitrogen assessment.'
       : 'Citra optik 13 saluran spektral termasuk red-edge untuk deteksi klorofil tanaman.',
@@ -285,7 +285,7 @@ export const getAllDataResources = (lang: Language): DataSensor[] => [
       ? 'Benchmark for USLE soil erosion modeling on terrace slopes.'
       : 'Benchmark kalibrasi model erosi USLE untuk topografi terasering miring.',
     scaleType: 'plot',
-    status: 'optional',
+    status: 'active',
     description: lang === 'en'
       ? 'Highest resolution soil survey for testing surface runoff algorithms.'
       : 'Survei tanah resolusi tertinggi AS untuk pengujian algoritma limpasan air.',
@@ -403,9 +403,9 @@ export const getPipelineSteps = (lang: Language): PipelineStep[] => [
     title: lang === 'en' ? 'Assimilate Multi-Sensor Streams' : 'Selaraskan Data Multi-Sensor',
     shortDesc: lang === 'en' ? 'Spatial harmonization across tiered scales.' : 'Harmonisasi koordinat geografis dan resolusi spasial bertingkat.',
     detail: lang === 'en'
-      ? 'Ingests plot-level HLS 30m optical, ECOSTRESS 70m thermal, SMAP 9km microwave radar, and POWER 0.5° climate onto a unified EPSG:4326 geospatial grid.'
-      : 'Mengintegrasikan data optik resolusi petak HLS 30m, termal ECOSTRESS 70m, radar SMAP 9km, dan iklim NASA POWER 0.5° ke dalam satu grid geospasial terkalibrasi EPSG:4326.',
-    sensors: ['HLS 30m', 'ECOSTRESS 70m', 'SMAP 9km', 'POWER 0.5°'],
+      ? 'Combines NASA POWER 0.5° daily climate, SRTM 30 m terrain and SoilGrids soil texture per plot; HLS 30 m NDVI and SMAP 9 km soil moisture are added as AppEEARS extractions finish.'
+      : 'Menggabungkan iklim harian NASA POWER 0.5°, medan SRTM 30 m, dan tekstur tanah SoilGrids per petak; NDVI HLS 30 m dan kelembapan tanah SMAP 9 km ditambahkan setelah ekstraksi AppEEARS selesai.',
+    sensors: ['POWER 0.5°', 'SRTM 30m', 'HLS 30m*', 'SMAP 9km*'],
     iconName: 'Layers',
   },
   {

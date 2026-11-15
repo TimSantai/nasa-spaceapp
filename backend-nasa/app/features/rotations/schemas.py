@@ -19,6 +19,13 @@ class Priorities(BaseModel):
     pest_break: float = Field(default=0.5, ge=0, le=1)
 
 
+class ScenarioIn(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    rain_anomaly_pct: float = Field(default=0, ge=-50, le=50, description="Rainfall change, %")
+    temp_delta_c: float = Field(default=0, ge=-2, le=4, description="Air temperature change, C")
+
+
 class CompareRequest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -29,6 +36,12 @@ class CompareRequest(BaseModel):
     )
     enso_phase: EnsoPhase | None = Field(default=None, description="Default: latest observed")
     iod_phase: IodPhase | None = Field(default=None, description="Default: latest observed")
+    field_id: str | None = Field(
+        default=None,
+        pattern=r"^[a-z0-9_-]{1,64}$",
+        description="Use this field's slope and soil water capacity (from /api/v1/fields)",
+    )
+    scenario: ScenarioIn = Field(default_factory=ScenarioIn)
     baseline: list[dict[str, str]] | None = Field(
         default=None,
         min_length=1,
@@ -88,10 +101,23 @@ class StrategyOut(BaseModel):
     card: EvidenceCardOut
 
 
+class FieldContextOut(BaseModel):
+    field_id: str
+    slope_pct: float
+    awc_mm_per_m: float
+
+
+class ScenarioOut(BaseModel):
+    rain_anomaly_pct: float
+    temp_delta_c: float
+
+
 class ComparisonOut(BaseModel):
     site: str
     analogs: AnalogsOut
     weights: dict[str, float]
     risk_aversion: float
     strategies: list[StrategyOut]
+    field_ctx: FieldContextOut | None = None
+    scenario: ScenarioOut
     disclaimer: str

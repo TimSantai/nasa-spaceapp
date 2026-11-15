@@ -17,12 +17,13 @@ export interface StrategyConstraintRequirements {
   requiresSpecializedMarket: boolean;
 }
 
+// Objectives computed by the backend rotation engine (no yield or labour model exists).
 export interface PriorityWeights {
-  yield: number;            // 0 - 100
-  waterEfficiency: number;  // 0 - 100
-  soilHealth: number;       // 0 - 100
-  coverDays: number;        // 0 - 100
-  laborDemand: number;      // 0 - 100
+  waterEfficiency: number;  // 0 - 100: low irrigation need
+  soilHealth: number;       // 0 - 100: cover, legume share, crop diversity
+  coverDays: number;        // 0 - 100: share of the year under living cover
+  erosionControl: number;   // 0 - 100: little rain on bare soil (slope-weighted)
+  pestBreak: number;        // 0 - 100: changes of crop family between seasons
 }
 
 export interface PplBriefMetadata {
@@ -32,13 +33,26 @@ export interface PplBriefMetadata {
   notes: string;
 }
 
+// 0-100 scores. waterEfficiency and erosionControl are relative to the strategies compared
+// (100 = best of them); soilHealth, coverDays and pestBreak are absolute indicators x 100.
 export interface ScoreSet {
-  yield: number;            // 0 - 100
-  waterEfficiency: number;  // 0 - 100
-  soilHealth: number;       // 0 - 100
-  coverDays: number;        // 0 - 100
-  laborDemand: number;      // 0 - 100 (lower demand = higher score)
+  waterEfficiency: number;
+  soilHealth: number;
+  coverDays: number;
+  erosionControl: number;
+  pestBreak: number;
   overall: number;          // Weighted score 0 - 100
+}
+
+// Physical indicators from the engine, shown next to the relative scores.
+export interface StrategyMetrics {
+  irrigationMeanMm: number;   // per rotation year, mean of analog years
+  irrigationWorstMm: number;  // CVaR20: mean of the driest 20 % of analog years
+  coverShare: number;         // 0-1
+  legumeShare: number;        // 0-1
+  erosionIndex: number;       // rain on bare soil x RUSLE slope factor, per rotation year
+  analogYears: number[];
+  analogGrouping: string;     // e.g. "enso = el_nino"
 }
 
 export interface DataSource {
@@ -52,6 +66,7 @@ export interface DataSource {
 
 export interface EvidenceCardData {
   reasoning: string;
+  evidence?: string[];      // quantitative evidence lines from the engine
   dataSources: DataSource[];
   benefits: string[];
   dataGaps: string[];
@@ -74,6 +89,7 @@ export interface Strategy {
   };
   constraintRequirements?: StrategyConstraintRequirements;
   evidence: EvidenceCardData;
+  metrics?: StrategyMetrics;
 }
 
 export interface ClimateMonthData {
@@ -88,6 +104,7 @@ export interface NdviDataPoint {
   month: string;
   ndvi: number;          // 0.0 - 1.0
   phase: 'Land Prep' | 'Vegetative' | 'Reproductive' | 'Fallow (Bera)';
+  observations?: number; // clear-sky HLS scenes behind the monthly median
 }
 
 export interface FieldSoilInfo {
@@ -122,4 +139,5 @@ export interface FieldProfile {
   climateHistory: ClimateMonthData[];
   ndviTimeSeries: NdviDataPoint[];
   dataAvailability: DataAvailabilityStatus;
+  provenance?: Record<string, string | null>;
 }

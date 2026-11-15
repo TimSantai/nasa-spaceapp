@@ -14,9 +14,7 @@ interface StrategyBoardProps {
 export const StrategyBoard: React.FC<StrategyBoardProps> = ({
   strategies,
   weights,
-  climatePhase,
   constraints,
-  scenario,
   onOpenEvidence,
 }) => {
   // Caution slider: 0 = Pure Mean, 1 = Pure CVaR (Worst Case)
@@ -40,58 +38,36 @@ export const StrategyBoard: React.FC<StrategyBoardProps> = ({
   // Compute composite score for a strategy given weights, caution level, climate phase, and scenario
   const computeCompositeScore = (strat: Strategy) => {
     const totalWeight =
-      weights.yield +
       weights.waterEfficiency +
       weights.soilHealth +
       weights.coverDays +
-      weights.laborDemand || 1;
+      weights.erosionControl +
+      weights.pestBreak || 1;
 
     const calcWeighted = (scores: typeof strat.scores.mean) => {
       const weightedSum =
-        scores.yield * weights.yield +
         scores.waterEfficiency * weights.waterEfficiency +
         scores.soilHealth * weights.soilHealth +
         scores.coverDays * weights.coverDays +
-        scores.laborDemand * weights.laborDemand;
+        scores.erosionControl * weights.erosionControl +
+        scores.pestBreak * weights.pestBreak;
       return weightedSum / totalWeight;
     };
 
     const meanScore = calcWeighted(strat.scores.mean);
     const worstScore = calcWeighted(strat.scores.worstCase);
 
-    const climateMultiplier = climatePhase === 'el_nino' ? 1.2 : climatePhase === 'la_nina' ? 0.9 : 1.0;
-    const effectiveCaution = Math.min(1.0, cautionLevel * climateMultiplier);
-
-    let blended = (1 - effectiveCaution) * meanScore + effectiveCaution * worstScore;
-
-    // Climate Scenario adjustment
-    if (scenario.rainfallAnomalyPercent < 0) {
-      // Drought scenario: penalize strategies with low water efficiency
-      const droughtSeverity = Math.abs(scenario.rainfallAnomalyPercent) / 100; // e.g. 0.20
-      const waterDeficitPenalty = ((100 - strat.scores.worstCase.waterEfficiency) / 100) * droughtSeverity * 15;
-      blended -= waterDeficitPenalty;
-    } else if (scenario.rainfallAnomalyPercent > 0) {
-      // Wet anomaly: bonus for high cover days preventing soil runoff
-      const wetBenefit = (strat.scores.mean.coverDays / 100) * (scenario.rainfallAnomalyPercent / 100) * 5;
-      blended += wetBenefit;
-    }
-
-    if (scenario.temperatureAnomalyDelta > 0) {
-      const heatPenalty = (scenario.temperatureAnomalyDelta / 2.5) * ((100 - strat.scores.worstCase.soilHealth) / 100) * 8;
-      blended -= heatPenalty;
-    }
-
-    // Constraint violation penalty (transparent penalty rather than hiding option)
-    const violations = getViolations(strat);
-    if (violations.length > 0) {
-      blended -= violations.length * 12;
-    }
-
-    return Math.max(10, Math.min(100, Math.round(blended)));
+    // The ENSO phase is already applied by the backend (phase-specific analog years).
+    // Rainfall/temperature scenarios and field soil/slope are computed by the backend engine;
+    // here only the farmer's weights and caution level are applied to the engine scores.
+    const blended = (1 - cautionLevel) * meanScore + cautionLevel * worstScore;
+    return Math.max(0, Math.min(100, Math.round(blended)));
   };
 
+  // Strategies the farmer cannot run (constraints) are listed after feasible ones, not re-scored
   const sortedStrategies = [...strategies].sort((a, b) => {
-    return computeCompositeScore(b) - computeCompositeScore(a);
+    const infeasible = Number(getViolations(a).length > 0) - Number(getViolations(b).length > 0);
+    return infeasible !== 0 ? infeasible : computeCompositeScore(b) - computeCompositeScore(a);
   });
 
   return (
@@ -126,6 +102,10 @@ export const StrategyBoard: React.FC<StrategyBoardProps> = ({
             </span>
           </div>
         </div>
+
+        <p className="mt-3 text-[11px] text-gray-500">
+          Efisiensi Air dan Perlindungan Erosi relatif terhadap strategi yang dibandingkan (100 = terbaik di antaranya); Kesehatan Tanah, Tutupan Lahan dan Pemutus Siklus Hama bernilai absolut (0–100). Fase ENSO, skenario hujan/suhu, lereng dan kapasitas air tanah petak dihitung ulang oleh engine backend.
+        </p>
 
         <div className="mt-4 flex flex-wrap items-center justify-between text-xs text-gray-500 border-t border-gray-100 pt-3 gap-2">
           <span>0% = Rata-Rata Hasil Murni</span>
@@ -251,10 +231,10 @@ export const StrategyBoard: React.FC<StrategyBoardProps> = ({
                 <div className="mt-5 space-y-2 text-xs">
                   <div className="flex items-center justify-between text-gray-600">
                     <span className="flex items-center gap-1.5 font-medium">
-                      <TrendingUp className="h-3.5 w-3.5 text-[#1a7a6d]" /> Hasil Panen
+                      <TrendingUp className="h-3.5 w-3.5 text-[#1a7a6d]" /> Perlindungan Erosi
                     </span>
                     <span className="font-mono font-semibold text-gray-900 tabular-nums">
-                      {strat.scores.mean.yield}%
+                      {strat.scores.mean.erosionControl}%
                     </span>
                   </div>
 
@@ -287,12 +267,21 @@ export const StrategyBoard: React.FC<StrategyBoardProps> = ({
 
                   <div className="flex items-center justify-between text-gray-600">
                     <span className="flex items-center gap-1.5 font-medium">
-                      <ArrowUpDown className="h-3.5 w-3.5 text-slate-500" /> Kemudahan Tenaga Kerja
+                      <ArrowUpDown className="h-3.5 w-3.5 text-slate-500" /> Pemutus Siklus Hama
                     </span>
                     <span className="font-mono font-semibold text-gray-900 tabular-nums">
-                      {strat.scores.mean.laborDemand}%
+                      {strat.scores.mean.pestBreak}%
                     </span>
                   </div>
+
+                  {strat.metrics && (
+                    <p className="pt-2 text-[11px] leading-relaxed text-gray-500 border-t border-gray-100">
+                      Kebutuhan irigasi: <strong className="font-mono text-gray-800">{Math.round(strat.metrics.irrigationMeanMm)} mm/th</strong>
+                      {' '}(tahun terkering 20%: <strong className="font-mono text-gray-800">{Math.round(strat.metrics.irrigationWorstMm)} mm</strong>)
+                      &middot; indeks erosi <strong className="font-mono text-gray-800">{Math.round(strat.metrics.erosionIndex)}</strong>
+                      {' '}&middot; {strat.metrics.analogYears.length} tahun analog ({strat.metrics.analogGrouping})
+                    </p>
+                  )}
                 </div>
               </div>
 

@@ -6,7 +6,7 @@ import pytest
 
 from app.ai.rotation import engine
 from app.ai.rotation.catalog import SITES, TEMPLATES, build_years
-from app.ai.rotation.models import StrategyTemplate
+from app.ai.rotation.models import FieldContext, Scenario, StrategyTemplate
 from app.data.processed import ProcessedRepository, clear_cache
 from tests.rotation_fixtures import write_all, write_site
 
@@ -138,3 +138,53 @@ def test_cover_crop_counts_as_living_cover(repo: ProcessedRepository) -> None:
         }
     )
     assert engine.evaluate(clover, nv, a).cover_share > engine.evaluate(plain, nv, a).cover_share
+
+
+def test_rusle_slope_factor_increases_with_slope() -> None:
+    assert engine.rusle_s_factor(2) < engine.rusle_s_factor(8) < engine.rusle_s_factor(12)
+    assert engine.rusle_s_factor(0) == pytest.approx(0.03)
+
+
+def test_soil_storage_reduces_irrigation(repo: ProcessedRepository) -> None:
+    bn = repo.load("banyumas")
+    a = engine.select_analogs(bn, None, None)
+    t = TEMPLATES["banyumas"][1]  # dry-season soybean benefits from carried-over water
+    none = engine.evaluate(t, bn, a)
+    small = engine.evaluate(t, bn, a, FieldContext("f", 3.0, 50.0))
+    large = engine.evaluate(t, bn, a, FieldContext("f", 3.0, 200.0))
+    assert large.irrigation_mean_mm < small.irrigation_mean_mm <= none.irrigation_mean_mm
+
+
+def test_field_slope_scales_erosion(repo: ProcessedRepository) -> None:
+    bn = repo.load("banyumas")
+    a = engine.select_analogs(bn, None, None)
+    t = TEMPLATES["banyumas"][0]
+    flat = engine.evaluate(t, bn, a, FieldContext("f", 2.0, 100.0))
+    steep = engine.evaluate(t, bn, a, FieldContext("f", 15.0, 100.0))
+    assert steep.erosion_index > flat.erosion_index
+
+
+def test_scenario_drier_and_warmer_needs_more_water(repo: ProcessedRepository) -> None:
+    nv = repo.load("nevada_mason_valley")
+    a = engine.select_analogs(nv, None, None)
+    t = TEMPLATES["nevada_mason_valley"][0]
+    base = engine.evaluate(t, nv, a)
+    dry = engine.evaluate(t, nv, a, scenario=Scenario(-30, 0))
+    hot = engine.evaluate(t, nv, a, scenario=Scenario(0, 2))
+    assert dry.irrigation_mean_mm > base.irrigation_mean_mm
+    assert hot.irrigation_mean_mm > base.irrigation_mean_mm
+
+
+def test_compare_reports_field_and_scenario_in_cards(repo: ProcessedRepository) -> None:
+    bn = repo.load("banyumas")
+    res = engine.compare(
+        bn,
+        TEMPLATES["banyumas"],
+        W,
+        0.5,
+        field=FieldContext("plot-1", 12.0, 110.0),
+        scenario=Scenario(-20, 1.0),
+    )
+    assert res.field_ctx is not None and res.scenario.rain_anomaly_pct == -20
+    text = " ".join(res.strategies[0].card.evidence)
+    assert "plot-1" in text and "What-if scenario" in text

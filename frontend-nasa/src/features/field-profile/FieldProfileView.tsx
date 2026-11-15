@@ -98,7 +98,7 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({ field }) => 
           <div>
             <h3 className="font-bold text-gray-900 text-base flex items-center gap-2">
               <Thermometer className="h-4 w-4 text-[#d97706]" />
-              Decadal Climatology Cycle (NASA POWER + GPM IMERG V07)
+              Monthly Climatology 1991–2020 (NASA POWER)
             </h3>
             <p className="text-xs text-gray-500 mt-0.5">
               25-year monthly precipitation totals and diurnal temperature extremes in Serayu Valley

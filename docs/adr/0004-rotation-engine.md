@@ -33,3 +33,16 @@ AppEEARS and may arrive late; NASA POWER, ENSO/IOD indices, SRTM and CDL are rea
 - Not modelled: yields, prices, paddy percolation, phenology, nitrogen credit; ET0 is
   Hargreaves-Samani from temperature. These are listed in each evidence card's gaps.
 - When SMAP/NDVI arrive, the repository flags switch on; using them in metrics is future work.
+
+## Update 2026-11-15: field context and what-if scenarios
+
+- `field_id` in `/rotations/compare` loads the field's slope and AWC from `fields.json`.
+  - Soil water carry-over between seasons: capacity = AWC x 0.6 m rooting depth (assumption).
+    This changes strategies differently (dry-season crops benefit), so it affects the ranking.
+  - Erosion exposure uses the RUSLE slope-steepness factor S (McCool et al., 1987). A per-field
+    factor scales every strategy equally, so it changes absolute erosion (shown in the UI) but
+    not the relative ranking.
+- `scenario` scales rainfall by (1 + pct/100) and adjusts ET0 with the Hargreaves-Samani
+  temperature term (season mean temperature `tmean_c` from the processed climate table).
+- The frontend no longer applies its own scenario penalties or climate multipliers; constraint
+  conflicts are shown and sorted last instead of being re-scored.

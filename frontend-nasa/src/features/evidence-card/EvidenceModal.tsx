@@ -64,6 +64,13 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
             <p className="mt-2 text-xs sm:text-sm leading-relaxed text-[#5F6B74]">
               {strategy.evidence.reasoning}
             </p>
+            {strategy.evidence.evidence && strategy.evidence.evidence.length > 0 && (
+              <ul className="mt-3 list-disc space-y-1 pl-5 text-xs text-[#5F6B74]">
+                {strategy.evidence.evidence.map((line, i) => (
+                  <li key={i}>{line}</li>
+                ))}
+              </ul>
+            )}
           </div>
 
           {/* Section: NASA Sensor Inputs */}

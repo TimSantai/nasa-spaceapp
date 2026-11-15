@@ -80,6 +80,11 @@ to `datasets/processed`.
 
 - `GET /api/v1/rotations/sites`: sites with processed data, seasons, crops, latest ENSO/IOD phase
 - `POST /api/v1/rotations/compare`: ranked strategies with metrics and evidence cards
+- `GET /api/v1/fields?site=banyumas` and `GET /api/v1/fields/{field_id}`: real field profiles
+  (camelCase, same shape as `FieldProfile` in `frontend-nasa/src/types/domain.ts`)
+
+Docker: `docker-compose.yml` mounts `PROCESSED_HOST_DIR` (default
+`../fieldshift-data-kit/data/processed`) read-only at `/app/datasets/processed`.
 
 ```json
 {"site": "banyumas",

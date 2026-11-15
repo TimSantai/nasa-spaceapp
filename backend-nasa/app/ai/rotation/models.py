@@ -49,6 +49,24 @@ class SeasonRecord:
     et0_mm: float
     enso_phase: str
     iod_phase: str
+    tmean_c: float | None = None  # season mean air temperature (for ET0 scenario scaling)
+
+
+@dataclass(frozen=True)
+class Scenario:
+    """What-if shift for every analog year: rainfall x (1 + pct/100), temperature + delta."""
+
+    rain_anomaly_pct: float = 0.0
+    temp_delta_c: float = 0.0
+
+
+@dataclass(frozen=True)
+class FieldContext:
+    """Field-level soil and terrain that change the water balance and erosion exposure."""
+
+    field_id: str
+    slope_pct: float
+    awc_mm_per_m: float
 
 
 @dataclass(frozen=True)
@@ -124,6 +142,8 @@ class Comparison:
     weights: dict[str, float]
     risk_aversion: float
     strategies: tuple[StrategyResult, ...]
+    field_ctx: FieldContext | None = None
+    scenario: Scenario = field(default_factory=Scenario)
     disclaimer: str = field(
         default=(
             "Decision support only. Results come from historical climate analogs and simple "

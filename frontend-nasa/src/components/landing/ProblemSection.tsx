@@ -87,7 +87,7 @@ interface ProblemSectionProps {
                   {isId ? 'Studi Kasus: Lembah Serayu, Banyumas' : 'Pilot Field: Serayu Basin, Banyumas'}
                 </span>
               </div>
-              <span className="text-[10px] text-[#5F6B74] font-medium">HLS S30 & ECOSTRESS</span>
+              <span className="text-[10px] text-[#5F6B74] font-medium">NASA POWER & SRTM</span>
             </div>
 
             {/* Scenario Switcher Tabs */}

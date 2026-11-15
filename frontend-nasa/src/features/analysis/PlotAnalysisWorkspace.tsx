@@ -13,7 +13,7 @@ import { PriorityControls } from '../priorities/PriorityControls';
 import { StrategyBoard } from '../strategy-comparison/StrategyBoard';
 import { SummaryBrief } from '../export/SummaryBrief';
 import { ArrowLeft, Layers, Sliders, FileText, Database, MapPin, Sparkles, BookOpen } from 'lucide-react';
-import { isSupabaseConfigured } from '../../api/supabase';
+import { SNAPSHOT_DATE } from '../../api/mock/mockData';
 
 interface PlotAnalysisWorkspaceProps {
   field: FieldProfile;
@@ -32,6 +32,7 @@ interface PlotAnalysisWorkspaceProps {
   onOpenGlossary?: () => void;
   onOpenDataSources?: () => void;
   currentLang?: Language;
+  dataMode?: 'live' | 'snapshot';
 }
 
 export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
@@ -51,6 +52,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
   onOpenGlossary,
   onOpenDataSources,
   currentLang = 'id',
+  dataMode = 'snapshot',
 }) => {
   const isId = currentLang === 'id';
   const [activeSubTab, setActiveSubTab] = useState<'profile' | 'optimizer' | 'export'>('profile');
@@ -159,16 +161,16 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
             <Database className="h-4 w-4 text-[#237F8E]" />
             <span>
               Data Source:{' '}
-              {isSupabaseConfigured ? (
-                <strong className="text-[#237F8E]">Supabase Cloud (ljxtsjmlqzuebngrfdyd)</strong>
+              {dataMode === 'live' ? (
+                <strong className="text-[#237F8E]">Field Shift API (live)</strong>
               ) : (
-                <strong className="text-[#237F8E]">NASA Earth Science Multi-Sensor Assimilation</strong>
+                <strong className="text-amber-700">Offline snapshot of API results ({SNAPSHOT_DATE})</strong>
               )}
             </span>
           </div>
           <div className="flex items-center gap-2">
             <span className="inline-block h-2 w-2 rounded-full bg-[#237F8E]" />
-            <span>Harmonized Landsat-Sentinel 30m &middot; ECOSTRESS &middot; SMAP 9km &middot; GPM IMERG</span>
+            <span>NASA POWER 1991–2025 &middot; SRTM 30 m &middot; ISRIC SoilGrids &middot; ONI/DMI{field.dataAvailability.hasSatelliteNdvi ? ' · HLS 30 m NDVI' : ''}</span>
           </div>
         </div>
 
@@ -184,7 +186,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                   Profil Tanah & NASA <span className="text-[#237F8E]">Climatology</span>
                 </h2>
                 <p className="mt-1 max-w-2xl text-xs text-[#5F6B74]">
-                  Harmonisasi data Landsat-Sentinel 30m NDVI, ECOSTRESS 70m evapotranspirasi, dan curah hujan GPM 25 tahun untuk petak {field.name}.
+                  Iklim bulanan NASA POWER (normal 1991–2020), lereng SRTM 30 m dan tanah SoilGrids untuk petak {field.name}.{field.dataAvailability.hasSatelliteNdvi ? ' NDVI dari HLS 30 m.' : ' NDVI HLS menyusul.'}
                 </p>
               </div>
               <button

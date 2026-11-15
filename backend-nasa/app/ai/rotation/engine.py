@@ -1,10 +1,18 @@
 """Rotation comparison engine.
 
 For each strategy and each analog year (historical years in the same ENSO/IOD phase), the
-rotation is run as if every year had that year's seasonal climate:
+rotation is run as if every year had that year's seasonal climate, season by season:
 
-    irrigation need (mm) = max(0, ET0 * Kc_eff - PE_FACTOR * P)  per season slot
+    supply = PE_FACTOR * P + stored soil water
+    irrigation need (mm) = max(0, ET0 * Kc_eff - supply)
+    stored soil water = min(capacity, max(0, supply - ET0 * Kc_eff))   carried to the next season
     Kc_eff = (active * Kc + cover * Kc_cover + bare * KC_BARE) / season months
+
+Without a field, capacity is 0 (no carry-over). With a field, capacity = AWC (mm/m) x
+ROOT_DEPTH_M. A scenario scales rainfall by (1 + pct/100) and adjusts ET0 for warmer air with
+the Hargreaves-Samani temperature term: ET0' = ET0 * (T + dT + 17.8) / (T + 17.8).
+Erosion exposure uses the RUSLE slope-steepness factor S (McCool et al., 1987) of the field's
+slope, or (1 + share of steep land) at site level.
 
 The per-rotation-year mean over analog years gives the expected need, and CVaR20 (mean of the
 worst 20 % of analog years) the tail risk. The water objective blends them:
@@ -23,7 +31,9 @@ from app.ai.rotation.models import (
     Analogs,
     Comparison,
     EvidenceCard,
+    FieldContext,
     Metrics,
+    Scenario,
     SeasonRecord,
     SiteData,
     Stage,
@@ -32,6 +42,8 @@ from app.ai.rotation.models import (
 )
 
 PE_FACTOR = 0.8  # share of season rainfall assumed effective (simple, documented assumption)
+ROOT_DEPTH_M = 0.6  # effective rooting depth for soil-water storage (planning assumption)
+DEFAULT_TMEAN_C = 25.0  # used for ET0 scenario scaling when a season has no temperature
 CVAR_ALPHA = 0.2
 MIN_ANALOG_N = 5
 OBJECTIVES = ("water", "soil_health", "erosion", "pest_break")
@@ -86,30 +98,57 @@ def _kc_eff(stage: Stage, months: int) -> tuple[float, float]:
     return eff, bare
 
 
+def rusle_s_factor(slope_pct: float) -> float:
+    """RUSLE slope-steepness factor S (McCool et al., 1987)."""
+    sin_t = math.sin(math.atan(max(slope_pct, 0.0) / 100))
+    return 10.8 * sin_t + 0.03 if slope_pct < 9 else 16.8 * sin_t - 0.50
+
+
+def _climate(rec: SeasonRecord, scenario: Scenario) -> tuple[float, float]:
+    """(rainfall, ET0) for a season after the what-if scenario."""
+    precip = rec.precip_mm * max(0.0, 1 + scenario.rain_anomaly_pct / 100)
+    t = rec.tmean_c if rec.tmean_c is not None else DEFAULT_TMEAN_C
+    et0 = rec.et0_mm * max(0.0, (t + scenario.temp_delta_c + 17.8) / (t + 17.8))
+    return precip, et0
+
+
 def _cvar_high(values: Sequence[float]) -> float:
     k = max(1, math.ceil(CVAR_ALPHA * len(values)))
     return sum(sorted(values, reverse=True)[:k]) / k
 
 
-def evaluate(template: StrategyTemplate, site: SiteData, analogs: Analogs) -> Metrics:
+def evaluate(
+    template: StrategyTemplate,
+    site: SiteData,
+    analogs: Analogs,
+    field: FieldContext | None = None,
+    scenario: Scenario | None = None,
+) -> Metrics:
+    scenario = scenario or Scenario()
     months = site.config.seasons
     clim: dict[tuple[int, str], SeasonRecord] = {
         (r.planning_year, r.season): r for r in site.records
     }
     n_years = len(template.years)
+    capacity = field.awc_mm_per_m * ROOT_DEPTH_M if field else 0.0
+    slope_factor = rusle_s_factor(field.slope_pct) if field else 1 + site.steep_share
 
     per_analog = []
     for y in analogs.years:
-        total = 0.0
+        total = stored = 0.0
         for year in template.years:
             for season, stage in year.items():
-                rec = clim[(y, season)]
+                precip, et0 = _climate(clim[(y, season)], scenario)
                 kc, _ = _kc_eff(stage, months[season])
-                total += max(0.0, rec.et0_mm * kc - PE_FACTOR * rec.precip_mm)
+                demand = et0 * kc
+                supply = PE_FACTOR * precip + stored
+                total += max(0.0, demand - supply)
+                stored = min(capacity, max(0.0, supply - demand))
         per_analog.append(total / n_years)
 
     mean_p = {
-        s: sum(clim[(y, s)].precip_mm for y in analogs.years) / len(analogs.years) for s in months
+        s: sum(_climate(clim[(y, s)], scenario)[0] for y in analogs.years) / len(analogs.years)
+        for s in months
     }
     all_months = n_years * sum(months.values())
     living = legume = erosion = 0.0
@@ -119,7 +158,7 @@ def evaluate(template: StrategyTemplate, site: SiteData, analogs: Analogs) -> Me
         for season, stage in year.items():
             fam_months: dict[str, float] = {}
             _, bare = _kc_eff(stage, months[season])
-            erosion += bare / months[season] * mean_p[season] * (1 + site.steep_share)
+            erosion += bare / months[season] * mean_p[season] * slope_factor
             parts = ((stage.crop, stage.active_months), (stage.cover_crop, stage.cover_months))
             for crop, m in parts:
                 if crop is None or crop == "fallow" or m <= 0:
@@ -194,6 +233,8 @@ def compare(
     risk_aversion: float,
     enso: str | None = None,
     iod: str | None = None,
+    field: FieldContext | None = None,
+    scenario: Scenario | None = None,
 ) -> Comparison:
     if len(templates) < 2:
         raise ValueError("need at least two strategies to compare")
@@ -206,7 +247,8 @@ def compare(
     if not analogs.years:
         raise ValueError("no complete climate years available for this site")
 
-    metrics = [evaluate(t, site, analogs) for t in templates]
+    scenario = scenario or Scenario()
+    metrics = [evaluate(t, site, analogs, field, scenario) for t in templates]
     utils = _utilities([_objective_values(m, risk_aversion) for m in metrics])
     total_w = sum(w.values())
     scores = [round(sum(w[k] * u[k] for k in OBJECTIVES) / total_w, 3) for u in utils]
@@ -226,7 +268,9 @@ def compare(
             score=scores[i],
             rank=rank[i],
             pareto_optimal=pareto[i],
-            card=build_card(t, metrics[i], metrics[baseline], site, analogs, i == baseline),
+            card=build_card(
+                t, metrics[i], metrics[baseline], site, analogs, i == baseline, field, scenario
+            ),
         )
         for i, t in enumerate(templates)
     ]
@@ -236,6 +280,8 @@ def compare(
         weights=w,
         risk_aversion=risk_aversion,
         strategies=tuple(sorted(results, key=lambda r: r.rank)),
+        field_ctx=field,
+        scenario=scenario,
     )
 
 
@@ -257,6 +303,8 @@ def build_card(
     site: SiteData,
     analogs: Analogs,
     is_baseline: bool,
+    field: FieldContext | None = None,
+    scenario: Scenario | None = None,
 ) -> EvidenceCard:
     yrs = ", ".join(map(str, analogs.years))
     evidence = [
@@ -266,6 +314,17 @@ def build_card(
         f"{m.irrigation_cvar_mm:.0f} mm in the worst 20 % of analog years.",
         f"{site.steep_share:.0%} of the site area has slopes above 10 % (SRTM).",
     ]
+    if field:
+        evidence.append(
+            f"Field {field.field_id}: slope {field.slope_pct:.1f} % (RUSLE S = "
+            f"{rusle_s_factor(field.slope_pct):.2f}), AWC {field.awc_mm_per_m:.0f} mm/m, so up to "
+            f"{field.awc_mm_per_m * ROOT_DEPTH_M:.0f} mm of surplus rain carries over."
+        )
+    if scenario and (scenario.rain_anomaly_pct or scenario.temp_delta_c):
+        evidence.append(
+            f"What-if scenario: rainfall {scenario.rain_anomaly_pct:+.0f} %, air temperature "
+            f"{scenario.temp_delta_c:+.1f} C applied to every analog year."
+        )
     if t.evidence_basis == "cdl" and site.rotation_evidence:
         p = site.rotation_evidence.get("p_alfalfa_stays")
         if isinstance(p, float):

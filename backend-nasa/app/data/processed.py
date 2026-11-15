@@ -3,6 +3,7 @@
 Files used per site:
   climate/season_indicators.csv  climate/outlook.json  terrain/summary.json
   rotation/summary.json + rotation/transitions.csv (US site only)
+  fields/fields.json (demo field profiles, written by process_fields.py)
 Folders appeears/smap and appeears/ndvi (when added) switch on the satellite flags.
 """
 
@@ -12,6 +13,7 @@ import csv
 import json
 from functools import lru_cache
 from pathlib import Path
+from typing import Any
 
 from app.ai.rotation.catalog import SITES
 from app.ai.rotation.models import SeasonRecord, SiteData
@@ -27,6 +29,20 @@ class ProcessedRepository:
 
     def available_sites(self) -> list[str]:
         return [k for k in SITES if (self.base / k / "climate" / "season_indicators.csv").is_file()]
+
+    def load_fields(self, site: str) -> list[dict[str, Any]]:
+        """Raw field-profile dicts for a site (validated by the API schema)."""
+        if site not in SITES:
+            raise NotFoundError(f"Unknown site '{site}'.")
+        path = self.base / site / "fields" / "fields.json"
+        if not path.is_file():
+            raise InsufficientDataError(
+                f"No field profiles for '{site}'. Run process_fields.py in the data kit."
+            )
+        data = json.loads(path.read_text(encoding="utf-8"))
+        if not isinstance(data, list):
+            raise InsufficientDataError(f"Field profile file for '{site}' is not a list.")
+        return data
 
     def load(self, site: str) -> SiteData:
         if site not in SITES:
@@ -55,6 +71,7 @@ def _load_cached(base: str, site: str) -> SiteData:
                     et0_mm=float(row["et0_mm"]),
                     enso_phase=row["enso_phase"],
                     iod_phase=row["iod_phase"],
+                    tmean_c=float(row["tmean_c"]) if row.get("tmean_c") else None,
                 )
             )
     if not records:

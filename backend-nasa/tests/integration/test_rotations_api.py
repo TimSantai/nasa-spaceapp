@@ -92,3 +92,49 @@ async def test_compare_errors(
 async def test_default_repository_uses_settings(tmp_path: Path) -> None:
     repo = get_repository()
     assert repo.base.name == "processed"
+
+
+async def test_compare_with_field_and_scenario(tmp_path: Path) -> None:
+    from tests.rotation_fixtures import write_fields
+
+    clear_cache()
+    base = write_all(tmp_path)
+    write_fields(base)
+    app = create_app()
+    app.dependency_overrides[get_repository] = lambda: ProcessedRepository(base)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as c:
+        payload = {
+            "site": "banyumas",
+            "field_id": "banyumas-karangrau-01",
+            "scenario": {"rain_anomaly_pct": -20, "temp_delta_c": 1.5},
+        }
+        r = await c.post("/api/v1/rotations/compare", json=payload)
+        data = r.json()["data"]
+        assert r.status_code == 200
+        assert data["field_ctx"]["slope_pct"] == 3.0
+        assert data["scenario"]["temp_delta_c"] == 1.5
+        r = await c.post("/api/v1/rotations/compare", json={"site": "banyumas", "field_id": "nope"})
+        assert r.status_code == 404
+        bad = {"site": "banyumas", "scenario": {"rain_anomaly_pct": -90}}
+        r = await c.post("/api/v1/rotations/compare", json=bad)
+        assert r.status_code == 422
+    app.dependency_overrides.clear()
+
+
+async def test_field_without_soil_values_is_rejected(tmp_path: Path) -> None:
+    from tests.rotation_fixtures import field_profile, write_fields
+
+    clear_cache()
+    base = write_all(tmp_path)
+    broken = field_profile()
+    broken["soil"] = {}
+    write_fields(base, content=[broken])
+    app = create_app()
+    app.dependency_overrides[get_repository] = lambda: ProcessedRepository(base)
+    async with AsyncClient(transport=ASGITransport(app=app), base_url="http://test") as c:
+        r = await c.post(
+            "/api/v1/rotations/compare",
+            json={"site": "banyumas", "field_id": "banyumas-karangrau-01"},
+        )
+        assert r.status_code == 400 and "slope or AWC" in r.json()["error"]["message"]
+    app.dependency_overrides.clear()

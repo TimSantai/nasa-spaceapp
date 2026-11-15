@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { MOCK_FIELDS, MOCK_STRATEGIES } from './api/mock/mockData';
+import { MOCK_FIELDS, snapshotStrategies } from './api/mock/mockData';
+import { fetchFields, fetchStrategies, siteOf } from './api/fieldshift';
 import { FieldMap } from './features/map/FieldMap';
 import { PlotAnalysisWorkspace } from './features/analysis/PlotAnalysisWorkspace';
 import { EvidenceModal } from './features/evidence-card/EvidenceModal';
@@ -24,14 +25,16 @@ export function App() {
   });
 
   const [currentLang, setCurrentLang] = useState<Language>('en');
-  const [fields] = useState<FieldProfile[]>(MOCK_FIELDS);
+  // Real data from the backend; the offline snapshot (also real output) is shown until it loads
+  const [fields, setFields] = useState<FieldProfile[]>(MOCK_FIELDS);
   const [selectedField, setSelectedField] = useState<FieldProfile>(MOCK_FIELDS[0]);
+  const [dataMode, setDataMode] = useState<'live' | 'snapshot'>('snapshot');
   const [isGlossaryOpen, setIsGlossaryOpen] = useState(false);
   const [isDataSourcesOpen, setIsDataSourcesOpen] = useState(false);
   const [evidenceStrategy, setEvidenceStrategy] = useState<Strategy | null>(null);
 
-  // Climate forcing state
-  const [climatePhase, setClimatePhase] = useState<ClimatePhase>('el_nino');
+  // Climate forcing state (Aug-Oct 2025 ONI was ENSO-neutral)
+  const [climatePhase, setClimatePhase] = useState<ClimatePhase>('normal');
 
   // Farmer constraints state
   const [constraints, setConstraints] = useState<FarmerConstraints>({
@@ -47,10 +50,8 @@ export function App() {
   });
 
   // PPL Field Verification Checklist persistence
-  const [verifiedChecks, setVerifiedChecks] = useState<Record<string, boolean>>({
-    'Saluran irigasi tersier bebas endapan lumpur (debit minimal 15 L/detik)': true,
-    'Ketersediaan benih kedelai bersertifikat di penangkar lokal': true,
-  });
+  // Nothing is verified until the extension officer ticks it in the evidence card
+  const [verifiedChecks, setVerifiedChecks] = useState<Record<string, boolean>>({});
 
   const handleToggleCheck = (checkText: string) => {
     setVerifiedChecks((prev) => ({
@@ -61,19 +62,45 @@ export function App() {
 
   // Multi-objective weighting (sums to 100)
   const [weights, setWeights] = useState<PriorityWeights>({
-    yield: 20,
     waterEfficiency: 25,
-    soilHealth: 25,
+    soilHealth: 20,
     coverDays: 15,
-    laborDemand: 15,
+    erosionControl: 25,
+    pestBreak: 15,
   });
 
-  // Current strategies for the selected field with safe fallback to prevent unhandled crashes
-  const currentStrategies: Strategy[] =
-    MOCK_STRATEGIES[selectedField.id] ??
-    MOCK_STRATEGIES['banyumas-karangrau-01'] ??
-    Object.values(MOCK_STRATEGIES)[0] ??
-    [];
+  // Strategies from the backend rotation engine for the selected field's site and ENSO phase
+  const [currentStrategies, setCurrentStrategies] = useState<Strategy[]>(() => snapshotStrategies('normal'));
+
+  useEffect(() => {
+    let alive = true;
+    fetchFields()
+      .then((live) => {
+        if (!alive || live.length === 0) return;
+        setFields(live);
+        setSelectedField((prev) => live.find((f) => f.id === prev.id) ?? live[0]);
+        setDataMode('live');
+      })
+      .catch(() => alive && setDataMode('snapshot'));
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  // Debounced so dragging the scenario sliders sends one request, not dozens
+  useEffect(() => {
+    let alive = true;
+    const timer = window.setTimeout(() => {
+      const fieldId = dataMode === 'live' ? selectedField.id : undefined;
+      fetchStrategies(siteOf(selectedField), climatePhase, fieldId, scenario)
+        .then((s) => alive && setCurrentStrategies(s))
+        .catch(() => alive && setCurrentStrategies(snapshotStrategies(climatePhase)));
+    }, 350);
+    return () => {
+      alive = false;
+      window.clearTimeout(timer);
+    };
+  }, [selectedField, climatePhase, scenario, dataMode]);
 
   // Handle URL hash changes
   useEffect(() => {
@@ -155,6 +182,7 @@ export function App() {
           onOpenGlossary={() => setIsGlossaryOpen(true)}
           onOpenDataSources={() => setIsDataSourcesOpen(true)}
           currentLang={currentLang}
+          dataMode={dataMode}
         />
 
         {/* Global Modals accessible across modes */}

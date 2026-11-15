@@ -59,3 +59,60 @@ def write_all(base: Path) -> Path:
         base, "banyumas", {"MT1_wet": (1200, 460), "MT2_wet_dry": (800, 400), "MT3_dry": (380, 500)}
     )
     return base
+
+
+def field_profile(field_id: str = "banyumas-karangrau-01") -> dict[str, object]:
+    """One field profile in the camelCase shape written by process_fields.py."""
+    return {
+        "id": field_id,
+        "name": "Plot Karangrau Block 4B",
+        "regency": "Banyumas",
+        "district": "Banyumas",
+        "village": "Karangrau",
+        "coordinates": [-7.5186, 109.2942],
+        "elevationMeters": 26,
+        "areaHectares": 2.4,
+        "currentRotation": ["Paddy (Wet Season)", "Paddy (Dry Season 1)", "Fallow"],
+        "soil": {
+            "type": "SoilGrids 250 m estimate",
+            "texture": "Clay Loam",
+            "organicMatter": "10.8% (from SOC 63 g/kg)",
+            "awc": 142.0,
+            "slope": 3.0,
+            "erosionRisk": "Low",
+        },
+        "climateHistory": [
+            {
+                "month": "Jan",
+                "rainfall": 320.0,
+                "tempMin": 22.8,
+                "tempMax": 28.4,
+                "soilMoisture": 0.88,
+            }
+        ],
+        "ndviTimeSeries": [
+            {"month": "Jan", "ndvi": 0.75, "phase": "Vegetative", "observations": 4}
+        ],
+        "dataAvailability": {
+            "hasObservedRotation": False,
+            "hasFieldSoilSurvey": False,
+            "hasSatelliteNdvi": True,
+            "hasDailyPrecipitation": True,
+            "overallConfidence": "MODERATE",
+            "missingDataNotes": ["Current rotation is the team's assumption."],
+        },
+        "provenance": {
+            "elevationSlope": "SRTM",
+            "soil": "SoilGrids",
+            "climate": "POWER",
+            "ndvi": "HLS",
+        },
+    }
+
+
+def write_fields(base: Path, site: str = "banyumas", content: object | None = None) -> Path:
+    folder = base / site / "fields"
+    folder.mkdir(parents=True, exist_ok=True)
+    data = [field_profile(), field_profile("banyumas-rawalo-03")] if content is None else content
+    (folder / "fields.json").write_text(json.dumps(data))
+    return folder

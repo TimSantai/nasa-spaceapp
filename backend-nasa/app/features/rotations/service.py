@@ -6,7 +6,8 @@ from dataclasses import asdict, replace
 
 from app.ai.rotation.catalog import CROPS, SITES, TEMPLATES, build_years
 from app.ai.rotation.engine import compare
-from app.core.errors import DomainError
+from app.ai.rotation.models import FieldContext, Scenario
+from app.core.errors import DomainError, NotFoundError
 from app.data.processed import ProcessedRepository
 from app.features.rotations.schemas import CompareRequest, ComparisonOut, SiteInfo
 
@@ -46,6 +47,8 @@ def run_comparison(req: CompareRequest, repo: ProcessedRepository) -> Comparison
             evidence_basis="farmer",
             gaps=("Rotation entered by the farmer; not checked against satellite data.",),
         )
+    field = _field_context(repo, req.site, req.field_id) if req.field_id else None
+    scenario = Scenario(req.scenario.rain_anomaly_pct, req.scenario.temp_delta_c)
     try:
         result = compare(
             site,
@@ -54,7 +57,20 @@ def run_comparison(req: CompareRequest, repo: ProcessedRepository) -> Comparison
             risk_aversion=req.risk_aversion,
             enso=req.enso_phase,
             iod=req.iod_phase,
+            field=field,
+            scenario=scenario,
         )
     except ValueError as exc:
         raise DomainError(str(exc)) from exc
     return ComparisonOut.model_validate(asdict(result))
+
+
+def _field_context(repo: ProcessedRepository, site: str, field_id: str) -> FieldContext:
+    for f in repo.load_fields(site):
+        if f.get("id") == field_id:
+            soil = f.get("soil") or {}
+            try:
+                return FieldContext(field_id, float(soil["slope"]), float(soil["awc"]))
+            except (KeyError, TypeError, ValueError) as exc:
+                raise DomainError(f"Field '{field_id}' lacks slope or AWC.") from exc
+    raise NotFoundError(f"Field '{field_id}' not found for site '{site}'.")

@@ -155,11 +155,11 @@ interface LandingFooterProps {
             <span>{isId ? 'Asimilasi Sensor:' : 'Spaceborne Sensors:'}</span>
             <span className="font-medium text-[#14232B]">NASA HLS 30m</span>
             <span>&middot;</span>
-            <span className="font-medium text-[#14232B]">ECOSTRESS 70m</span>
+            <span className="font-medium text-[#14232B]">SRTM 30m</span>
             <span>&middot;</span>
             <span className="font-medium text-[#14232B]">NASA SMAP 9km</span>
             <span>&middot;</span>
-            <span className="font-medium text-[#14232B]">GPM IMERG V07</span>
+            <span className="font-medium text-[#14232B]">USDA CDL 30m</span>
             <span>&middot;</span>
             <span className="font-medium text-[#14232B]">NASA POWER AG</span>
           </div>

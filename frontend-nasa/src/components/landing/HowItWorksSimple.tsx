@@ -47,12 +47,12 @@ const STEPS: StepItem[] = [
     badge: 'Step 02 · NASA Ingestion',
     title: 'Analyze Agro-Climatic Conditions',
     shortTitle: 'Analyze Telemetry',
-    desc: 'Field Shift ingests NASA POWER solar flux, SMAP 0–100cm root moisture, ECOSTRESS thermal stress, and Sentinel-2 NDVI canopy vigor into a unified dashboard.',
+    desc: 'Field Shift combines NASA POWER daily climate (1991–2025), SRTM slope, SoilGrids soil texture and ENSO/IOD indices; HLS NDVI and SMAP soil moisture are being added.',
     icon: BarChart3,
     image:
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80',
     alt: 'Satellite remote sensing data overlaying farm topography',
-    metric: '4 Orbit Datasets',
+    metric: '35 years of NASA POWER',
   },
   {
     id: 'compare',
@@ -60,12 +60,12 @@ const STEPS: StepItem[] = [
     badge: 'Step 03 · Simulation Engine',
     title: 'Simulate Adaptive Crop Rotation',
     shortTitle: 'Compare & Decide',
-    desc: 'Simulate alternative rotation paths against historical worst-case El Niño and drought seasons. Identify Pareto-optimal crop sequences that maximize yield and soil nitrogen.',
+    desc: 'Simulate alternative rotation paths against historical worst-case El Niño and drought seasons. Identify Pareto-optimal crop sequences that balance irrigation need, living soil cover and erosion.',
     icon: GitCompareArrows,
     image:
       'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1000&q=80',
     alt: 'Interactive risk-weighted crop rotation comparison matrix',
-    metric: '+32% Yield Resilience',
+    metric: '96% vs 67% living cover',
   },
   {
     id: 'execute',

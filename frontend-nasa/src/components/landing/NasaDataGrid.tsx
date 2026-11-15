@@ -127,7 +127,7 @@ interface NasaDataGridProps {
                   {isId ? 'Didukung Sumber Pedologi & Iklim Global' : 'Integrated with Global Agro-Pedology Datasets'}
                 </h4>
                 <p className="text-[11px] text-[#5F6B74]">
-                  ISRIC SoilGrids 250m &middot; FAO GAEZ v4 Agro-ecological Zones &middot; ECMWF ERA5 Agrometeorology &middot; USDA CSB Benchmark
+                  ISRIC SoilGrids 250m &middot; USDA Cropland Data Layer &middot; NOAA ONI / DMI climate indices
                 </p>
               </div>
             </div>
