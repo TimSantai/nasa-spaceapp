@@ -472,7 +472,7 @@ export function PrecisionBentoSection({
                 onClick={() => onOpenWorkspace()}
                 className="w-full py-3 px-5 rounded-2xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs sm:text-sm font-bold shadow-sm hover:shadow transition active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer"
               >
-                <span>{isId ? 'Buka Field Shift Workspace' : 'Launch Field Shift Workspace'}</span>
+                <span>{isId ? 'Buka ROTASI Workspace' : 'Launch ROTASI Workspace'}</span>
                 <ArrowRight className="h-4 w-4" />
               </button>
             </div>

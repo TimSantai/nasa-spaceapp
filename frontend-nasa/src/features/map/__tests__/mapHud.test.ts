@@ -74,7 +74,10 @@ test('generateFieldPolygons: generates valid GeoJSON FeatureCollection', () => {
     assert.equal(feature.type, 'Feature');
     assert.equal(feature.geometry.type, 'Polygon');
     assert.equal(feature.geometry.coordinates.length, 1);
-    assert.equal(feature.geometry.coordinates[0].length, 5); // Closed 4-point polygon
+    assert.ok(feature.geometry.coordinates[0].length >= 4, 'Ring must have at least 4 coordinates');
+
+    const ring = feature.geometry.coordinates[0];
+    assert.deepEqual(ring[0], ring[ring.length - 1], 'Ring must be closed');
 
     const props = feature.properties;
     assert.ok(props.id);
@@ -84,6 +87,51 @@ test('generateFieldPolygons: generates valid GeoJSON FeatureCollection', () => {
     assert.ok(typeof props.slope === 'number');
     assert.ok(typeof props.elevation === 'number');
     assert.ok(typeof props.awc === 'number');
+  }
+});
+
+test('generateFieldPolygons: generates multi-cell Voronoi tessellation when >= 3 fields', () => {
+  const threeFields: FieldProfile[] = [
+    ...testFields,
+    {
+      ...testFields[0],
+      id: 'banyumas-ajibarang-03',
+      name: 'Ajibarang Plateau Plot',
+      coordinates: [-7.4102, 109.0821],
+    },
+  ];
+
+  const collection = generateFieldPolygons(threeFields);
+  assert.equal(collection.features.length, 3);
+  for (const feature of collection.features) {
+    assert.equal(feature.geometry.type, 'Polygon');
+    const ring = feature.geometry.coordinates[0];
+    assert.ok(ring.length >= 4);
+    assert.deepEqual(ring[0], ring[ring.length - 1], 'Voronoi polygon must be closed');
+  }
+});
+
+test('generateFieldPolygons: handles single-field fallback gracefully', () => {
+  const collection = generateFieldPolygons([testFields[0]]);
+  assert.equal(collection.type, 'FeatureCollection');
+  assert.equal(collection.features.length, 1);
+  const ring = collection.features[0].geometry.coordinates[0];
+  assert.ok(ring.length >= 4);
+  assert.deepEqual(ring[0], ring[ring.length - 1], 'Single field polygon must be closed');
+});
+
+test('generateFieldPolygons: handles duplicate coordinates without Delaunay failure', () => {
+  const duplicateFields: FieldProfile[] = [
+    testFields[0],
+    { ...testFields[0], id: 'banyumas-duplicate-02' },
+    { ...testFields[1], id: 'banyumas-distinct-03' },
+  ];
+  const collection = generateFieldPolygons(duplicateFields);
+  assert.equal(collection.features.length, 3);
+  for (const feature of collection.features) {
+    const ring = feature.geometry.coordinates[0];
+    assert.ok(ring.length >= 4);
+    assert.deepEqual(ring[0], ring[ring.length - 1], 'Rings must be closed even with duplicate coordinates');
   }
 });
 

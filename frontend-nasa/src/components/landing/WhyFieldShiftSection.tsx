@@ -11,10 +11,12 @@ import {
 import { ScrollReveal } from '../common/ScrollReveal';
 import type { Language } from '../../types/landing';
 
-interface WhyFieldShiftSectionProps {
+export interface WhyRotasiSectionProps {
   onOpenWorkspace: () => void;
   currentLang?: Language;
 }
+
+export type WhyFieldShiftSectionProps = WhyRotasiSectionProps;
 
 interface ValueCard {
   id: string;
@@ -77,15 +79,15 @@ const CARDS: ValueCard[] = [
     subtitleEn: 'Field-Ready Delivery',
     subtitleId: 'Penyampaian Siap Lapangan',
     icon: Sprout,
-    tagsEn: ['7 Banyumas Plots', 'Evidence Cards', 'PPL Consultation', 'Extension Ready'],
-    tagsId: ['7 Petak Banyumas', 'Kartu Bukti', 'Konsultasi PPL', 'Siap Penyuluh'],
+    tagsEn: ['331 Banyumas Plots', 'Evidence Cards', 'PPL Consultation', 'Extension Ready'],
+    tagsId: ['331 Petak Banyumas', 'Kartu Bukti', 'Konsultasi PPL', 'Siap Penyuluh'],
     descEn: 'Translated into actionable planting calendars and water efficiency guidelines ready for field extension workers (PPL) and farmer groups on the ground.',
     descId: 'Diterjemahkan menjadi kalender tanam siap aksi dan panduan efisiensi air untuk penyuluh pertanian lapangan (PPL) dan kelompok tani.',
     isDark: false,
   },
 ];
 
-export function WhyFieldShiftSection({ onOpenWorkspace, currentLang = 'en' }: WhyFieldShiftSectionProps) {
+export function WhyRotasiSection({ onOpenWorkspace, currentLang = 'en' }: WhyRotasiSectionProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
@@ -126,9 +128,9 @@ export function WhyFieldShiftSection({ onOpenWorkspace, currentLang = 'en' }: Wh
   };
 
   return (
-    <section id="why-field-shift" className="pt-4 sm:pt-6 pb-16 sm:pb-24 bg-white">
+    <section id="why-rotasi" className="pt-4 sm:pt-6 pb-16 sm:pb-24 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        {/* Outer Curved Container in Unified Field Shift Surface Palette */}
+        {/* Outer Curved Container in Unified ROTASI Surface Palette */}
         <ScrollReveal direction="up">
           <div className="rounded-[36px] sm:rounded-[44px] bg-[#F4F7FA] border border-[#E6EBF0] p-7 sm:p-12 lg:p-14 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -267,4 +269,5 @@ export function WhyFieldShiftSection({ onOpenWorkspace, currentLang = 'en' }: Wh
   );
 }
 
-export default WhyFieldShiftSection;
+export const WhyFieldShiftSection = WhyRotasiSection;
+export default WhyRotasiSection;

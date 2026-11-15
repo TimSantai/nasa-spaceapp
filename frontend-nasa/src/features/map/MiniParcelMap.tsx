@@ -4,7 +4,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { MapPin, Maximize2, ShieldCheck } from 'lucide-react';
 import type { FieldProfile } from '../../types/domain';
 import type { Language } from '../../types/landing';
-import { SATELLITE_BASEMAP_STYLE } from './mapUtils';
+import { SATELLITE_BASEMAP_STYLE, generateOrganicParcelRing } from './mapUtils';
 
 interface MiniParcelMapProps {
   field: FieldProfile;
@@ -49,9 +49,8 @@ export const MiniParcelMap: React.FC<MiniParcelMapProps> = ({
       map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'bottom-right');
 
       map.on('load', () => {
-        // Compute ~400m polygon box around field center
-        const deltaLng = 0.0035;
-        const deltaLat = 0.0025;
+        // Generate realistic organic parcel geometry matching field id
+        const organicRing = generateOrganicParcelRing(lng, lat, field.id, 0.0035);
 
         const parcelGeoJSON: GeoJSON.Feature<GeoJSON.Polygon> = {
           type: 'Feature',
@@ -61,15 +60,7 @@ export const MiniParcelMap: React.FC<MiniParcelMapProps> = ({
           },
           geometry: {
             type: 'Polygon',
-            coordinates: [
-              [
-                [lng - deltaLng, lat - deltaLat],
-                [lng + deltaLng, lat - deltaLat],
-                [lng + deltaLng, lat + deltaLat],
-                [lng - deltaLng, lat + deltaLat],
-                [lng - deltaLng, lat - deltaLat],
-              ],
-            ],
+            coordinates: [organicRing],
           },
         };
 

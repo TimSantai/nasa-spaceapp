@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
 }
 
-/* Custom text selection in Field Shift teal */
+/* Custom text selection in ROTASI teal */
 ::selection {
   background-color: #E3F1F3;
   color: #1B6572;
@@ -205,4 +205,93 @@ html {
 .scroll-reveal.is-visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* ==========================================================================
+   Metric Micro-Animation Tokens (Data Swap & Sticker Bounce)
+   ========================================================================== */
+@keyframes metricValuePop {
+  0% {
+    transform: translateY(3px) scale(0.97);
+    opacity: 0.7;
+  }
+  60% {
+    transform: translateY(-0.5px) scale(1.02);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes metricStickerBounce {
+  0% {
+    transform: scale(0.92) rotate(-4deg);
+  }
+  50% {
+    transform: scale(1.16) rotate(3deg);
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.animate-metric-pop {
+  animation: metricValuePop 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-sticker-bounce {
+  animation: metricStickerBounce 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-metric-pop,
+  .animate-sticker-bounce {
+    animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   Print Optimization for Official PPL Consultation Document (A4 Sheet)
+   ========================================================================== */
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 8mm 10mm;
+  }
+
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    font-size: 10.5pt !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Hide app shell, sidebars, headers, and interactive UI in print */
+  header,
+  nav,
+  aside,
+  button,
+  .print\:hidden {
+    display: none !important;
+  }
+
+  /* Full-bleed isolated print document container */
+  .print-document {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  .print-avoid-break {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
 }

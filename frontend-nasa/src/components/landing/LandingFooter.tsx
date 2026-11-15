@@ -1,5 +1,6 @@
-import { Sprout, ExternalLink, Code2, Satellite, BookOpen, Layers, ShieldCheck } from 'lucide-react';
+import { ExternalLink, Code2, Satellite, BookOpen, Layers, ShieldCheck } from 'lucide-react';
 import type { Language } from '../../types/landing';
+import { RotasiLogo } from '../brand/RotasiLogo';
 
 interface LandingFooterProps {
   currentLang: Language;
@@ -27,12 +28,7 @@ interface LandingFooterProps {
           {/* Brand & Mission (2 cols) */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#E3F1F3] text-[#237F8E] shadow-xs">
-                <Sprout className="h-5 w-5" />
-              </div>
-              <span className="text-xl font-bold tracking-tight text-[#14232B]">
-                FIELD <span className="text-[#237F8E]">SHIFT</span>
-              </span>
+              <RotasiLogo variant="horizontal" size="md" />
             </div>
 
             <p className="text-xs text-[#5F6B74] leading-relaxed max-w-sm">
@@ -165,7 +161,7 @@ interface LandingFooterProps {
           </div>
 
           <div className="text-[11px] text-[#5F6B74]">
-            &copy; 2026 FIELD SHIFT &middot; NASA Space Apps Challenge &middot; Open Data Mandate
+            &copy; 2026 ROTASI &middot; NASA Space Apps Challenge &middot; Open Data Mandate
           </div>
         </div>
       </div>

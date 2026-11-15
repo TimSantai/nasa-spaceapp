@@ -194,8 +194,8 @@ interface ProblemSectionProps {
 
             <p className="mt-3 text-[11px] text-[#5F6B74] text-center">
               {isId
-                ? 'Field Shift mereduksi risiko ini dengan mengidentifikasi palawija yang tepat.'
-                : 'Field Shift mitigates this by identifying optimal cover crops before monsoon onset.'}
+                ? 'ROTASI mereduksi risiko ini dengan mengidentifikasi palawija yang tepat.'
+                : 'ROTASI mitigates this by identifying optimal cover crops before monsoon onset.'}
             </p>
           </div>
         </div>

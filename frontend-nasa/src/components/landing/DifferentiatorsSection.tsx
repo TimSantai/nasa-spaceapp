@@ -40,8 +40,8 @@ interface DifferentiatorsSectionProps {
 
             <p className="mt-3 text-sm sm:text-base text-[#5F6B74] leading-relaxed max-w-2xl mx-auto">
               {isId
-                ? 'Kebanyakan aplikasi memberi satu rekomendasi mutlak dan menyembunyikan ketidakpastian. Field Shift dibangun di atas 4 pilar transparansi sains antariksa.'
-                : 'While standard apps output a single black-box decree, Field Shift is engineered on four pillars of spaceborne scientific transparency.'}
+                ? 'Kebanyakan aplikasi memberi satu rekomendasi mutlak dan menyembunyikan ketidakpastian. ROTASI dibangun di atas 4 pilar transparansi sains antariksa.'
+                : 'While standard apps output a single black-box decree, ROTASI is engineered on four pillars of spaceborne scientific transparency.'}
             </p>
           </div>
 

@@ -1,6 +1,8 @@
 import React from 'react';
 import { X, CheckCircle2, AlertTriangle, Database, FileText, CheckSquare, Square, ShieldCheck } from 'lucide-react';
 import type { Strategy } from '../../types/domain';
+import type { Language } from '../../types/landing';
+import { formatStrategyTitle } from '../../lib/cropTranslation';
 
 interface EvidenceModalProps {
   strategy: Strategy | null;
@@ -8,6 +10,7 @@ interface EvidenceModalProps {
   onClose: () => void;
   verifiedChecks?: Record<string, boolean>;
   onToggleCheck?: (checkText: string) => void;
+  currentLang?: Language;
 }
 
 export const EvidenceModal: React.FC<EvidenceModalProps> = ({
@@ -16,6 +19,7 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
   onClose,
   verifiedChecks = {},
   onToggleCheck,
+  currentLang = 'id',
 }) => {
   if (!isOpen || !strategy) return null;
 
@@ -41,7 +45,9 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
               </span>
               <span className="text-xs text-[#5F6B74]">NASA Evidence Dossier &middot; Bukti Data & Batasan Model</span>
             </div>
-            <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#14232B]">{strategy.name}</h2>
+            <h2 className="mt-2 text-2xl font-bold tracking-tight text-[#14232B]">
+              {formatStrategyTitle(strategy.name, currentLang)}
+            </h2>
             <p className="mt-1 text-xs text-[#5F6B74]">{strategy.confidenceReason}</p>
           </div>
           <button
@@ -169,11 +175,10 @@ export const EvidenceModal: React.FC<EvidenceModalProps> = ({
                   <li
                     key={i}
                     onClick={() => onToggleCheck && onToggleCheck(check)}
-                    className={`cursor-pointer flex items-start gap-3 rounded-xl border p-3 transition duration-150 ${
-                      isChecked
+                    className={`cursor-pointer flex items-start gap-3 rounded-xl border p-3 transition duration-150 ${isChecked
                         ? 'border-[#237F8E] bg-[#E3F1F3]/40 text-[#14232B]'
                         : 'border-[#E6EBF0] bg-white text-[#5F6B74] hover:border-gray-300'
-                    }`}
+                      }`}
                   >
                     <div className="mt-0.5 shrink-0">
                       {isChecked ? (

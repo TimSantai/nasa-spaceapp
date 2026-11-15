@@ -1,6 +1,10 @@
 import React from 'react';
 import type { FieldProfile } from '../../types/domain';
 import type { Language } from '../../types/landing';
+import { formatFreeRotationItem } from '../../lib/cropTranslation';
+import { CropSticker } from '../../components/stickers/CropSticker';
+import { MetricSticker } from '../../components/stickers/MetricSticker';
+import { AnimatedNumber } from '../../components/common/AnimatedNumber';
 import { X, ArrowRight, Layers, CheckCircle2, Sprout, Satellite } from 'lucide-react';
 
 interface PlotDetailSideCardProps {
@@ -32,6 +36,23 @@ export const PlotDetailSideCard: React.FC<PlotDetailSideCardProps> = ({
   }
 
   const activeField = field ?? cachedField;
+  const activeId = activeField?.id;
+
+  const [prevActiveId, setPrevActiveId] = React.useState<string | undefined>(activeId);
+  const [isMetricPulsing, setIsMetricPulsing] = React.useState(false);
+
+  if (activeId !== prevActiveId) {
+    setPrevActiveId(activeId);
+    setIsMetricPulsing(true);
+  }
+
+  React.useEffect(() => {
+    if (isMetricPulsing) {
+      const timer = setTimeout(() => setIsMetricPulsing(false), 450);
+      return () => clearTimeout(timer);
+    }
+  }, [isMetricPulsing]);
+
   if (!activeField) return null;
 
   return (
@@ -68,50 +89,125 @@ export const PlotDetailSideCard: React.FC<PlotDetailSideCardProps> = ({
           </button>
         </div>
 
-        {/* 4 Core Quantitative Metrics */}
+        {/* 4 Core Quantitative Metrics with friendly stickers & micro-animations */}
         <div className="mt-4 grid grid-cols-2 gap-2.5 text-xs">
-          <div className="rounded-xl border border-[#E6EBF0] bg-[#F7F9FB] p-3">
-            <span className="text-[10px] font-semibold text-[#5F6B74] block uppercase">
-              {isId ? 'Luas Lahan' : 'Plot Area'}
-            </span>
-            <p className="mt-1 text-base font-bold text-[#14232B] tabular-nums">
-              {activeField.areaHectares} <span className="text-xs font-normal text-[#5F6B74]">ha</span>
-            </p>
+          <div
+            className={`rounded-xl border p-3 flex items-start justify-between transition-all duration-300 ${
+              isMetricPulsing
+                ? 'border-[#237F8E]/40 bg-[#EDF6F8] shadow-xs'
+                : 'border-[#E6EBF0] bg-[#F7F9FB]'
+            }`}
+          >
+            <div>
+              <span className="text-[10px] font-semibold text-[#5F6B74] block uppercase">
+                {isId ? 'Luas Lahan' : 'Plot Area'}
+              </span>
+              <p
+                className={`mt-1 text-base font-bold text-[#14232B] tabular-nums ${
+                  isMetricPulsing ? 'animate-metric-pop' : ''
+                }`}
+              >
+                <AnimatedNumber value={activeField.areaHectares} decimals={1} />{' '}
+                <span className="text-xs font-normal text-[#5F6B74]">ha</span>
+              </p>
+            </div>
+            <MetricSticker
+              type="area"
+              size="sm"
+              className={isMetricPulsing ? 'animate-sticker-bounce' : ''}
+            />
           </div>
 
-          <div className="rounded-xl border border-[#E6EBF0] bg-[#F7F9FB] p-3">
-            <span className="text-[10px] font-semibold text-[#5F6B74] block uppercase">
-              {isId ? 'Kemiringan Lereng' : 'Terrain Slope'}
-            </span>
-            <p className="mt-1 text-base font-bold text-[#14232B] tabular-nums">
-              {activeField.soil.slope}% <span className="text-xs font-normal text-[#5F6B74]">({activeField.soil.erosionRisk})</span>
-            </p>
+          <div
+            className={`rounded-xl border p-3 flex items-start justify-between transition-all duration-300 ${
+              isMetricPulsing
+                ? 'border-[#237F8E]/40 bg-[#EDF6F8] shadow-xs'
+                : 'border-[#E6EBF0] bg-[#F7F9FB]'
+            }`}
+          >
+            <div>
+              <span className="text-[10px] font-semibold text-[#5F6B74] block uppercase">
+                {isId ? 'Kemiringan Lereng' : 'Terrain Slope'}
+              </span>
+              <p
+                className={`mt-1 text-base font-bold text-[#14232B] tabular-nums ${
+                  isMetricPulsing ? 'animate-metric-pop' : ''
+                }`}
+              >
+                <AnimatedNumber value={activeField.soil.slope} decimals={1} />%{' '}
+                <span className="text-xs font-normal text-[#5F6B74]">({activeField.soil.erosionRisk})</span>
+              </p>
+            </div>
+            <MetricSticker
+              type="slope"
+              size="sm"
+              className={isMetricPulsing ? 'animate-sticker-bounce' : ''}
+            />
           </div>
 
-          <div className="rounded-xl border border-[#E6EBF0] bg-[#F7F9FB] p-3">
-            <span className="text-[10px] font-semibold text-[#5F6B74] block uppercase">
-              {isId ? 'Ketinggian Elevasi' : 'Elevation'}
-            </span>
-            <p className="mt-1 text-base font-bold text-[#14232B] tabular-nums">
-              {activeField.elevationMeters} <span className="text-xs font-normal text-[#5F6B74]">mdpl</span>
-            </p>
+          <div
+            className={`rounded-xl border p-3 flex items-start justify-between transition-all duration-300 ${
+              isMetricPulsing
+                ? 'border-[#237F8E]/40 bg-[#EDF6F8] shadow-xs'
+                : 'border-[#E6EBF0] bg-[#F7F9FB]'
+            }`}
+          >
+            <div>
+              <span className="text-[10px] font-semibold text-[#5F6B74] block uppercase">
+                {isId ? 'Ketinggian Elevasi' : 'Elevation'}
+              </span>
+              <p
+                className={`mt-1 text-base font-bold text-[#14232B] tabular-nums ${
+                  isMetricPulsing ? 'animate-metric-pop' : ''
+                }`}
+              >
+                <AnimatedNumber value={activeField.elevationMeters} decimals={0} />{' '}
+                <span className="text-xs font-normal text-[#5F6B74]">mdpl</span>
+              </p>
+            </div>
+            <MetricSticker
+              type="elevation"
+              size="sm"
+              className={isMetricPulsing ? 'animate-sticker-bounce' : ''}
+            />
           </div>
 
-          <div className="rounded-xl border border-[#E6EBF0] bg-[#F7F9FB] p-3">
-            <span className="text-[10px] font-semibold text-[#5F6B74] block uppercase">
-              {isId ? 'Kapasitas Air (AWC)' : 'Water Capacity'}
-            </span>
-            <p className="mt-1 text-base font-bold text-[#237F8E] tabular-nums">
-              {activeField.soil.awc} <span className="text-xs font-normal text-[#5F6B74]">mm</span>
-            </p>
+          <div
+            className={`rounded-xl border p-3 flex items-start justify-between transition-all duration-300 ${
+              isMetricPulsing
+                ? 'border-[#237F8E]/40 bg-[#EDF6F8] shadow-xs'
+                : 'border-[#E6EBF0] bg-[#F7F9FB]'
+            }`}
+          >
+            <div>
+              <span className="text-[10px] font-semibold text-[#5F6B74] block uppercase">
+                {isId ? 'Kapasitas Air (AWC)' : 'Water Capacity'}
+              </span>
+              <p
+                className={`mt-1 text-base font-bold text-[#237F8E] tabular-nums ${
+                  isMetricPulsing ? 'animate-metric-pop' : ''
+                }`}
+              >
+                <AnimatedNumber value={activeField.soil.awc} decimals={0} />{' '}
+                <span className="text-xs font-normal text-[#5F6B74]">mm</span>
+              </p>
+            </div>
+            <MetricSticker
+              type="awc"
+              size="sm"
+              className={isMetricPulsing ? 'animate-sticker-bounce' : ''}
+            />
           </div>
         </div>
 
         {/* Pedology & Soil Context */}
         <div className="mt-4 rounded-xl border border-[#E6EBF0] bg-white p-3.5 text-xs">
-          <div className="flex items-center gap-1.5 text-[#237F8E] font-bold text-[11px] uppercase tracking-wider">
-            <Layers className="h-3.5 w-3.5" />
-            <span>{isId ? 'Karakteristik Pedologi Tanah' : 'Pedology Profile'}</span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5 text-[#237F8E] font-bold text-[11px] uppercase tracking-wider">
+              <Layers className="h-3.5 w-3.5" />
+              <span>{isId ? 'Karakteristik Pedologi Tanah' : 'Pedology Profile'}</span>
+            </div>
+            <MetricSticker type="pedology" size="sm" />
           </div>
           <div className="mt-2 space-y-1.5 text-[#5F6B74]">
             <p className="flex justify-between">
@@ -139,9 +235,10 @@ export const PlotDetailSideCard: React.FC<PlotDetailSideCardProps> = ({
             {activeField.currentRotation.map((crop, idx) => (
               <span
                 key={`${crop}-${idx}`}
-                className="rounded-lg bg-white px-2.5 py-1 text-[11px] font-medium text-[#14232B] border border-[#E6EBF0]"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[11px] font-medium text-[#14232B] border border-[#E6EBF0] shadow-2xs"
               >
-                {crop}
+                <CropSticker name={crop} size="xs" />
+                <span>{formatFreeRotationItem(crop, currentLang)}</span>
               </span>
             ))}
           </div>
