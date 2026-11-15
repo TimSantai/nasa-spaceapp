@@ -116,7 +116,10 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     app = FastAPI(
         title="ROTASI API",
-        summary="ROTASI: Resilient Optimization Tool for Agro-Satellite Insights (NASA Space Apps 2026)",
+        summary=(
+            "ROTASI: Resilient Optimization Tool for Agro-Satellite Insights"
+            " (NASA Space Apps 2026)"
+        ),
         description=OPENAPI_DESCRIPTION,
         version="0.1.0",
         openapi_tags=OPENAPI_TAGS,
