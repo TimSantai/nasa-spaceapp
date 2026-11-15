@@ -1,0 +1,45 @@
+{
+  "source": {
+    "url": "https://www.farmminerals.com/",
+    "extractedAt": "2026-11-14T07:03:53.589Z",
+    "extractor": "dembrandt"
+  },
+  "colors": {
+    "palette": [],
+    "cssVariables": {}
+  },
+  "typography": {
+    "headingFont": "Aeonik",
+    "bodyFont": "Aeonik"
+  },
+  "spacing": {
+    "scale": [
+      "1px",
+      "4.608px",
+      "6.4512px",
+      "11.6122px",
+      "16.2202px",
+      "18.432px",
+      "20.183px",
+      "23.04px",
+      "27.648px",
+      "30.0442px",
+      "34.6522px",
+      "36.864px",
+      "55.296px",
+      "57.6922px",
+      "69.12px",
+      "92.16px",
+      "103.772px",
+      "110.592px",
+      "126.812px",
+      "423.936px"
+    ]
+  },
+  "radius": {
+    "scale": []
+  },
+  "shadows": {
+    "scale": []
+  }
+}

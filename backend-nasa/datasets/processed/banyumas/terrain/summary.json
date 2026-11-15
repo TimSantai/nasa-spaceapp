@@ -1,0 +1,29 @@
+{
+  "site": "banyumas",
+  "crs": "EPSG:32749",
+  "resolution_m": 30.0,
+  "tiles": [
+    "S08E108.SRTMGL1.hgt.zip",
+    "S08E109.SRTMGL1.hgt.zip"
+  ],
+  "valid_fraction": 0.9891,
+  "elevation_m": {
+    "min": -15.3,
+    "p10": 7.1,
+    "median": 107.0,
+    "p90": 774.0,
+    "max": 3419.4
+  },
+  "slope_deg": {
+    "median": 5.5,
+    "p90": 20.71
+  },
+  "slope_class_share": {
+    "0-2%": 0.087,
+    "2-5%": 0.2151,
+    "5-10%": 0.209,
+    "10-15%": 0.1154,
+    "15-30%": 0.2122,
+    ">30%": 0.1613
+  }
+}

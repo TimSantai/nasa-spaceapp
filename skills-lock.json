@@ -1,0 +1,35 @@
+{
+  "version": 2,
+  "skills": {
+    "better-colors": {
+      "source": "jakubkrehel/skills",
+      "sourceType": "github",
+      "skillPath": "skills/better-colors/SKILL.md",
+      "computedHash": "d114ace9df09574564a14316882d80501b48bea636017dc7e4c0ad53053d6319"
+    },
+    "extract-design-system": {
+      "source": "arvindrk/extract-design-system",
+      "sourceType": "github",
+      "skillPath": "skills/extract-design-system/SKILL.md",
+      "computedHash": "fcc959a17cec8bd719b97bad240a6a5eaf8660700d4876a4392e4199497d3012"
+    },
+    "feature-planning": {
+      "source": "OneDro1d/dark-factory",
+      "sourceType": "github",
+      "skillPath": "builder-tester-pair/skills/feature-planning/SKILL.md",
+      "computedHash": "81c5b1387e69fbeac6802272c89a3b5f64c316c18b960f94dbe60a3caa843f9f"
+    },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "e2cf00befa3d67eb6b30c0be529ace43d1b2749b112cf3a7e143fb34a01c2dba"
+    },
+    "planning-and-task-breakdown": {
+      "source": "addyosmani/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/planning-and-task-breakdown/SKILL.md",
+      "computedHash": "e4ef8d478d672103693af0cab5a97a1914f776099ef0756c2a093d9ae061f024"
+    }
+  }
+}

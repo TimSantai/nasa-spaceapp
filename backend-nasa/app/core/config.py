@@ -18,6 +18,8 @@ class Settings(BaseSettings):
     app_port: int = Field(default=8000, ge=1, le=65535)
     cors_origins: str = "http://localhost:5173,http://localhost:3000"
     data_dir: Path = Path("datasets")
+    # Derived products from fieldshift-data-kit (data/processed/<site>/{climate,terrain,rotation})
+    processed_dir: Path = Path("datasets/processed")
     models_dir: Path = Path("models")
     log_level: str = Field(default="INFO", pattern="^(DEBUG|INFO|WARNING|ERROR)$")
     log_format: str = Field(default="text", pattern="^(text|json)$")
@@ -25,6 +27,11 @@ class Settings(BaseSettings):
 
     # Infrastructure (optional until a module uses it). SecretStr keeps passwords out of logs.
     database_url: SecretStr | None = None
+    database_pool_size: int = Field(default=5, ge=1)
+    database_max_overflow: int = Field(default=5, ge=0)
+    database_pool_timeout_seconds: float = Field(default=30.0, gt=0)
+    database_pool_recycle_seconds: int = Field(default=1_800, ge=1)
+    database_connect_timeout_seconds: float = Field(default=10.0, gt=0)
     redis_url: SecretStr | None = None
 
     @field_validator("cors_origins")

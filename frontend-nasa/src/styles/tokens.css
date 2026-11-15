@@ -1,0 +1,154 @@
+:root {
+  /* ==========================================================================
+     TIER 1: PRIMITIVES (Ramps named by Hue and Step — never applied in components)
+     Standards: better-colors (OKLCH lightness-ordered ramps, hold hue constant)
+     ========================================================================== */
+
+  /* Neutral Slate Ramp (Hue ~232° OKLCH) */
+  --slate-50: #F4F7FA;
+  --slate-100: #F1F5F9;
+  --slate-200: #E6EBF0;
+  --slate-300: #D8DFE6;
+  --slate-400: #8A949B;
+  --slate-500: #5F6B74;
+  --slate-700: #2C3E4A;
+  --slate-900: #14232B;
+
+  /* Accent Teal Ramp (Hue ~211° OKLCH) */
+  --teal-50: #F0F8F9;
+  --teal-100: #E3F1F3;
+  --teal-200: #BFE3DB;
+  --teal-600: #237F8E;
+  --teal-700: #1B6572;
+  --teal-800: #144F59;
+
+  /* Status: Success Green Ramp (Hue ~155° OKLCH) */
+  --green-50: #F0F7F2;
+  --green-100: #E7F2EB;
+  --green-600: #2E7D4F;
+  --green-700: #256C43;
+  --green-900: #1E5B4F;
+
+  /* Status: Warning Amber Ramp (Hue ~70° OKLCH) */
+  --amber-50: #FDF9F3;
+  --amber-100: #F6EFE5;
+  --amber-500: #E0A030;
+  --amber-600: #B7791F;
+  --amber-700: #9A6014;
+
+  /* Status: Danger Red Ramp (Hue ~28° OKLCH) */
+  --red-50: #FDF4F3;
+  --red-100: #F6E9E8;
+  --red-600: #B4443A;
+  --red-700: #96352D;
+
+  /* Environmental Accent: Leaf Green (Hue ~135° OKLCH) */
+  --leaf-500: #6BA544;
+  --leaf-800: #1E5B4F;
+
+  /* Pure Base */
+  --white: #FFFFFF;
+  --black: #000000;
+
+
+  /* ==========================================================================
+     TIER 2: SEMANTIC TOKENS (Named by Role — what templates & components consume)
+     Standards: better-colors Role Inventory (Surfaces, Text, Borders, Accent, Status)
+     ========================================================================== */
+
+  /* Surfaces */
+  --color-bg-page: var(--slate-50);
+  --color-bg-surface: var(--white);
+  --color-bg-subtle: #F7F9FB;
+  --color-bg-sunken: var(--slate-100);
+  --color-bg-raised: var(--white);
+
+  /* Text Roles (All contrast verified >= 4.5:1 against respective surfaces) */
+  --color-text-primary: var(--slate-900);     /* 16.09:1 on White (AAA) */
+  --color-text-secondary: var(--slate-500);   /* 5.47:1 on White (AA) */
+  --color-text-disabled: var(--slate-400);    /* Lc 30 legible disabled */
+  --color-text-inverse: var(--white);
+  --color-text-on-accent: var(--white);       /* 4.67:1 on Teal 600 (AA) */
+
+  /* Borders & Edges */
+  --color-border-subtle: var(--slate-100);
+  --color-border-default: var(--slate-200);   /* Structure boundary */
+  --color-border-strong: var(--slate-300);
+  --color-border-focus: var(--teal-600);      /* 3:1 graphical indicator */
+
+  /* Accent (AgriPluse Brand) */
+  --color-accent-subtle: var(--teal-100);     /* Soft tint */
+  --color-accent-border: var(--teal-200);     /* 3:1 UI boundary */
+  --color-accent-solid: var(--teal-600);      /* Primary brand fill */
+  --color-accent-hover: var(--teal-700);      /* 6.66:1 with white text */
+  --color-accent-text: var(--teal-700);       /* 5.76:1 on Accent Subtle */
+
+  /* Status: Success (High Confidence) */
+  --color-success-subtle: var(--green-100);   /* Solid background for static contrast */
+  --color-success-border: #C8E3D2;
+  --color-success-solid: var(--green-600);
+  --color-success-text: var(--green-700);     /* 5.54:1 on green-100, 6.35:1 on white (AA) */
+
+  /* Status: Warning (Moderate Confidence) */
+  --color-warning-subtle: var(--amber-100);   /* Solid background for static contrast */
+  --color-warning-border: #E8D5B8;
+  --color-warning-solid: var(--amber-600);
+  --color-warning-text: var(--amber-700);     /* 4.53:1 on amber-100, 5.18:1 on white (AA) */
+
+  /* Status: Danger (Low Confidence / Erosion Hazard) */
+  --color-danger-subtle: var(--red-100);      /* Solid background for static contrast */
+  --color-danger-border: #E8C4C1;
+  --color-danger-solid: var(--red-600);
+  --color-danger-text: var(--red-700);       /* 5.76:1 on red-100, 6.84:1 on white (AA) */
+
+  /* Environmental Accent Tokens */
+  --color-leaf-solid: var(--leaf-500);
+  --color-leaf-text: var(--leaf-800);         /* 7.88:1 on white (AAA) */
+  --color-accent-water: var(--teal-600);
+  --color-accent-growth: var(--leaf-500);
+  --color-accent-hazard: var(--red-600);
+
+  /* Series Colors (Multi-Strategy Pareto Visualization) */
+  --series-baseline: var(--teal-600);
+  --series-opt-a: var(--leaf-500);
+  --series-opt-b: var(--amber-500);
+  --series-4: #7A6FC2;
+  --series-5: #D2694F;
+
+
+  /* ==========================================================================
+     BACKWARD-COMPATIBLE ALIASES (Guarantees zero component regressions)
+     ========================================================================== */
+  --color-primary: var(--color-accent-solid);
+  --color-primary-dark: var(--color-accent-hover);
+  --color-primary-hover: var(--color-accent-hover);
+  --color-primary-light: var(--color-accent-subtle);
+  --color-primary-border: var(--color-accent-border);
+  --color-leaf: var(--color-leaf-solid);
+  --color-leaf-deep: var(--color-leaf-text);
+  --color-bg: var(--color-bg-page);
+  --color-surface: var(--color-bg-surface);
+  --color-surface-muted: var(--color-bg-subtle);
+  --color-text: var(--color-text-primary);
+  --color-text-muted: var(--color-text-secondary);
+  --color-border: var(--color-border-default);
+
+  --conf-high: var(--color-success-solid);
+  --conf-high-bg: var(--color-success-subtle);
+  --conf-medium: var(--color-warning-solid);
+  --conf-medium-bg: var(--color-warning-subtle);
+  --conf-low: var(--color-danger-solid);
+  --conf-low-bg: var(--color-danger-subtle);
+
+  --color-gap: var(--slate-200);
+  --color-dominated: var(--slate-400);
+
+  /* Shadows (Field Shift Design System) */
+  --shadow-subtle: 0 1px 3px rgba(20, 35, 43, 0.04);
+  --shadow-card: 0 4px 20px rgba(20, 35, 43, 0.05);
+  --shadow-float: 0 10px 30px rgba(20, 35, 43, 0.10);
+
+  /* Typography */
+  --font-heading: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+}

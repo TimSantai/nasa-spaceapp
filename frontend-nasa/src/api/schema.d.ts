@@ -21,10 +21,203 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/v1/rotations/sites": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List harmonized study sites and available crops
+         * @description Returns all study sites (`banyumas`, `nevada_mason_valley`) that have harmonized NASA climate and terrain datasets ready in `PROCESSED_DIR`, including season slots, crop catalog keys, latest observed ENSO/IOD phases, and provenance sources.
+         */
+        get: operations["sites_api_v1_rotations_sites_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/rotations/compare": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Compare crop rotation strategies and persist AI results to PostGIS
+         * @description Evaluates at least three crop rotation strategies (including the baseline rotation) against historical climate analog years matching the requested ENSO/IOD phase. Computes mean and worst-20% (CVaR20) irrigation demand, soil health heuristics, RUSLE slope-adjusted erosion exposure, Pareto dominance, and normalized 0-100 scores. Whenever a PostgreSQL/PostGIS database session is configured, the AI comparison output (strategies, sequence items, scenario outcomes, evidence cards, and data gaps) is automatically upserted into the database.
+         */
+        post: operations["compare_rotations_api_v1_rotations_compare_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fields": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List agricultural field profiles for a study site
+         * @description Returns all harmonized agricultural field profiles (`fields.json`) for the given study site, serialized in `camelCase` to match `FieldProfile` in the React frontend. Includes SRTM elevation/slope, SoilGrids/SSURGO soil properties, 12-month NASA POWER climate normals, HLS 30m NDVI phenology time-series, and explicit data-availability confidence disclosure. Automatically syncs parcel geometries to PostGIS when active.
+         */
+        get: operations["list_fields_api_v1_fields_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/fields/{field_id}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get a single agricultural field profile by ID
+         * @description Returns one harmonized field profile (`FieldProfileOut`) by its unique `field_id` (e.g., `banyumas-karangrau-01`, `banyumas-sumbang-02`, `banyumas-rawalo-03`) and syncs its parcel boundary and soil record to PostGIS when active.
+         */
+        get: operations["get_field_api_v1_fields__field_id__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/climate/ingest": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Ingest & harmonize NASA datasets, export JSON, and sync to PostGIS
+         * @description Runs the A2 NASA data ingestion and zonal harmonization pipeline for the requested site (`banyumas` or `nevada_mason_valley`). Generates harmonized seasonal climate indicators (`NASA POWER`, `GPM IMERG`, `NOAA ONI/DMI`), SRTM terrain slope shares, field profiles (`SoilGrids 250m` / `SSURGO` + `HLS 30m NDVI`), and precomputed `scores.json` with duplicate site-level gaps hoisted out. Also updates `datasets/manifest.yaml` and pushes `Region`, `DataSource`, and `ClimateYearLabel` records to PostgreSQL/PostGIS when `DATABASE_URL` is configured.
+         */
+        post: operations["ingest_nasa_data_api_v1_climate_ingest_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/climate/{site}": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get harmonized NASA climate indicators and ENSO/IOD summary
+         * @description Returns the harmonized NASA POWER / IMERG seasonal climate indicators, latest ENSO/IOD phase outlook, SRTM steep-slope share, and per-phase climate averages for the specified study site. By default `compact=true` omits the raw 1991-2024 row list so the JSON response stays concise and fast; pass `compact=false` to include every historical seasonal record.
+         */
+        get: operations["get_climate_summary_api_v1_climate__site__get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/v1/climate/{site}/export": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Export optimized precomputed JSON bundle and payload audit report
+         * @description Generates and returns the optimized JSON export bundle (`scores.json` contract) across all ENSO phases (`el_nino`, `neutral`, `la_nina`), along with a `JsonQualityReportOut` showing raw vs optimized byte size, percentage reduction, and how repeated site-level data gaps were hoisted into `shared_site_gaps`.
+         */
+        get: operations["export_climate_and_scores_json_api_v1_climate__site__export_get"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
 }
 export type webhooks = Record<string, never>;
 export interface components {
     schemas: {
+        /**
+         * AnalogsOut
+         * @description Historical climate analog years selected for evaluation.
+         */
+        AnalogsOut: {
+            /**
+             * Grouping
+             * @description Phase grouping strategy (`enso+iod`, `enso`, `iod`, `all`)
+             */
+            grouping: string;
+            /**
+             * Phase
+             * @description Conditioned climate phase label
+             */
+            phase: string;
+            /**
+             * Years
+             * @description Historical planning years matching the phase
+             */
+            years: number[];
+        };
+        /** ApiResponse[ClimateSiteSummaryOut] */
+        ApiResponse_ClimateSiteSummaryOut_: {
+            /** Success */
+            success: boolean;
+            data?: components["schemas"]["ClimateSiteSummaryOut"] | null;
+            error?: components["schemas"]["ErrorInfo"] | null;
+            meta?: components["schemas"]["PageMeta"] | null;
+        };
+        /** ApiResponse[ComparisonOut] */
+        ApiResponse_ComparisonOut_: {
+            /** Success */
+            success: boolean;
+            data?: components["schemas"]["ComparisonOut"] | null;
+            error?: components["schemas"]["ErrorInfo"] | null;
+            meta?: components["schemas"]["PageMeta"] | null;
+        };
+        /** ApiResponse[ExportBundleOut] */
+        ApiResponse_ExportBundleOut_: {
+            /** Success */
+            success: boolean;
+            data?: components["schemas"]["ExportBundleOut"] | null;
+            error?: components["schemas"]["ErrorInfo"] | null;
+            meta?: components["schemas"]["PageMeta"] | null;
+        };
+        /** ApiResponse[FieldProfileOut] */
+        ApiResponse_FieldProfileOut_: {
+            /** Success */
+            success: boolean;
+            data?: components["schemas"]["FieldProfileOut"] | null;
+            error?: components["schemas"]["ErrorInfo"] | null;
+            meta?: components["schemas"]["PageMeta"] | null;
+        };
         /** ApiResponse[HealthData] */
         ApiResponse_HealthData_: {
             /** Success */
@@ -32,6 +225,242 @@ export interface components {
             data?: components["schemas"]["HealthData"] | null;
             error?: components["schemas"]["ErrorInfo"] | null;
             meta?: components["schemas"]["PageMeta"] | null;
+        };
+        /** ApiResponse[IngestResponseOut] */
+        ApiResponse_IngestResponseOut_: {
+            /** Success */
+            success: boolean;
+            data?: components["schemas"]["IngestResponseOut"] | null;
+            error?: components["schemas"]["ErrorInfo"] | null;
+            meta?: components["schemas"]["PageMeta"] | null;
+        };
+        /** ApiResponse[list[FieldProfileOut]] */
+        ApiResponse_list_FieldProfileOut__: {
+            /** Success */
+            success: boolean;
+            /** Data */
+            data?: components["schemas"]["FieldProfileOut"][] | null;
+            error?: components["schemas"]["ErrorInfo"] | null;
+            meta?: components["schemas"]["PageMeta"] | null;
+        };
+        /** ApiResponse[list[SiteInfo]] */
+        ApiResponse_list_SiteInfo__: {
+            /** Success */
+            success: boolean;
+            /** Data */
+            data?: components["schemas"]["SiteInfo"][] | null;
+            error?: components["schemas"]["ErrorInfo"] | null;
+            meta?: components["schemas"]["PageMeta"] | null;
+        };
+        /** ClimateMonth */
+        ClimateMonth: {
+            /** Month */
+            month: string;
+            /**
+             * Rainfall
+             * @description Mean monthly rainfall 1991-2020, mm
+             */
+            rainfall: number;
+            /** Tempmin */
+            tempMin: number;
+            /** Tempmax */
+            tempMax: number;
+            /**
+             * Soilmoisture
+             * @description Root-zone soil wetness, 0-1
+             */
+            soilMoisture: number;
+        };
+        /**
+         * ClimateSiteSummaryOut
+         * @description Harmonized NASA climate, ENSO/IOD outlook, and SRTM terrain summary for a site.
+         */
+        ClimateSiteSummaryOut: {
+            /** Site */
+            site: string;
+            /** Name */
+            name: string;
+            /** Latest Enso Phase */
+            latest_enso_phase: string;
+            /** Latest Iod Phase */
+            latest_iod_phase: string;
+            /**
+             * Steep Slope Share
+             * @description Share of site area with SRTM slope > 10%
+             */
+            steep_slope_share: number;
+            /** Satellite Soil Moisture */
+            satellite_soil_moisture: boolean;
+            /** Satellite Vegetation */
+            satellite_vegetation: boolean;
+            /** Sources */
+            sources: string[];
+            /** Total Seasonal Records */
+            total_seasonal_records: number;
+            /**
+             * Phase Summaries
+             * @description Concise per-phase averages so consumers do not need to parse all raw rows
+             */
+            phase_summaries: components["schemas"]["SeasonPhaseSummaryOut"][];
+            /**
+             * Records
+             * @description Seasonal records (omitted when compact=true to keep JSON small)
+             */
+            records?: components["schemas"]["SeasonIndicatorOut"][];
+        };
+        /**
+         * CompareRequest
+         * @description Request payload for comparing crop rotation strategies under climate-conditioned analogs.
+         * @example {
+         *       "compact": false,
+         *       "enso_phase": "el_nino",
+         *       "field_id": "banyumas-karangrau-01",
+         *       "priorities": {
+         *         "erosion": 1,
+         *         "pest_break": 0.5,
+         *         "soil_health": 1,
+         *         "water": 1
+         *       },
+         *       "risk_aversion": 0.5,
+         *       "scenario": {
+         *         "rain_anomaly_pct": 0,
+         *         "temp_delta_c": 0
+         *       },
+         *       "site": "banyumas"
+         *     }
+         */
+        CompareRequest: {
+            /**
+             * Site
+             * @description Study site identifier (`banyumas` or `nevada_mason_valley`)
+             * @example banyumas
+             * @example nevada_mason_valley
+             */
+            site: string;
+            priorities?: components["schemas"]["Priorities"];
+            /**
+             * Risk Aversion
+             * @description 0 = average years only, 1 = worst 20 % only
+             * @default 0.5
+             */
+            risk_aversion: number;
+            /**
+             * Enso Phase
+             * @description Default: latest observed
+             */
+            enso_phase?: ("el_nino" | "la_nina" | "neutral") | null;
+            /**
+             * Iod Phase
+             * @description Default: latest observed
+             */
+            iod_phase?: ("positive" | "negative" | "neutral") | null;
+            /**
+             * Field Id
+             * @description Use this field's slope and soil water capacity (from /api/v1/fields)
+             */
+            field_id?: string | null;
+            scenario?: components["schemas"]["ScenarioIn"];
+            /**
+             * Baseline
+             * @description Farmer's current rotation: one {season: crop} object per year; seasons left out are fallow. Replaces the default baseline.
+             */
+            baseline?: {
+                [key: string]: string;
+            }[] | null;
+            /**
+             * Compact
+             * @description If true, deduplicates shared site-level data gaps from individual strategy cards.
+             * @default false
+             */
+            compact: boolean;
+        };
+        /**
+         * ComparisonOut
+         * @description Complete rotation comparison response with ranked strategies, summary, and DB sync status.
+         */
+        ComparisonOut: {
+            /** Site */
+            site: string;
+            analogs: components["schemas"]["AnalogsOut"];
+            /** Weights */
+            weights: {
+                [key: string]: number;
+            };
+            /** Risk Aversion */
+            risk_aversion: number;
+            /** Strategies */
+            strategies: components["schemas"]["StrategyOut"][];
+            field_ctx?: components["schemas"]["FieldContextOut"] | null;
+            scenario: components["schemas"]["ScenarioOut"];
+            summary?: components["schemas"]["ComparisonSummaryOut"] | null;
+            /**
+             * Shared Site Gaps
+             * @description Common site-level data gaps shared across all strategies
+             */
+            shared_site_gaps?: string[];
+            persistence?: components["schemas"]["PersistenceOut"] | null;
+            /** Disclaimer */
+            disclaimer: string;
+        };
+        /**
+         * ComparisonSummaryOut
+         * @description Concise executive summary of the rotation comparison for quick inspection.
+         */
+        ComparisonSummaryOut: {
+            /**
+             * Recommended Strategy Key
+             * @description Top-ranked strategy key
+             */
+            recommended_strategy_key: string;
+            /**
+             * Recommended Strategy Name
+             * @description Top-ranked strategy name
+             */
+            recommended_strategy_name: string;
+            /**
+             * Pareto Optimal Count
+             * @description Number of non-dominated strategies
+             */
+            pareto_optimal_count: number;
+            /**
+             * Analog Years Count
+             * @description Number of historical climate analog years used
+             */
+            analog_years_count: number;
+            /**
+             * Water Saved Vs Baseline Mm
+             * @description Mean irrigation water saved by the top strategy vs baseline (mm/yr)
+             */
+            water_saved_vs_baseline_mm: number;
+            /**
+             * Cvar Water Saved Mm
+             * @description Worst-case (CVaR20) irrigation water saved by top strategy vs baseline (mm/yr)
+             */
+            cvar_water_saved_mm: number;
+            /**
+             * Overall Confidence
+             * @description Confidence rating of the top-ranked strategy
+             * @enum {string}
+             */
+            overall_confidence: "low" | "medium" | "high";
+        };
+        /** DataAvailability */
+        DataAvailability: {
+            /** Hasobservedrotation */
+            hasObservedRotation: boolean;
+            /** Hasfieldsoilsurvey */
+            hasFieldSoilSurvey: boolean;
+            /** Hassatellitendvi */
+            hasSatelliteNdvi: boolean;
+            /** Hasdailyprecipitation */
+            hasDailyPrecipitation: boolean;
+            /**
+             * Overallconfidence
+             * @enum {string}
+             */
+            overallConfidence: "HIGH" | "MODERATE" | "LOW";
+            /** Missingdatanotes */
+            missingDataNotes: string[];
         };
         /** ErrorInfo */
         ErrorInfo: {
@@ -53,12 +482,313 @@ export interface components {
                 [key: string]: unknown;
             }[] | null;
         };
+        /**
+         * EvidenceCardOut
+         * @description Transparent decision-support evidence card with NASA provenance and data gaps.
+         */
+        EvidenceCardOut: {
+            /**
+             * Why
+             * @description Agronomic rationale for this rotation strategy
+             */
+            why: string;
+            /**
+             * Evidence
+             * @description Quantitative evidence from NASA climate & terrain data
+             */
+            evidence: string[];
+            /**
+             * Benefits
+             * @description Improvements relative to the baseline rotation
+             */
+            benefits: string[];
+            /**
+             * Gaps
+             * @description Explicitly disclosed information and modeling gaps
+             */
+            gaps: string[];
+            /**
+             * Risks For Local Review
+             * @description Checklist items that farmers and local extension officers (PPL) must verify
+             */
+            risks_for_local_review: string[];
+            /**
+             * Confidence
+             * @description Data-availability-aware confidence level
+             * @enum {string}
+             */
+            confidence: "low" | "medium" | "high";
+            /**
+             * Confidence Reasons
+             * @description Reasons explaining the confidence rating
+             */
+            confidence_reasons: string[];
+        };
+        /**
+         * ExportBundleOut
+         * @description Exported precomputed JSON bundle (`scores.json`) with payload quality diagnostics.
+         */
+        ExportBundleOut: {
+            /**
+             * Schema Version
+             * @default 1.1.0
+             */
+            schema_version: string;
+            /** Site */
+            site: string;
+            /** Generated At */
+            generated_at: string;
+            /** Shared Site Gaps */
+            shared_site_gaps: string[];
+            /** Fields Count */
+            fields_count: number;
+            json_report: components["schemas"]["JsonQualityReportOut"];
+            /** Comparisons */
+            comparisons: {
+                [key: string]: {
+                    [key: string]: unknown;
+                };
+            };
+        };
+        /**
+         * FieldContextOut
+         * @description Field-specific terrain and soil parameters used in the water balance and RUSLE S-factor.
+         */
+        FieldContextOut: {
+            /** Field Id */
+            field_id: string;
+            /** Slope Pct */
+            slope_pct: number;
+            /** Awc Mm Per M */
+            awc_mm_per_m: number;
+        };
+        /** FieldProfileOut */
+        FieldProfileOut: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Regency */
+            regency: string;
+            /** District */
+            district: string;
+            /** Village */
+            village: string;
+            /**
+             * Coordinates
+             * @description [lat, lng]
+             */
+            coordinates: number[];
+            /** Elevationmeters */
+            elevationMeters: number;
+            /** Areahectares */
+            areaHectares?: number | null;
+            /** Currentrotation */
+            currentRotation: string[];
+            soil: components["schemas"]["FieldSoil"];
+            /** Climatehistory */
+            climateHistory: components["schemas"]["ClimateMonth"][];
+            /** Ndvitimeseries */
+            ndviTimeSeries: components["schemas"]["NdviPoint"][];
+            dataAvailability: components["schemas"]["DataAvailability"];
+            provenance: components["schemas"]["Provenance"];
+        };
+        /** FieldSoil */
+        FieldSoil: {
+            /** Type */
+            type: string;
+            /** Texture */
+            texture: string;
+            /** Organicmatter */
+            organicMatter: string;
+            /**
+             * Awc
+             * @description Available water capacity, mm per m of soil
+             */
+            awc: number;
+            /**
+             * Slope
+             * @description Slope, percent rise
+             */
+            slope: number;
+            /**
+             * Erosionrisk
+             * @enum {string}
+             */
+            erosionRisk: "Low" | "Moderate" | "High";
+        };
         /** HealthData */
         HealthData: {
             /** Status */
             status: string;
             /** Env */
             env: string;
+        };
+        /**
+         * IngestRequest
+         * @description Request body to run NASA dataset ingestion and zonal harmonization for a site.
+         * @example {
+         *       "enable_satellite_flags": true,
+         *       "site": "banyumas",
+         *       "update_manifest": true
+         *     }
+         */
+        IngestRequest: {
+            /**
+             * Site
+             * @description Target study site (`banyumas` or `nevada_mason_valley`)
+             * @default banyumas
+             * @example banyumas
+             * @example nevada_mason_valley
+             */
+            site: string;
+            /**
+             * Enable Satellite Flags
+             * @description Switch on AppEEARS SMAP soil moisture and HLS NDVI availability flags
+             * @default true
+             */
+            enable_satellite_flags: boolean;
+            /**
+             * Update Manifest
+             * @description Append provenance record to datasets/manifest.yaml
+             * @default true
+             */
+            update_manifest: boolean;
+        };
+        /**
+         * IngestResponseOut
+         * @description Summary returned after NASA dataset ingestion, harmonization, JSON export, and DB sync.
+         */
+        IngestResponseOut: {
+            /** Site */
+            site: string;
+            /**
+             * Seasons Written
+             * @description Number of seasonal climate rows written
+             */
+            seasons_written: number;
+            /**
+             * Fields Written
+             * @description Number of harmonized field profiles written
+             */
+            fields_written: number;
+            /**
+             * Files Generated
+             * @description Relative paths written under PROCESSED_DIR
+             */
+            files_generated: string[];
+            /**
+             * Manifest Updated
+             * @description True if datasets/manifest.yaml was updated
+             */
+            manifest_updated: boolean;
+            json_report: components["schemas"]["JsonQualityReportOut"];
+            persistence: components["schemas"]["PersistenceOut"];
+        };
+        /**
+         * JsonQualityReportOut
+         * @description Diagnostic report auditing whether exported JSON is overly large and how it was optimized.
+         */
+        JsonQualityReportOut: {
+            /** Site */
+            site: string;
+            /**
+             * Raw Bytes
+             * @description Unoptimized JSON byte size
+             */
+            raw_bytes: number;
+            /**
+             * Optimized Bytes
+             * @description Optimized & deduplicated JSON byte size
+             */
+            optimized_bytes: number;
+            /**
+             * Reduction Pct
+             * @description Percentage payload size reduction
+             */
+            reduction_pct: number;
+            /** Total Strategies */
+            total_strategies: number;
+            /** Total Fields */
+            total_fields: number;
+            /**
+             * Duplicate Gaps Removed
+             * @description Repeated site-level gap strings hoisted out of individual strategy cards
+             */
+            duplicate_gaps_removed: number;
+            /**
+             * Float Precision Digits
+             * @default 3
+             */
+            float_precision_digits: number;
+            /**
+             * Status
+             * @default optimized
+             * @enum {string}
+             */
+            status: "optimized" | "raw";
+            /** Recommendations */
+            recommendations: string[];
+        };
+        /**
+         * MetricsOut
+         * @description Physical agronomic and water-balance indicators per rotation year.
+         */
+        MetricsOut: {
+            /**
+             * Irrigation Mean Mm
+             * @description Mean annual irrigation water demand (mm/yr)
+             */
+            irrigation_mean_mm: number;
+            /**
+             * Irrigation Cvar Mm
+             * @description CVaR20 irrigation demand in the driest 20% of analog years (mm/yr)
+             */
+            irrigation_cvar_mm: number;
+            /**
+             * Cover Share
+             * @description Fraction of the year with living crop cover (0-1)
+             */
+            cover_share: number;
+            /**
+             * Legume Share
+             * @description Fraction of active crop months with N-fixing legumes
+             */
+            legume_share: number;
+            /**
+             * Families
+             * @description Number of distinct botanical crop families in the rotation
+             */
+            families: number;
+            /**
+             * Pest Break Share
+             * @description Fraction of season transitions where the dominant crop family changes
+             */
+            pest_break_share: number;
+            /**
+             * Erosion Index
+             * @description Bare-soil rainfall exposure weighted by RUSLE slope factor S
+             */
+            erosion_index: number;
+            /**
+             * Soil Health
+             * @description Composite soil health heuristic (0-1) from cover, legumes, and diversity
+             */
+            soil_health: number;
+        };
+        /** NdviPoint */
+        NdviPoint: {
+            /** Month */
+            month: string;
+            /** Ndvi */
+            ndvi: number;
+            /**
+             * Phase
+             * @enum {string}
+             */
+            phase: "Land Prep" | "Vegetative" | "Reproductive" | "Fallow (Bera)";
+            /** Observations */
+            observations: number;
         };
         /** PageMeta */
         PageMeta: {
@@ -68,6 +798,298 @@ export interface components {
             page: number;
             /** Limit */
             limit: number;
+        };
+        /**
+         * PersistenceOut
+         * @description Audit status showing whether the AI comparison was pushed to PostgreSQL/PostGIS.
+         */
+        PersistenceOut: {
+            /**
+             * Pushed
+             * @description True if records were committed to PostgreSQL/PostGIS
+             */
+            pushed: boolean;
+            /**
+             * Status
+             * @description Persistence status code (`persisted`, `skipped_no_db`, etc.)
+             */
+            status: string;
+            /**
+             * Records Synced
+             * @description Number of database rows inserted/updated
+             */
+            records_synced: number;
+            /**
+             * Persisted At
+             * @description ISO-8601 UTC timestamp of DB commit
+             */
+            persisted_at?: string | null;
+            /**
+             * Detail
+             * @description Human-readable persistence diagnostic
+             */
+            detail?: string | null;
+        };
+        /**
+         * Priorities
+         * @description Farmer priority weights (0.0 to 1.0) across the four sustainability objectives.
+         */
+        Priorities: {
+            /**
+             * Water
+             * @description Weight for low irrigation need
+             * @default 1
+             */
+            water: number;
+            /**
+             * Soil Health
+             * @description Weight for cover, legume share, and crop diversity
+             * @default 1
+             */
+            soil_health: number;
+            /**
+             * Erosion
+             * @description Weight for low erosion exposure
+             * @default 1
+             */
+            erosion: number;
+            /**
+             * Pest Break
+             * @description Weight for breaking continuous crop family cycles
+             * @default 0.5
+             */
+            pest_break: number;
+        };
+        /** Provenance */
+        Provenance: {
+            /** Elevationslope */
+            elevationSlope: string;
+            /** Soil */
+            soil: string;
+            /** Climate */
+            climate: string;
+            /** Ndvi */
+            ndvi?: string | null;
+        };
+        /**
+         * ScenarioIn
+         * @description What-if climate perturbation applied on top of historical analog years.
+         */
+        ScenarioIn: {
+            /**
+             * Rain Anomaly Pct
+             * @description Rainfall change, %
+             * @default 0
+             */
+            rain_anomaly_pct: number;
+            /**
+             * Temp Delta C
+             * @description Air temperature change, C
+             * @default 0
+             */
+            temp_delta_c: number;
+        };
+        /**
+         * ScenarioOut
+         * @description Applied what-if climate anomaly parameters.
+         */
+        ScenarioOut: {
+            /** Rain Anomaly Pct */
+            rain_anomaly_pct: number;
+            /** Temp Delta C */
+            temp_delta_c: number;
+        };
+        /**
+         * ScoreBreakdown100Out
+         * @description Normalized 0-100 score breakdown ready for UI rendering.
+         */
+        ScoreBreakdown100Out: {
+            /**
+             * Water Efficiency
+             * @description Relative water efficiency score (0-100)
+             */
+            water_efficiency: number;
+            /**
+             * Soil Health
+             * @description Soil health index scaled 0-100
+             */
+            soil_health: number;
+            /**
+             * Cover Days
+             * @description Living ground cover percentage (0-100)
+             */
+            cover_days: number;
+            /**
+             * Erosion Control
+             * @description Relative erosion control score (0-100)
+             */
+            erosion_control: number;
+            /**
+             * Pest Break
+             * @description Pest cycle interruption percentage (0-100)
+             */
+            pest_break: number;
+            /**
+             * Overall
+             * @description Priority-weighted overall score (0-100)
+             */
+            overall: number;
+        };
+        /**
+         * SeasonIndicatorOut
+         * @description One harmonized seasonal climate record (NASA POWER + GPM IMERG + NOAA ONI/DMI).
+         */
+        SeasonIndicatorOut: {
+            /** Season */
+            season: string;
+            /** Planning Year */
+            planning_year: number;
+            /** Precip Mm */
+            precip_mm: number;
+            /** Et0 Mm */
+            et0_mm: number;
+            /** Enso Phase */
+            enso_phase: string;
+            /** Iod Phase */
+            iod_phase: string;
+            /** Tmean C */
+            tmean_c?: number | null;
+        };
+        /**
+         * SeasonPhaseSummaryOut
+         * @description Aggregated seasonal climate summary per ENSO phase (keeps JSON concise).
+         */
+        SeasonPhaseSummaryOut: {
+            /** Enso Phase */
+            enso_phase: string;
+            /** Sample Years */
+            sample_years: number;
+            /** Mean Precip Mm */
+            mean_precip_mm: number;
+            /** Mean Et0 Mm */
+            mean_et0_mm: number;
+            /** Mean Temp C */
+            mean_temp_c?: number | null;
+        };
+        /**
+         * SiteInfo
+         * @description Metadata and available seasons/crops for a harmonized study site.
+         */
+        SiteInfo: {
+            /**
+             * Key
+             * @description Unique site key
+             */
+            key: string;
+            /**
+             * Name
+             * @description Human-readable site name
+             */
+            name: string;
+            /**
+             * Seasons
+             * @description Season slot names mapped to duration in months
+             */
+            seasons: {
+                [key: string]: number;
+            };
+            /**
+             * Crops
+             * @description Supported crop keys in the catalog
+             */
+            crops: string[];
+            /**
+             * Crop Labels
+             * @description Crop keys mapped to display names
+             */
+            crop_labels: {
+                [key: string]: string;
+            };
+            /**
+             * Latest Enso Phase
+             * @description Latest observed or outlook ENSO phase
+             */
+            latest_enso_phase: string;
+            /**
+             * Latest Iod Phase
+             * @description Latest observed or outlook IOD phase
+             */
+            latest_iod_phase: string;
+            /**
+             * Sources
+             * @description NASA and partner datasets harmonized for this site
+             */
+            sources: string[];
+        };
+        /**
+         * StrategyOut
+         * @description Evaluated crop rotation strategy with physical metrics, 0-100 scores, and evidence card.
+         */
+        StrategyOut: {
+            /**
+             * Key
+             * @description Strategy template identifier
+             */
+            key: string;
+            /**
+             * Name
+             * @description Human-readable strategy name
+             */
+            name: string;
+            /**
+             * Kind
+             * @description Baseline vs alternative option
+             * @enum {string}
+             */
+            kind: "baseline" | "alternative";
+            /**
+             * Sequence
+             * @description Season-by-season crop sequence per year
+             */
+            sequence: {
+                [key: string]: string;
+            }[];
+            metrics: components["schemas"]["MetricsOut"];
+            /**
+             * Utilities
+             * @description Min-max normalized utility per objective (0-1)
+             */
+            utilities: {
+                [key: string]: number;
+            };
+            /**
+             * Score
+             * @description Weighted multi-objective utility score (0-1)
+             */
+            score: number;
+            /**
+             * Rank
+             * @description Rank among compared strategies (1 = best)
+             */
+            rank: number;
+            /**
+             * Pareto Optimal
+             * @description True if non-dominated on the Pareto frontier
+             */
+            pareto_optimal: boolean;
+            /**
+             * Pareto Status
+             * @description UI-friendly Pareto classification (`Optimal`, `Tradeoff`, or `Dominated`)
+             * @default Tradeoff
+             * @enum {string}
+             */
+            pareto_status: "Optimal" | "Tradeoff" | "Dominated";
+            /** @description Pre-normalized 0-100 scores for mean and worst-case (CVaR20) conditions */
+            scores_100?: components["schemas"]["StrategyScores100Out"] | null;
+            card: components["schemas"]["EvidenceCardOut"];
+        };
+        /**
+         * StrategyScores100Out
+         * @description Mean and worst-case (CVaR20) 0-100 score sets for a strategy.
+         */
+        StrategyScores100Out: {
+            mean: components["schemas"]["ScoreBreakdown100Out"];
+            worst_case: components["schemas"]["ScoreBreakdown100Out"];
         };
     };
     responses: never;
@@ -95,6 +1117,265 @@ export interface operations {
                 content: {
                     "application/json": components["schemas"]["ApiResponse_HealthData_"];
                 };
+            };
+        };
+    };
+    sites_api_v1_rotations_sites_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of harmonized study sites wrapped in ApiResponse */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponse_list_SiteInfo__"];
+                };
+            };
+        };
+    };
+    compare_rotations_api_v1_rotations_compare_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["CompareRequest"];
+            };
+        };
+        responses: {
+            /** @description Ranked crop rotation strategies, executive summary, and DB sync status */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponse_ComparisonOut_"];
+                };
+            };
+            /** @description Invalid domain parameters (e.g., all zero weights or invalid crop) */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Requested site or field_id was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Validation error or missing processed dataset files */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    list_fields_api_v1_fields_get: {
+        parameters: {
+            query?: {
+                /** @description Study site identifier (`banyumas` or `nevada_mason_valley`) */
+                site?: string;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description List of field profiles in camelCase */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponse_list_FieldProfileOut__"];
+                };
+            };
+            /** @description Unknown study site key */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid field profile dataset */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    get_field_api_v1_fields__field_id__get: {
+        parameters: {
+            query?: {
+                /** @description Study site identifier (`banyumas` or `nevada_mason_valley`) */
+                site?: string;
+            };
+            header?: never;
+            path: {
+                /** @description Unique field identifier (e.g. `banyumas-karangrau-01`) */
+                field_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Single field profile in camelCase */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponse_FieldProfileOut_"];
+                };
+            };
+            /** @description Site or field_id was not found */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Missing or invalid field profile dataset */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    ingest_nasa_data_api_v1_climate_ingest_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["IngestRequest"];
+            };
+        };
+        responses: {
+            /** @description Ingestion summary, JSON optimization report, and database sync status */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponse_IngestResponseOut_"];
+                };
+            };
+            /** @description Unknown study site key */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Request validation failed */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    get_climate_summary_api_v1_climate__site__get: {
+        parameters: {
+            query?: {
+                /** @description Optional filter by historical ENSO phase */
+                enso_phase?: ("el_nino" | "la_nina" | "neutral") | null;
+                /** @description If true (default), returns concise phase averages without dumping raw seasonal rows */
+                compact?: boolean;
+            };
+            header?: never;
+            path: {
+                /** @description Study site key (`banyumas` or `nevada_mason_valley`) */
+                site: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Harmonized climate summary and optional seasonal time-series records */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponse_ClimateSiteSummaryOut_"];
+                };
+            };
+            /** @description Unknown study site key */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Processed climate data missing for this site */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    export_climate_and_scores_json_api_v1_climate__site__export_get: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                /** @description Study site key (`banyumas` or `nevada_mason_valley`) */
+                site: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Optimized JSON bundle and payload size audit report */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ApiResponse_ExportBundleOut_"];
+                };
+            };
+            /** @description Unknown study site key */
+            404: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+            /** @description Processed dataset missing for this site */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
             };
         };
     };

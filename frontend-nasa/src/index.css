@@ -1,111 +1,208 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300..800;1,300..800&family=Inter:wght@400;500;600;700&display=swap');
+@import "tailwindcss";
+@import "./styles/tokens.css";
+@import "maplibre-gl/dist/maplibre-gl.css";
+
+@theme {
+  /* Semantic Tokens (better-colors) */
+  --color-accent-solid: #237F8E;
+  --color-accent-hover: #1B6572;
+  --color-accent-subtle: #E3F1F3;
+  --color-accent-text: #1B6572;
+  --color-text-primary: #14232B;
+  --color-text-secondary: #5F6B74;
+  --color-border-default: #E6EBF0;
+  --color-success-subtle: #E7F2EB;
+  --color-success-solid: #2E7D4F;
+  --color-success-text: #256C43;
+  --color-warning-subtle: #F6EFE5;
+  --color-warning-solid: #B7791F;
+  --color-warning-text: #9A6014;
+  --color-danger-subtle: #F6E9E8;
+  --color-danger-solid: #B4443A;
+  --color-danger-text: #96352D;
+
+  /* Legacy & Brand Aliases */
+  --color-primary: #237F8E;
+  --color-primary-dark: #1B6572;
+  --color-primary-light: #E3F1F3;
+  --color-leaf: #6BA544;
+  --color-leaf-deep: #1E5B4F;
+  --color-bg: #F4F7FA;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F7F9FB;
+  --color-ink: #14232B;
+  --color-ink-muted: #5F6B74;
+  --color-line: #E6EBF0;
+  --color-conf-high: #2E7D4F;
+  --color-conf-medium: #B7791F;
+  --color-conf-low: #B4443A;
+  --color-gap: #E8ECEF;
+  --color-dominated: #8A949B;
+
+  --radius-card: 16px;
+  --radius-section: 24px;
+  --shadow-card: 0 4px 20px rgba(20, 35, 43, 0.05);
+  --shadow-float: 0 10px 30px rgba(20, 35, 43, 0.10);
+  --font-sans: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+}
+
 :root {
-  --text: #6b6375;
-  --text-h: #08060d;
-  --bg: #fff;
-  --border: #e5e4e7;
-  --code-bg: #f4f3ec;
-  --accent: #aa3bff;
-  --accent-bg: rgba(170, 59, 255, 0.1);
-  --accent-border: rgba(170, 59, 255, 0.5);
-  --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
-  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
-  --mono: ui-monospace, Consolas, monospace;
-
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
-
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
-}
-
-#root {
-  width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  color-scheme: light;
 }
 
 body {
   margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-h1,
-h2 {
-  font-family: var(--heading);
-  font-weight: 500;
-  color: var(--text-h);
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Plus Jakarta Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
 }
 
-h1 {
-  font-size: 56px;
-  letter-spacing: -1.68px;
-  margin: 32px 0;
-  @media (max-width: 1024px) {
-    font-size: 36px;
-    margin: 20px 0;
-  }
-}
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
-p {
-  margin: 0;
+/* Custom text selection in Field Shift teal */
+::selection {
+  background-color: #E3F1F3;
+  color: #1B6572;
 }
 
-code,
-.counter {
-  font-family: var(--mono);
-  display: inline-flex;
-  border-radius: 4px;
-  color: var(--text-h);
+/* Focus visibility */
+*:focus-visible {
+  outline: 2px solid #237F8E;
+  outline-offset: 2px;
 }
 
-code {
-  font-size: 15px;
-  line-height: 135%;
-  padding: 4px 8px;
-  background: var(--code-bg);
+/* Tabular figures for data metrics */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Diagonal stripes for 'data belum tersedia' gap */
+.bg-gap-pattern {
+  background-color: #E8ECEF;
+  background-image: repeating-linear-gradient(
+    45deg,
+    #E8ECEF,
+    #E8ECEF 10px,
+    #DEE3E7 10px,
+    #DEE3E7 20px
+  );
+}
+
+/* Map canvas container */
+.maplibregl-map {
+  width: 100%;
+  height: 100%;
+  border-radius: 1rem;
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #237F8E;
+}
+
+/* ==========================================================================
+   Sky Studyo Atmospheric Weather Simulator Animations
+   ========================================================================== */
+@keyframes skyCloudDriftSlow {
+  0% { transform: translateX(-4%); }
+  50% { transform: translateX(4%); }
+  100% { transform: translateX(-4%); }
+}
+
+@keyframes skyCloudDriftFast {
+  0% { transform: translateX(5%); }
+  50% { transform: translateX(-5%); }
+  100% { transform: translateX(5%); }
+}
+
+@keyframes skySunPulse {
+  0%, 100% { transform: scale(1); opacity: 0.85; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+
+@keyframes skySunRays {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes skyRainFall {
+  0% { transform: translateY(-30px); opacity: 0; }
+  30% { opacity: 0.9; }
+  100% { transform: translateY(600px); opacity: 0.1; }
+}
+
+@keyframes skyStarTwinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.85); }
+  50% { opacity: 1; transform: scale(1.25); }
+}
+
+@keyframes skyAuroraWave {
+  0%, 100% { transform: scaleY(1) translateY(0) skewX(-3deg); opacity: 0.45; }
+  50% { transform: scaleY(1.3) translateY(-12px) skewX(3deg); opacity: 0.8; }
+}
+
+.animate-cloud-slow {
+  animation: skyCloudDriftSlow 32s ease-in-out infinite;
+}
+
+.animate-cloud-fast {
+  animation: skyCloudDriftFast 18s ease-in-out infinite;
+}
+
+.animate-sun-pulse {
+  animation: skySunPulse 8s ease-in-out infinite;
+}
+
+.animate-sun-rays {
+  animation: skySunRays 120s linear infinite;
+}
+
+.animate-star-twinkle {
+  animation: skyStarTwinkle 3s ease-in-out infinite;
+}
+
+.animate-aurora {
+  animation: skyAuroraWave 14s ease-in-out infinite;
+}
+
+
+
+/* ==========================================================================
+   Smooth Scroll Reveal Utility
+   ========================================================================== */
+html {
+  scroll-behavior: smooth;
+}
+
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }

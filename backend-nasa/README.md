@@ -44,7 +44,7 @@ Docker (dari root repo): salin `../.env.example` ke `../.env`, isi `POSTGRES_PAS
 | Extra | Isi | Untuk |
 | --- | --- | --- |
 | `dev` | pytest, ruff, black, mypy, bandit, pip-audit | semua anggota |
-| `db` | SQLAlchemy async, asyncpg, GeoAlchemy2, Alembic | modul yang memakai PostGIS |
+| `db` | SQLAlchemy async, GeoAlchemy2, Alembic | modul yang memakai PostGIS |
 | `cache` | redis | cache / antrean |
 | `worker` | arq | job komputasi panjang |
 | `ml` | numpy, pandas, scikit-learn, xarray | modul AI |
@@ -71,3 +71,28 @@ di `models/registry.yaml`, dan simpan salinan `configs/experiment.example.yaml` 
   profil black), jadi tidak perlu memasang isort terpisah.
 - Pre-commit: dari root repo jalankan `pre-commit install` sekali.
 - Test dulu (TDD), coverage ≥ 80%.
+
+## Rotation comparison API
+
+Needs processed data in `datasets/processed`. This repo bundles lightweight Banyumas
+processed products for local/demo use. For a larger or freshly generated data-kit output,
+point `PROCESSED_DIR` in `.env` at `fieldshift-data-kit/data/processed` (absolute path)
+or copy the needed files to `datasets/processed`.
+
+- `GET /api/v1/rotations/sites`: sites with processed data, seasons, crops, latest ENSO/IOD phase
+- `POST /api/v1/rotations/compare`: ranked strategies with metrics and evidence cards
+- `GET /api/v1/fields?site=banyumas` and `GET /api/v1/fields/{field_id}`: real field profiles
+  (camelCase, same shape as `FieldProfile` in `frontend-nasa/src/types/domain.ts`)
+
+Docker: `docker-compose.yml` uses the bundled `backend-nasa/datasets/processed` by
+default. To use an external data-kit output, add a Compose override that mounts it
+read-only at `/app/datasets/processed`.
+
+```json
+{"site": "banyumas",
+ "priorities": {"water": 1, "soil_health": 1, "erosion": 1, "pest_break": 0.5},
+ "risk_aversion": 0.5,
+ "baseline": [{"MT1_wet": "rice", "MT2_wet_dry": "rice"}]}
+```
+
+Design and limits: `docs/adr/0004-rotation-engine.md`.

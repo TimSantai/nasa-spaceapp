@@ -417,10 +417,13 @@ name = "fieldshift-backend"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "asyncpg" },
     { name = "fastapi" },
+    { name = "geoalchemy2" },
     { name = "limits" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
+    { name = "sqlalchemy", extra = ["asyncio"] },
     { name = "uvicorn", extra = ["standard"] },
 ]
 
@@ -430,7 +433,6 @@ cache = [
 ]
 db = [
     { name = "alembic" },
-    { name = "asyncpg" },
     { name = "geoalchemy2" },
     { name = "sqlalchemy", extra = ["asyncio"] },
 ]
@@ -461,11 +463,12 @@ requires-dist = [
     { name = "alembic", marker = "extra == 'db'", specifier = ">=1.13" },
     { name = "anyio", marker = "extra == 'dev'", specifier = ">=4.0" },
     { name = "arq", marker = "extra == 'worker'", specifier = ">=0.26" },
-    { name = "asyncpg", marker = "extra == 'db'", specifier = ">=0.29" },
+    { name = "asyncpg", specifier = ">=0.29" },
     { name = "bandit", extras = ["sarif"], marker = "extra == 'dev'", specifier = ">=1.7.8" },
     { name = "black", marker = "extra == 'dev'", specifier = ">=24.0" },
     { name = "cyclonedx-bom", marker = "extra == 'dev'", specifier = ">=4.0" },
     { name = "fastapi", specifier = ">=0.115" },
+    { name = "geoalchemy2", specifier = ">=0.21.0" },
     { name = "geoalchemy2", marker = "extra == 'db'", specifier = ">=0.15" },
     { name = "httpx", marker = "extra == 'dev'", specifier = ">=0.27" },
     { name = "limits", specifier = ">=3.13" },
@@ -480,6 +483,7 @@ requires-dist = [
     { name = "redis", marker = "extra == 'cache'", specifier = ">=5.0" },
     { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.5" },
     { name = "scikit-learn", marker = "extra == 'ml'", specifier = ">=1.4" },
+    { name = "sqlalchemy", extras = ["asyncio"], specifier = ">=2.1.8" },
     { name = "sqlalchemy", extras = ["asyncio"], marker = "extra == 'db'", specifier = ">=2.0" },
     { name = "uvicorn", extras = ["standard"], specifier = ">=0.30" },
     { name = "xarray", marker = "extra == 'ml'", specifier = ">=2024.1" },

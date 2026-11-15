@@ -1,0 +1,835 @@
+{
+  "url": "https://www.farmminerals.com/",
+  "extractedAt": "2026-11-14T07:03:53.589Z",
+  "siteName": "Farm Minerals",
+  "logo": {
+    "source": "svg",
+    "url": "https://www.farmminerals.com/",
+    "width": 109.484375,
+    "height": 57.125,
+    "safeZone": {
+      "top": 0,
+      "right": 0,
+      "bottom": 0,
+      "left": 0
+    },
+    "background": "rgb(244, 237, 230)"
+  },
+  "favicons": [
+    {
+      "type": "icon",
+      "url": "https://cdn.prod.website-files.com/68b5b8542c5c0a63b1d91b3b/6a300eb55d98faa78c47bc82_Icon%20White%205.png",
+      "sizes": "32x32"
+    },
+    {
+      "type": "icon",
+      "url": "https://cdn.prod.website-files.com/68b5b8542c5c0a63b1d91b3b/6a300eb55d98faa78c47bc82_Icon%20White%205.png",
+      "sizes": "32x32"
+    },
+    {
+      "type": "icon",
+      "url": "https://cdn.prod.website-files.com/68b5b8542c5c0a63b1d91b3b/6a300eb580c1e978c20a2865_Icon%20White%205.png",
+      "sizes": "48x48"
+    },
+    {
+      "type": "apple-touch-icon",
+      "url": "https://cdn.prod.website-files.com/68b5b8542c5c0a63b1d91b3b/6a300eb5fbe6f69721c07fcb_Icon%20White%205.png",
+      "sizes": "180x180"
+    },
+    {
+      "type": "icon",
+      "url": "https://cdn.prod.website-files.com/68b5b8542c5c0a63b1d91b3b/6a300eb599dc493329958a47_Icon%20White%205.png",
+      "sizes": "192x192"
+    },
+    {
+      "type": "icon",
+      "url": "https://cdn.prod.website-files.com/68b5b8542c5c0a63b1d91b3b/6a300eb50e4b4363b18ba96e_Icon%20White%205.png",
+      "sizes": "512x512"
+    },
+    {
+      "type": "apple-touch-icon",
+      "url": "https://cdn.prod.website-files.com/68b5b8542c5c0a63b1d91b3b/6a300eb5fbe6f69721c07fcb_Icon%20White%205.png",
+      "sizes": "180x180"
+    },
+    {
+      "type": "og:image",
+      "url": "https://cdn.prod.website-files.com/68b5b8542c5c0a63b1d91b3b/6936f0bbb320188eeeb5f39e_main_badge.png",
+      "sizes": null
+    },
+    {
+      "type": "favicon.ico",
+      "url": "https://www.farmminerals.com/favicon.ico",
+      "sizes": null
+    }
+  ],
+  "colors": {
+    "semantic": {},
+    "palette": [
+      {
+        "color": "rgb(64, 79, 29)",
+        "normalized": "#404f1d",
+        "count": 1075,
+        "confidence": "high",
+        "sources": [
+          "logo-header-wrap",
+          "btn-white",
+          "product-link"
+        ],
+        "lch": "lch(31.28% 30.84 118.69)",
+        "oklch": "oklch(40.25% 0.076 123.78)"
+      },
+      {
+        "color": "rgb(244, 237, 230)",
+        "normalized": "#f4ede6",
+        "count": 842,
+        "confidence": "high",
+        "sources": [
+          "logo-header"
+        ],
+        "lch": "lch(94.1% 4.37 74.72)",
+        "oklch": "oklch(94.96% 0.012 67.68)"
+      },
+      {
+        "color": "rgb(51, 51, 51)",
+        "normalized": "#333333",
+        "count": 446,
+        "confidence": "high",
+        "sources": [
+          "hero",
+          "hero-content-wrap",
+          "hero-wrap"
+        ],
+        "lch": "lch(21.25% 0 158.2)",
+        "oklch": "oklch(32.11% 0 89.88)"
+      }
+    ],
+    "cssVariables": {},
+    "_raw": [
+      {
+        "color": "rgb(244, 237, 230)",
+        "normalized": "#f4ede6",
+        "count": 842
+      },
+      {
+        "color": "rgb(51, 51, 51)",
+        "normalized": "#333333",
+        "count": 446
+      },
+      {
+        "color": "rgb(64, 79, 29)",
+        "normalized": "#404f1d",
+        "count": 1075
+      },
+      {
+        "color": "rgb(255, 255, 255)",
+        "normalized": "#ffffff",
+        "count": 353
+      },
+      {
+        "color": "rgb(99, 111, 61)",
+        "normalized": "#636f3d",
+        "count": 465
+      },
+      {
+        "color": "rgb(76, 91, 32)",
+        "normalized": "#4c5b20",
+        "count": 70
+      }
+    ]
+  },
+  "typography": {
+    "styles": [
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "115.2px (7.20rem)",
+        "weight": 400,
+        "lineHeight": "0.95",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "81.1008px (5.07rem)",
+        "weight": 400,
+        "lineHeight": "0.90",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "71.8848px (4.49rem)",
+        "weight": 400,
+        "lineHeight": "0.90",
+        "spacing": "-1.4377px",
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "69.12px (4.32rem)",
+        "weight": 400,
+        "lineHeight": "0.90",
+        "spacing": "-0.6912px",
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "66.3552px (4.15rem)",
+        "weight": 500,
+        "lineHeight": "0.93",
+        "spacing": "-1.99066px",
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "66.3552px (4.15rem)",
+        "weight": 500,
+        "lineHeight": "0.93",
+        "spacing": "-0.663552px",
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "66.3552px (4.15rem)",
+        "weight": 400,
+        "lineHeight": "0.93",
+        "spacing": "-0.995328px",
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "50.688px (3.17rem)",
+        "weight": 400,
+        "lineHeight": "1.15",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "36.864px (2.30rem)",
+        "weight": 400,
+        "lineHeight": "1.00",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "34.6522px (2.17rem)",
+        "weight": 400,
+        "lineHeight": "1.20",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "31.1501px (1.95rem)",
+        "weight": 400,
+        "lineHeight": "1.10",
+        "spacing": "-0.311501px",
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "31.1501px (1.95rem)",
+        "weight": 500,
+        "lineHeight": "1.20",
+        "spacing": "-0.311501px",
+        "transform": null
+      },
+      {
+        "context": "link",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "27.648px (1.73rem)",
+        "weight": 400,
+        "lineHeight": "0.90",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "25.8048px (1.61rem)",
+        "weight": 500,
+        "lineHeight": "1.05",
+        "spacing": "-0.258048px",
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "23.04px (1.44rem)",
+        "weight": 500,
+        "lineHeight": "1.20",
+        "spacing": null,
+        "transform": "uppercase"
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "23.04px (1.44rem)",
+        "weight": 500,
+        "lineHeight": "1.20",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "20.8282px (1.30rem)",
+        "weight": 400,
+        "lineHeight": "1.20",
+        "spacing": null,
+        "transform": "uppercase"
+      },
+      {
+        "context": "button",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "20.8282px (1.30rem)",
+        "weight": 400,
+        "lineHeight": "0.96",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "link",
+        "family": "Arial",
+        "fallbacks": "Helvetica Neue, Helvetica",
+        "size": "18.432px (1.15rem)",
+        "weight": 400,
+        "lineHeight": "1.09",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Arial",
+        "fallbacks": "Helvetica Neue, Helvetica",
+        "size": "18.432px (1.15rem)",
+        "weight": 400,
+        "lineHeight": "1.09",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "18.432px (1.15rem)",
+        "weight": 400,
+        "lineHeight": "1.30",
+        "spacing": null,
+        "transform": "uppercase"
+      },
+      {
+        "context": "button",
+        "family": "Arial",
+        "fallbacks": "Helvetica Neue, Helvetica",
+        "size": "18.432px (1.15rem)",
+        "weight": 400,
+        "lineHeight": "1.09",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "18.432px (1.15rem)",
+        "weight": 400,
+        "lineHeight": "1.25",
+        "spacing": null,
+        "transform": null
+      },
+      {
+        "context": "heading-1",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "16.5888px (1.04rem)",
+        "weight": 400,
+        "lineHeight": "1.20",
+        "spacing": null,
+        "transform": "uppercase"
+      },
+      {
+        "context": "link",
+        "family": "Aeonik",
+        "fallbacks": "Arial",
+        "size": "16.5888px (1.04rem)",
+        "weight": 400,
+        "lineHeight": "1.20",
+        "spacing": null,
+        "transform": "uppercase"
+      }
+    ],
+    "sources": {
+      "googleFonts": [],
+      "adobeFonts": false,
+      "variableFonts": false
+    }
+  },
+  "spacing": {
+    "scaleType": "custom",
+    "commonValues": [
+      {
+        "px": "1px",
+        "rem": "0.06rem",
+        "count": 274,
+        "numericValue": 1
+      },
+      {
+        "px": "4.608px",
+        "rem": "0.29rem",
+        "count": 9,
+        "numericValue": 4.608
+      },
+      {
+        "px": "6.4512px",
+        "rem": "0.40rem",
+        "count": 3,
+        "numericValue": 6.4512
+      },
+      {
+        "px": "11.6122px",
+        "rem": "0.73rem",
+        "count": 2,
+        "numericValue": 11.6122
+      },
+      {
+        "px": "16.2202px",
+        "rem": "1.01rem",
+        "count": 16,
+        "numericValue": 16.2202
+      },
+      {
+        "px": "18.432px",
+        "rem": "1.15rem",
+        "count": 33,
+        "numericValue": 18.432
+      },
+      {
+        "px": "20.183px",
+        "rem": "1.26rem",
+        "count": 10,
+        "numericValue": 20.183
+      },
+      {
+        "px": "23.04px",
+        "rem": "1.44rem",
+        "count": 20,
+        "numericValue": 23.04
+      },
+      {
+        "px": "27.648px",
+        "rem": "1.73rem",
+        "count": 31,
+        "numericValue": 27.648
+      },
+      {
+        "px": "30.0442px",
+        "rem": "1.88rem",
+        "count": 3,
+        "numericValue": 30.0442
+      },
+      {
+        "px": "34.6522px",
+        "rem": "2.17rem",
+        "count": 3,
+        "numericValue": 34.6522
+      },
+      {
+        "px": "36.864px",
+        "rem": "2.30rem",
+        "count": 3,
+        "numericValue": 36.864
+      },
+      {
+        "px": "55.296px",
+        "rem": "3.46rem",
+        "count": 2,
+        "numericValue": 55.296
+      },
+      {
+        "px": "57.6922px",
+        "rem": "3.61rem",
+        "count": 5,
+        "numericValue": 57.6922
+      },
+      {
+        "px": "69.12px",
+        "rem": "4.32rem",
+        "count": 2,
+        "numericValue": 69.12
+      },
+      {
+        "px": "92.16px",
+        "rem": "5.76rem",
+        "count": 3,
+        "numericValue": 92.16
+      },
+      {
+        "px": "103.772px",
+        "rem": "6.49rem",
+        "count": 2,
+        "numericValue": 103.772
+      },
+      {
+        "px": "110.592px",
+        "rem": "6.91rem",
+        "count": 2,
+        "numericValue": 110.592
+      },
+      {
+        "px": "126.812px",
+        "rem": "7.93rem",
+        "count": 1,
+        "numericValue": 126.812
+      },
+      {
+        "px": "423.936px",
+        "rem": "26.50rem",
+        "count": 1,
+        "numericValue": 423.936
+      }
+    ]
+  },
+  "borderRadius": {
+    "values": [
+      {
+        "value": "2.39616px",
+        "count": 23,
+        "elements": [
+          "div",
+          "Go to last slide",
+          "Next slide",
+          "button",
+          "input"
+        ],
+        "confidence": "high",
+        "numericValue": 2.39616
+      },
+      {
+        "value": "3.24403px",
+        "count": 1,
+        "elements": [
+          "button"
+        ],
+        "confidence": "low",
+        "numericValue": 3.24403
+      },
+      {
+        "value": "4.608px",
+        "count": 7,
+        "elements": [
+          "button"
+        ],
+        "confidence": "medium",
+        "numericValue": 4.608
+      },
+      {
+        "value": "7.3728px",
+        "count": 7,
+        "elements": [
+          "div",
+          "a"
+        ],
+        "confidence": "medium",
+        "numericValue": 7.3728
+      },
+      {
+        "value": "1152px",
+        "count": 14,
+        "elements": [
+          "img"
+        ],
+        "confidence": "high",
+        "numericValue": 1152
+      }
+    ]
+  },
+  "borders": {
+    "combinations": [
+      {
+        "width": "1px",
+        "style": "solid",
+        "color": "rgba(255, 255, 255, 0.2)",
+        "count": 17,
+        "elements": [
+          "input"
+        ],
+        "confidence": "high"
+      },
+      {
+        "width": "0px 0px 1px",
+        "style": "none none solid",
+        "color": "rgb(0, 0, 0)",
+        "count": 12,
+        "elements": [
+          "input",
+          "button"
+        ],
+        "confidence": "high"
+      },
+      {
+        "width": "1px",
+        "style": "solid",
+        "color": "rgb(244, 237, 230)",
+        "count": 4,
+        "elements": [
+          "button"
+        ],
+        "confidence": "medium"
+      },
+      {
+        "width": "0px 0px 1px",
+        "style": "none none solid",
+        "color": "rgb(51, 51, 51)",
+        "count": 1,
+        "elements": [
+          "div"
+        ],
+        "confidence": "low"
+      },
+      {
+        "width": "1px",
+        "style": "solid",
+        "color": "rgb(99, 111, 61)",
+        "count": 1,
+        "elements": [
+          "button"
+        ],
+        "confidence": "low"
+      },
+      {
+        "width": "1px 0px 0px",
+        "style": "solid none none",
+        "color": "rgba(78, 85, 56, 0.2)",
+        "count": 1,
+        "elements": [
+          "input"
+        ],
+        "confidence": "low"
+      },
+      {
+        "width": "1px",
+        "style": "solid",
+        "color": "rgba(255, 255, 255, 0.1)",
+        "count": 1,
+        "elements": [
+          "button"
+        ],
+        "confidence": "low"
+      }
+    ]
+  },
+  "shadows": [],
+  "components": {
+    "buttons": [
+      {
+        "states": {
+          "default": {
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "color": "rgb(64, 79, 29)",
+            "padding": "0px",
+            "borderRadius": "4.608px",
+            "border": "1px solid rgb(244, 237, 230)",
+            "boxShadow": "none",
+            "outline": "3px none rgb(64, 79, 29)",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "opacity": "1"
+          },
+          "hover": null,
+          "active": null,
+          "focus": null
+        },
+        "fontWeight": "400",
+        "fontSize": "18.432px",
+        "classes": "btn-background",
+        "confidence": "medium"
+      },
+      {
+        "states": {
+          "default": {
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "color": "rgb(64, 79, 29)",
+            "padding": "0px",
+            "borderRadius": "4.608px",
+            "border": "1px solid rgb(99, 111, 61)",
+            "boxShadow": "none",
+            "outline": "3px none rgb(64, 79, 29)",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "opacity": "1"
+          },
+          "hover": {
+            "backgroundColor": "var(--main-green)"
+          },
+          "active": null,
+          "focus": null
+        },
+        "fontWeight": "400",
+        "fontSize": "18.432px",
+        "classes": "btn-background green",
+        "confidence": "medium"
+      },
+      {
+        "states": {
+          "default": {
+            "backgroundColor": "rgb(255, 255, 255)",
+            "color": "rgb(64, 79, 29)",
+            "padding": "0px",
+            "borderRadius": "4.608px",
+            "border": "0px none rgb(244, 237, 230)",
+            "boxShadow": "none",
+            "outline": "3px none rgb(64, 79, 29)",
+            "transform": "matrix(1, 0, 0, 1, 0, 0)",
+            "opacity": "1"
+          },
+          "hover": null,
+          "active": null,
+          "focus": null
+        },
+        "fontWeight": "400",
+        "fontSize": "18.432px",
+        "classes": "btn-background white-filled",
+        "confidence": "medium"
+      },
+      {
+        "states": {
+          "default": {
+            "backgroundColor": "rgb(244, 237, 230)",
+            "color": "rgb(51, 51, 51)",
+            "padding": "0px",
+            "borderRadius": "2.39616px",
+            "border": "0px none rgb(51, 51, 51)",
+            "boxShadow": "none",
+            "outline": "3px none rgb(51, 51, 51)",
+            "transform": "none",
+            "opacity": "1"
+          },
+          "hover": {
+            "backgroundColor": "var(--main-green)"
+          },
+          "active": null,
+          "focus": {
+            "outline": "0px"
+          }
+        },
+        "fontWeight": "400",
+        "fontSize": "18.432px",
+        "classes": "splide__arrow splide__arrow--prev",
+        "confidence": "high"
+      },
+      {
+        "states": {
+          "default": {
+            "backgroundColor": "rgb(89, 106, 51)",
+            "color": "rgb(51, 51, 51)",
+            "padding": "0px 0px 0px 34.6522px",
+            "borderRadius": "0px",
+            "border": "0px none rgb(51, 51, 51)",
+            "boxShadow": "none",
+            "outline": "3px none rgb(51, 51, 51)",
+            "transform": "none",
+            "opacity": "1"
+          },
+          "hover": null,
+          "active": null,
+          "focus": null
+        },
+        "fontWeight": "400",
+        "fontSize": "18.432px",
+        "classes": "cta-block",
+        "confidence": "medium"
+      }
+    ],
+    "inputs": {
+      "text": [],
+      "checkbox": [],
+      "radio": [],
+      "select": []
+    },
+    "links": [
+      {
+        "color": "rgb(64, 79, 29)",
+        "textDecoration": "underline",
+        "fontWeight": "400",
+        "states": {
+          "default": {
+            "color": "rgb(64, 79, 29)",
+            "textDecoration": "underline"
+          },
+          "hover": {}
+        }
+      }
+    ],
+    "badges": {
+      "all": [],
+      "byVariant": {
+        "error": [],
+        "warning": [],
+        "success": [],
+        "info": [],
+        "neutral": []
+      }
+    }
+  },
+  "breakpoints": [
+    {
+      "px": "0px"
+    },
+    {
+      "px": "479px"
+    },
+    {
+      "px": "480px"
+    },
+    {
+      "px": "767px"
+    },
+    {
+      "px": "768px"
+    },
+    {
+      "px": "991px"
+    },
+    {
+      "px": "992px"
+    }
+  ],
+  "iconSystem": [],
+  "frameworks": [
+    {
+      "name": "PrimeReact/Vue/NG",
+      "confidence": "high",
+      "evidence": "18 Prime components"
+    }
+  ]
+}

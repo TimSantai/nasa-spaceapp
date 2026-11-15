@@ -1,0 +1,27 @@
+:root {
+  /* Farm Minerals Design System Primitives (https://www.farmminerals.com) */
+  --color-farm-primary: #404f1d;        /* Deep Olive Green (rgb 64, 79, 29) */
+  --color-farm-primary-hover: #4c5b20;  /* Moss Green (rgb 76, 91, 32) */
+  --color-farm-sage: #636f3d;           /* Sage Green (rgb 99, 111, 61) */
+  --color-farm-cream: #f4ede6;          /* Warm Mineral Cream (rgb 244, 237, 230) */
+  --color-farm-charcoal: #333333;       /* Dark Charcoal (rgb 51, 51, 51) */
+  --color-farm-dark: #0f150e;           /* Deep Organic Earth Background */
+  --color-farm-card: #162015;           /* Forest Earth Card Surface */
+  --color-farm-border: #263524;         /* Earth Muted Border */
+
+  /* Typography */
+  --font-heading: 'Aeonik', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-body: 'Aeonik', 'Inter', system-ui, -apple-system, sans-serif;
+
+  /* Spacing Scale (Farm Minerals) */
+  --space-1: 1px;
+  --space-2: 4px;
+  --space-3: 6px;
+  --space-4: 12px;
+  --space-5: 16px;
+  --space-6: 20px;
+  --space-7: 24px;
+  --space-8: 32px;
+  --space-9: 48px;
+  --space-10: 64px;
+}

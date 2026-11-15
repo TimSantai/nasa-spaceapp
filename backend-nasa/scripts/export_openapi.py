@@ -18,7 +18,11 @@ CONTRACT = Path(__file__).resolve().parents[2] / "contracts" / "openapi.json"
 def main() -> None:
     CONTRACT.parent.mkdir(parents=True, exist_ok=True)
     spec = create_app().openapi()
-    CONTRACT.write_text(json.dumps(spec, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    CONTRACT.write_text(
+        json.dumps(spec, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+        newline="\n",
+    )
     logging.getLogger(__name__).info("wrote %s", CONTRACT)
 
 

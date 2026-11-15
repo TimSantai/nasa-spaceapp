@@ -9,10 +9,20 @@ __pycache__/
 coverage.xml
 htmlcov/
 *.egg-info/
-# Large or regenerated artefacts: keep out of Git, share via Drive; manifests stay in Git
+# Large or regenerated artefacts: keep out of Git, share via Drive; manifests stay in Git.
+# Lightweight processed runtime fixtures can be allowlisted below.
 datasets/**
 !datasets/.gitkeep
 !datasets/manifest.yaml
+!datasets/processed/
+!datasets/processed/banyumas/
+!datasets/processed/banyumas/fields/
+!datasets/processed/banyumas/fields/fields.json
+!datasets/processed/banyumas/climate/
+!datasets/processed/banyumas/climate/season_indicators.csv
+!datasets/processed/banyumas/climate/outlook.json
+!datasets/processed/banyumas/terrain/
+!datasets/processed/banyumas/terrain/summary.json
 models/**
 !models/.gitkeep
 !models/registry.yaml
