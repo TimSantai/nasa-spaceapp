@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useRef } from 'react';
 import { applyWeights } from './lib/scoring';
 import { MOCK_FIELDS, SNAPSHOT_CROP_LABELS, snapshotStrategies } from './api/mock/mockData';
 import { baselineFromRotation, fetchFields, fetchSiteInfo, fetchStrategies, siteOf } from './api/fieldshift';
@@ -7,7 +7,9 @@ import { PlotAnalysisWorkspace } from './features/analysis/PlotAnalysisWorkspace
 import { EvidenceModal } from './features/evidence-card/EvidenceModal';
 import { GlossaryModal } from './features/glossary/GlossaryModal';
 import { DataSourcesModal } from './components/landing/DataSourcesModal';
+import { GeolocationBanner } from './components/common/GeolocationBanner';
 import { LandingPage } from './pages/LandingPage';
+import { useGeolocation } from './hooks/useGeolocation';
 import type { FieldProfile, Strategy, PriorityWeights, ClimatePhase, FarmerConstraints, ClimateScenario } from './types/domain';
 import type { Language } from './types/landing';
 
@@ -141,7 +143,39 @@ export function App() {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, []);
 
-  const handleOpenWorkspace = () => {
+  const hasUserSelectedRef = useRef(false);
+
+  // Browser Geolocation hook & nearest plot matching (Issue #19)
+  const {
+    coords: userCoords,
+    status: geoStatus,
+    nearestField,
+    distanceKm: nearestDistanceKm,
+    isPromptVisible,
+    requestLocation,
+    dismissPrompt,
+  } = useGeolocation({
+    fields,
+    autoPrompt: true,
+    lang: currentLang,
+  });
+
+  // When location is granted and a nearest field is found, automatically set selectedField to nearestField if user hasn't chosen manually
+  useEffect(() => {
+    if (nearestField && !hasUserSelectedRef.current) {
+      setSelectedField(nearestField);
+    }
+  }, [nearestField]);
+
+  const handleSelectField = (field: FieldProfile) => {
+    hasUserSelectedRef.current = true;
+    setSelectedField(field);
+  };
+
+  const handleOpenWorkspace = (targetField?: FieldProfile) => {
+    if (targetField) {
+      handleSelectField(targetField);
+    }
     setViewMode('workspace');
     window.location.hash = '#workspace';
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -155,7 +189,7 @@ export function App() {
 
   const handleOpenAnalysis = (field?: FieldProfile) => {
     if (field) {
-      setSelectedField(field);
+      handleSelectField(field);
     }
     setViewMode('analysis');
     window.location.hash = '#analysis';
@@ -175,11 +209,27 @@ export function App() {
   // 1. If in Landing Mode, render the Landing Page
   if (viewMode === 'landing') {
     return (
-      <LandingPage
-        onOpenWorkspace={handleOpenWorkspace}
-        currentLang={currentLang}
-        onToggleLang={handleToggleLang}
-      />
+      <>
+        <LandingPage
+          onOpenWorkspace={handleOpenWorkspace}
+          currentLang={currentLang}
+          onToggleLang={handleToggleLang}
+          userCoords={userCoords}
+          onRequestLocation={requestLocation}
+          nearestField={nearestField}
+          nearestDistanceKm={nearestDistanceKm}
+          isLocating={geoStatus === 'requesting'}
+        />
+
+        {/* Floating Polite Geolocation Pre-Prompt Toast */}
+        <GeolocationBanner
+          isOpen={isPromptVisible}
+          onAllow={requestLocation}
+          onDismiss={dismissPrompt}
+          isLoading={geoStatus === 'requesting'}
+          currentLang={currentLang}
+        />
+      </>
     );
   }
 
@@ -230,6 +280,14 @@ export function App() {
           onClose={() => setIsDataSourcesOpen(false)}
           currentLang={currentLang}
         />
+
+        <GeolocationBanner
+          isOpen={isPromptVisible}
+          onAllow={requestLocation}
+          onDismiss={dismissPrompt}
+          isLoading={geoStatus === 'requesting'}
+          currentLang={currentLang}
+        />
       </div>
     );
   }
@@ -240,13 +298,16 @@ export function App() {
       <FieldMap
         fields={fields}
         selectedField={selectedField}
-        onSelectField={setSelectedField}
+        onSelectField={handleSelectField}
         onOpenAnalysis={handleOpenAnalysis}
         onOpenGlossary={() => setIsGlossaryOpen(true)}
         onOpenDataSources={() => setIsDataSourcesOpen(true)}
         onBackToLanding={handleBackToLanding}
         currentLang={currentLang}
         onToggleLang={handleToggleLang}
+        userCoords={userCoords}
+        onRequestLocation={requestLocation}
+        isLocating={geoStatus === 'requesting'}
       />
 
       {/* Global Modals */}
@@ -266,6 +327,15 @@ export function App() {
       <DataSourcesModal
         isOpen={isDataSourcesOpen}
         onClose={() => setIsDataSourcesOpen(false)}
+        currentLang={currentLang}
+      />
+
+      {/* Polite Geolocation Pre-Prompt Toast */}
+      <GeolocationBanner
+        isOpen={isPromptVisible}
+        onAllow={requestLocation}
+        onDismiss={dismissPrompt}
+        isLoading={geoStatus === 'requesting'}
         currentLang={currentLang}
       />
     </div>

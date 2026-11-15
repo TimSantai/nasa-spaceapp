@@ -23,6 +23,9 @@ interface FieldMapProps {
   onBackToLanding?: () => void;
   currentLang?: Language;
   onToggleLang?: () => void;
+  userCoords?: { latitude: number; longitude: number } | null;
+  onRequestLocation?: () => void;
+  isLocating?: boolean;
 }
 
 export type ThematicLayerMode = 'status' | 'slope' | 'awc';
@@ -109,6 +112,9 @@ export function FieldMap({
   onBackToLanding,
   currentLang = 'id',
   onToggleLang,
+  userCoords,
+  onRequestLocation,
+  isLocating,
 }: FieldMapProps) {
   // Thematic Layer State (Task 3.2)
   const [thematicLayer, setThematicLayer] = useState<ThematicLayerMode>('status');
@@ -344,6 +350,36 @@ export function FieldMap({
       getBackgroundColor: () => [255, 255, 255, 240],
       backgroundPadding: [6, 4],
     }),
+
+    // 4. User GPS Location Marker (when active)
+    ...(userCoords
+      ? [
+          new ScatterplotLayer({
+            id: 'user-gps-pulse',
+            data: [{ position: [userCoords.longitude, userCoords.latitude] }],
+            getPosition: (d: { position: [number, number] }) => d.position,
+            getFillColor: [35, 127, 142, 50],
+            getRadius: 350,
+            radiusUnits: 'meters',
+            stroked: true,
+            getLineColor: [35, 127, 142, 200],
+            getLineWidth: 2,
+            lineWidthUnits: 'pixels',
+          }),
+          new ScatterplotLayer({
+            id: 'user-gps-center',
+            data: [{ position: [userCoords.longitude, userCoords.latitude] }],
+            getPosition: (d: { position: [number, number] }) => d.position,
+            getFillColor: [35, 127, 142, 255],
+            getRadius: 60,
+            radiusUnits: 'meters',
+            stroked: true,
+            getLineColor: [255, 255, 255, 255],
+            getLineWidth: 3,
+            lineWidthUnits: 'pixels',
+          }),
+        ]
+      : []),
   ];
 
   return (
@@ -368,6 +404,10 @@ export function FieldMap({
           onSelectField={handleSelectField}
           activeFilter={activeFilter}
           onFilterChange={setActiveFilter}
+          userCoords={userCoords}
+          onRequestLocation={onRequestLocation}
+          isLocating={isLocating}
+          currentLang={currentLang}
         />
       </div>
 

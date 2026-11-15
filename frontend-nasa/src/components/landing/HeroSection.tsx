@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import {
   ArrowRight,
   Compass,
@@ -15,6 +15,8 @@ import {
   Loader2,
 } from 'lucide-react';
 import type { Language } from '../../types/landing';
+import type { FieldProfile } from '../../types/domain';
+import { formatDistance } from '../../lib/geoDistance';
 import {
   fetchLiveWeather,
   type LiveWeatherData,
@@ -28,14 +30,24 @@ import {
 
 interface HeroSectionProps {
   currentLang: Language;
-  onOpenWorkspace: () => void;
+  onOpenWorkspace: (targetField?: FieldProfile) => void;
   onScrollToDemo: () => void;
+  userCoords?: { latitude: number; longitude: number } | null;
+  onRequestLocation?: () => void;
+  nearestField?: FieldProfile | null;
+  nearestDistanceKm?: number | null;
+  isLocating?: boolean;
 }
 
 export function HeroSection({
   currentLang,
   onOpenWorkspace,
   onScrollToDemo,
+  userCoords,
+  onRequestLocation,
+  nearestField,
+  nearestDistanceKm,
+  isLocating = false,
 }: HeroSectionProps) {
   const isId = currentLang === 'id';
 
@@ -54,7 +66,26 @@ export function HeroSection({
   const [searchResults, setSearchResults] = useState<LocationData[]>([]);
   const [isSearching, setIsSearching] = useState<boolean>(false);
 
-  const currentLocation = customGpsLocation || LOCATIONS[0];
+  // Derived GPS location when device coordinates & nearestField are detected
+  const userGpsLocation = useMemo<LocationData | null>(() => {
+    if (!userCoords || !nearestField) return null;
+    const lat = userCoords.latitude;
+    const lon = userCoords.longitude;
+    const latDir = lat >= 0 ? 'N' : 'S';
+    const lonDir = lon >= 0 ? 'E' : 'W';
+    return {
+      id: 'user-gps',
+      name: isId ? `Lokasi Anda: ${nearestField.village}` : `Your Location: ${nearestField.village}`,
+      region: isId ? `Dekat ${nearestField.name}` : `Near ${nearestField.name}`,
+      coords: `${Math.abs(lat).toFixed(4)}°${latDir}, ${Math.abs(lon).toFixed(4)}°${lonDir}`,
+      elevation: `${nearestField.elevationMeters}m ASL`,
+      soilType: nearestField.soil.texture,
+      lat,
+      lon,
+    };
+  }, [userCoords, nearestField, isId]);
+
+  const currentLocation = customGpsLocation || userGpsLocation || LOCATIONS[0];
   const defaultWeather = WEATHER_CONFIGS[activeWeather];
 
   // Derive effective weather data (combining live API telemetry if active)
@@ -177,6 +208,10 @@ export function HeroSection({
 
   const handleSearchSubmit = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
+    if (nearestField && userCoords) {
+      onOpenWorkspace(nearestField);
+      return;
+    }
     if (searchResults.length > 0) {
       handleSelectSearchResult(searchResults[0]);
     }
@@ -184,8 +219,14 @@ export function HeroSection({
   };
 
   const handleDetectDeviceGps = () => {
+    if (onRequestLocation) {
+      onRequestLocation();
+      if (nearestField) {
+        setSearchQuery(`${nearestField.name} (${nearestField.village})`);
+      }
+      return;
+    }
     if (!navigator.geolocation) {
-      alert(isId ? 'Geolokasi tidak didukung oleh browser Anda.' : 'Geolocation is not supported by your browser.');
       return;
     }
 
@@ -211,7 +252,6 @@ export function HeroSection({
       (err) => {
         console.warn('Geolocation error:', err);
         setIsLoadingLive(false);
-        alert(isId ? 'Izin akses lokasi ditolak. Menampilkan data Banyumas.' : 'Location permission denied. Showing Banyumas data.');
       },
       { timeout: 8000 }
     );
@@ -377,10 +417,27 @@ export function HeroSection({
               <button
                 type="button"
                 onClick={handleDetectDeviceGps}
-                className="p-2 sm:p-2.5 rounded-xl bg-slate-100 hover:bg-[#E3F1F3] text-[#237F8E] hover:text-[#1B6572] transition cursor-pointer shrink-0 border border-[#E6EBF0]"
-                title={isId ? 'Gunakan Lokasi GPS Saya' : 'Detect My Device GPS'}
+                disabled={isLocating}
+                className={`p-2 sm:p-2.5 rounded-xl transition cursor-pointer shrink-0 border ${
+                  userCoords
+                    ? 'bg-[#E3F1F3] text-[#1B6572] border-[#237F8E]/30 shadow-xs'
+                    : 'bg-slate-100 hover:bg-[#E3F1F3] text-[#237F8E] hover:text-[#1B6572] border-[#E6EBF0]'
+                }`}
+                title={
+                  userCoords && nearestField
+                    ? isId
+                      ? `GPS Aktif: Dekat ${nearestField.village}`
+                      : `GPS Active: Near ${nearestField.village}`
+                    : isId
+                      ? 'Gunakan Lokasi GPS Saya'
+                      : 'Detect My Device GPS'
+                }
               >
-                <LocateFixed className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                {isLocating ? (
+                  <Loader2 className="h-3.5 w-3.5 sm:h-4 sm:w-4 animate-spin text-[#237F8E]" />
+                ) : (
+                  <LocateFixed className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                )}
               </button>
 
               {/* Primary CTA Explore Button - Field Shift Signature Gradient */}
@@ -392,6 +449,30 @@ export function HeroSection({
                 <ArrowRight className="h-4 w-4" />
               </button>
             </form>
+
+            {/* GPS Detected Proximity Pill */}
+            {userCoords && nearestField && (
+              <div className="mt-2.5 flex items-center justify-between rounded-xl bg-[#E3F1F3]/80 px-3 py-1.5 text-[11px] text-[#1B6572] border border-[#237F8E]/20 animate-in fade-in">
+                <span className="flex items-center gap-1.5 font-medium">
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                  </span>
+                  {isId ? 'Lokasi Anda terdeteksi: Lahan terdekat adalah ' : 'Your location detected: Nearest plot is '}
+                  <strong className="text-[#14232B]">{nearestField.name}</strong>
+                  {nearestDistanceKm !== null && nearestDistanceKm !== undefined && (
+                    <span>({formatDistance(nearestDistanceKm, isId ? 'id' : 'en')})</span>
+                  )}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => onOpenWorkspace(nearestField)}
+                  className="font-bold text-[#237F8E] hover:underline"
+                >
+                  {isId ? 'Buka Petak Ini' : 'Open This Plot'} &rarr;
+                </button>
+              </div>
+            )}
 
             {/* FLOATING GEOCODING & PRESET RESULTS DROPDOWN (LIGHT THEME) */}
             {isSearchOpen && (

@@ -10,18 +10,28 @@ import { GlossaryModal } from '../features/glossary/GlossaryModal';
 import { EvidenceModal } from '../features/evidence-card/EvidenceModal';
 import { MOCK_STRATEGIES } from '../api/mock/mockData';
 import type { Language } from '../types/landing';
-import type { Strategy } from '../types/domain';
+import type { Strategy, FieldProfile } from '../types/domain';
 
 interface LandingPageProps {
-  onOpenWorkspace: () => void;
+  onOpenWorkspace: (targetField?: FieldProfile) => void;
   currentLang?: Language;
   onToggleLang?: () => void;
+  userCoords?: { latitude: number; longitude: number } | null;
+  onRequestLocation?: () => void;
+  nearestField?: FieldProfile | null;
+  nearestDistanceKm?: number | null;
+  isLocating?: boolean;
 }
 
 export function LandingPage({
   onOpenWorkspace,
   currentLang: externalLang,
   onToggleLang: externalToggleLang,
+  userCoords,
+  onRequestLocation,
+  nearestField,
+  nearestDistanceKm,
+  isLocating,
 }: LandingPageProps) {
   const [internalLang, setInternalLang] = useState<Language>('en');
   const currentLang = externalLang || internalLang;
@@ -65,6 +75,11 @@ export function LandingPage({
           currentLang={currentLang}
           onOpenWorkspace={onOpenWorkspace}
           onScrollToDemo={handleScrollToAbout}
+          userCoords={userCoords}
+          onRequestLocation={onRequestLocation}
+          nearestField={nearestField}
+          nearestDistanceKm={nearestDistanceKm}
+          isLocating={isLocating}
         />
 
         {/* 2. About — Brief explanation of Field Shift */}
