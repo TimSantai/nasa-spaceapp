@@ -465,6 +465,10 @@ export interface components {
             };
             /** Crops */
             crops: string[];
+            /** Crop Labels */
+            crop_labels: {
+                [key: string]: string;
+            };
             /** Latest Enso Phase */
             latest_enso_phase: string;
             /** Latest Iod Phase */

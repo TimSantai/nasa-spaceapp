@@ -32,6 +32,7 @@ async def test_sites_lists_processed_sites(api: AsyncClient) -> None:
     keys = [s["key"] for s in body["data"]]
     assert keys == ["nevada_mason_valley", "banyumas"]
     assert "alfalfa" in body["data"][0]["crops"]
+    assert body["data"][0]["crop_labels"]["chili"] == "Chili pepper"
 
 
 async def test_compare_returns_ranked_strategies_with_cards(api: AsyncClient) -> None:

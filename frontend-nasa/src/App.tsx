@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { MOCK_FIELDS, snapshotStrategies } from './api/mock/mockData';
-import { fetchFields, fetchStrategies, siteOf } from './api/fieldshift';
+import { MOCK_FIELDS, SNAPSHOT_CROP_LABELS, snapshotStrategies } from './api/mock/mockData';
+import { baselineFromRotation, fetchFields, fetchSiteInfo, fetchStrategies, siteOf } from './api/fieldshift';
 import { FieldMap } from './features/map/FieldMap';
 import { PlotAnalysisWorkspace } from './features/analysis/PlotAnalysisWorkspace';
 import { EvidenceModal } from './features/evidence-card/EvidenceModal';
@@ -69,6 +69,23 @@ export function App() {
     pestBreak: 15,
   });
 
+  // Farmer-entered current rotation per field (defaults to the field's recorded rotation)
+  const [baselines, setBaselines] = useState<Record<string, Record<string, string>>>({});
+  const [cropLabels, setCropLabels] = useState<Record<string, string>>(SNAPSHOT_CROP_LABELS);
+  const initialBaseline = baselineFromRotation(selectedField);
+  const currentBaseline = baselines[selectedField.id] ?? initialBaseline;
+  const baselineKey = JSON.stringify(currentBaseline);
+
+  useEffect(() => {
+    let alive = true;
+    fetchSiteInfo('banyumas')
+      .then((info) => alive && info?.crop_labels && setCropLabels(info.crop_labels))
+      .catch(() => undefined);
+    return () => {
+      alive = false;
+    };
+  }, []);
+
   // Strategies from the backend rotation engine for the selected field's site and ENSO phase
   const [currentStrategies, setCurrentStrategies] = useState<Strategy[]>(() => snapshotStrategies('normal'));
 
@@ -92,7 +109,8 @@ export function App() {
     let alive = true;
     const timer = window.setTimeout(() => {
       const fieldId = dataMode === 'live' ? selectedField.id : undefined;
-      fetchStrategies(siteOf(selectedField), climatePhase, fieldId, scenario)
+      const baseline = dataMode === 'live' ? (JSON.parse(baselineKey) as Record<string, string>) : undefined;
+      fetchStrategies(siteOf(selectedField), climatePhase, fieldId, scenario, baseline)
         .then((s) => alive && setCurrentStrategies(s))
         .catch(() => alive && setCurrentStrategies(snapshotStrategies(climatePhase)));
     }, 350);
@@ -100,7 +118,7 @@ export function App() {
       alive = false;
       window.clearTimeout(timer);
     };
-  }, [selectedField, climatePhase, scenario, dataMode]);
+  }, [selectedField, climatePhase, scenario, dataMode, baselineKey]);
 
   // Handle URL hash changes
   useEffect(() => {
@@ -183,6 +201,10 @@ export function App() {
           onOpenDataSources={() => setIsDataSourcesOpen(true)}
           currentLang={currentLang}
           dataMode={dataMode}
+          baseline={currentBaseline}
+          initialBaseline={initialBaseline}
+          cropLabels={cropLabels}
+          onBaselineChange={(b) => setBaselines((prev) => ({ ...prev, [selectedField.id]: b }))}
         />
 
         {/* Global Modals accessible across modes */}

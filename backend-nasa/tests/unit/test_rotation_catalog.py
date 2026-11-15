@@ -52,3 +52,11 @@ def test_build_years_fills_fallow_and_rejects_unknown_season() -> None:
     assert years[0]["MT3_dry"].crop == "fallow"
     with pytest.raises(ValueError, match="unknown season"):
         build_years(ID, [{"MT9": "rice"}])
+
+
+def test_horticulture_crops_available_in_banyumas() -> None:
+    years = build_years(ID, [{"MT1_wet": "rice", "MT2_wet_dry": "chili", "MT3_dry": "tomato"}])
+    assert years[0]["MT2_wet_dry"].crop == "chili"
+    assert years[0]["MT3_dry"].active_months == 4
+    with pytest.raises(ValueError, match="cannot grow"):
+        default_stage(NV, "winter_recharge", "tomato")

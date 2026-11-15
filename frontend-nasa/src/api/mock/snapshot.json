@@ -11,6 +11,7 @@
    },
    "crops": [
     "alfalfa",
+    "chili",
     "clover",
     "corn",
     "groundnut",
@@ -18,9 +19,24 @@
     "onion",
     "rice",
     "soybean",
+    "tomato",
     "triticale",
     "winter_wheat"
    ],
+   "crop_labels": {
+    "alfalfa": "Alfalfa",
+    "chili": "Chili pepper",
+    "clover": "Clover cover crop",
+    "corn": "Corn (maize)",
+    "groundnut": "Groundnut",
+    "maize": "Maize",
+    "onion": "Onion (dry)",
+    "rice": "Rice (paddy)",
+    "soybean": "Soybean",
+    "tomato": "Tomato",
+    "triticale": "Triticale",
+    "winter_wheat": "Winter wheat"
+   },
    "latest_enso_phase": "neutral",
    "latest_iod_phase": "negative",
    "sources": [
@@ -40,6 +56,7 @@
    },
    "crops": [
     "alfalfa",
+    "chili",
     "clover",
     "corn",
     "groundnut",
@@ -47,9 +64,24 @@
     "onion",
     "rice",
     "soybean",
+    "tomato",
     "triticale",
     "winter_wheat"
    ],
+   "crop_labels": {
+    "alfalfa": "Alfalfa",
+    "chili": "Chili pepper",
+    "clover": "Clover cover crop",
+    "corn": "Corn (maize)",
+    "groundnut": "Groundnut",
+    "maize": "Maize",
+    "onion": "Onion (dry)",
+    "rice": "Rice (paddy)",
+    "soybean": "Soybean",
+    "tomato": "Tomato",
+    "triticale": "Triticale",
+    "winter_wheat": "Winter wheat"
+   },
    "latest_enso_phase": "neutral",
    "latest_iod_phase": "negative",
    "sources": [

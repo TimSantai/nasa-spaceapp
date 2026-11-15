@@ -19,6 +19,10 @@ const BANYUMAS_SOURCES = SNAP.sites.find((s) => s.key === 'banyumas')?.sources ?
 
 export const SNAPSHOT_DATE = SNAP.generatedAt;
 
+/** Crop key -> label for the Banyumas baseline editor (used until /sites responds). */
+export const SNAPSHOT_CROP_LABELS: Record<string, string> =
+  SNAP.sites.find((s) => s.key === 'banyumas')?.crop_labels ?? {};
+
 export const MOCK_FIELDS: FieldProfile[] = SNAP.fields.map(toField);
 
 export function snapshotStrategies(phase: ClimatePhase): Strategy[] {

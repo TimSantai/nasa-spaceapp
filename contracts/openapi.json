@@ -1219,6 +1219,13 @@
             "type": "array",
             "title": "Crops"
           },
+          "crop_labels": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Crop Labels"
+          },
           "latest_enso_phase": {
             "type": "string",
             "title": "Latest Enso Phase"
@@ -1241,6 +1248,7 @@
           "name",
           "seasons",
           "crops",
+          "crop_labels",
           "latest_enso_phase",
           "latest_iod_phase",
           "sources"

@@ -10,6 +10,8 @@ import type {
 import type { Language } from '../../types/landing';
 import { FieldProfileView } from '../field-profile/FieldProfileView';
 import { PriorityControls } from '../priorities/PriorityControls';
+import { BaselineEditor } from '../priorities/BaselineEditor';
+import { BANYUMAS_CROPS, BANYUMAS_SEASONS } from '../../api/fieldshift';
 import { StrategyBoard } from '../strategy-comparison/StrategyBoard';
 import { SummaryBrief } from '../export/SummaryBrief';
 import { ArrowLeft, Layers, Sliders, FileText, Database, MapPin, Sparkles, BookOpen } from 'lucide-react';
@@ -33,6 +35,10 @@ interface PlotAnalysisWorkspaceProps {
   onOpenDataSources?: () => void;
   currentLang?: Language;
   dataMode?: 'live' | 'snapshot';
+  baseline?: Record<string, string>;
+  initialBaseline?: Record<string, string>;
+  cropLabels?: Record<string, string>;
+  onBaselineChange?: (baseline: Record<string, string>) => void;
 }
 
 export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
@@ -53,6 +59,10 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
   onOpenDataSources,
   currentLang = 'id',
   dataMode = 'snapshot',
+  baseline,
+  initialBaseline,
+  cropLabels,
+  onBaselineChange,
 }) => {
   const isId = currentLang === 'id';
   const [activeSubTab, setActiveSubTab] = useState<'profile' | 'optimizer' | 'export'>('profile');
@@ -225,6 +235,23 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 <FileText className="h-4 w-4 text-[#237F8E]" />
               </button>
             </div>
+
+            {baseline && initialBaseline && cropLabels && onBaselineChange && (
+              <BaselineEditor
+                seasons={BANYUMAS_SEASONS}
+                cropLabels={Object.fromEntries(
+                  Object.entries(cropLabels).filter(([key]) => BANYUMAS_CROPS.includes(key)),
+                )}
+                value={baseline}
+                initial={initialBaseline}
+                onChange={onBaselineChange}
+              />
+            )}
+            {dataMode !== 'live' && (
+              <p className="-mt-4 text-xs text-amber-700">
+                Backend offline: rotasi baseline yang diubah baru dihitung saat API tersambung.
+              </p>
+            )}
 
             {/* Controls for Climate Forcing, Farmer Constraints & Stress-Test Slider */}
             <PriorityControls

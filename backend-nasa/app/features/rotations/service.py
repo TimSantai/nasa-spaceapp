@@ -22,6 +22,7 @@ def list_sites(repo: ProcessedRepository) -> list[SiteInfo]:
                 name=SITES[key].name,
                 seasons=dict(SITES[key].seasons),
                 crops=sorted(CROPS),
+                crop_labels={k: c.name for k, c in sorted(CROPS.items())},
                 latest_enso_phase=data.latest_enso,
                 latest_iod_phase=data.latest_iod,
                 sources=list(data.sources),

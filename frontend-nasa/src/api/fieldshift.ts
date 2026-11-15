@@ -50,7 +50,7 @@ export function toField(f: FieldProfileOut): FieldProfile {
   return { ...f, coordinates: [f.coordinates[0], f.coordinates[1]] } as FieldProfile;
 }
 
-const SEASON_LABEL: Record<string, string> = {
+export const SEASON_LABEL: Record<string, string> = {
   MT1_wet: 'MT1 Nov–Feb',
   MT2_wet_dry: 'MT2 Mar–Jun',
   MT3_dry: 'MT3 Jul–Oct',
@@ -164,19 +164,49 @@ export function toStrategies(c: ComparisonOut, sources: string[]): Strategy[] {
   });
 }
 
+export const BANYUMAS_SEASONS = ['MT1_wet', 'MT2_wet_dry', 'MT3_dry'];
+/** Crops offered in the Banyumas baseline editor (temperate US crops are left out). */
+export const BANYUMAS_CROPS = ['rice', 'maize', 'soybean', 'groundnut', 'chili', 'tomato', 'onion'];
+
+const LABEL_TO_CROP: [RegExp, string][] = [
+  [/fallow|bera/i, 'fallow'],
+  [/paddy|padi|rice/i, 'rice'],
+  [/chili|cabai|horti/i, 'chili'],
+  [/tomato|tomat/i, 'tomato'],
+  [/maize|corn|jagung/i, 'maize'],
+  [/soy|kedelai/i, 'soybean'],
+  [/groundnut|peanut|kacang tanah/i, 'groundnut'],
+];
+
+/** Initial baseline from the field's free-text rotation (one label per season, in order). */
+export function baselineFromRotation(field: FieldProfile, seasons: string[] = BANYUMAS_SEASONS): Record<string, string> {
+  return Object.fromEntries(
+    seasons.map((season, i) => {
+      const label = field.currentRotation[i] ?? '';
+      const hit = LABEL_TO_CROP.find(([re]) => re.test(label));
+      return [season, hit ? hit[1] : 'fallow'];
+    }),
+  );
+}
+
 export async function fetchFields(site = 'banyumas'): Promise<FieldProfile[]> {
   const data = await call<FieldProfileOut[]>(`/api/v1/fields?site=${encodeURIComponent(site)}`);
   return data.map(toField);
 }
 
-let sourcesCache: Record<string, string[]> | null = null;
+type SiteInfo = components['schemas']['SiteInfo'];
+let sitesCache: Record<string, SiteInfo> | null = null;
+
+export async function fetchSiteInfo(site: string): Promise<SiteInfo | undefined> {
+  if (!sitesCache) {
+    const sites = await call<SiteInfo[]>('/api/v1/rotations/sites');
+    sitesCache = Object.fromEntries(sites.map((s) => [s.key, s]));
+  }
+  return sitesCache[site];
+}
 
 async function siteSources(site: string): Promise<string[]> {
-  if (!sourcesCache) {
-    const sites = await call<components['schemas']['SiteInfo'][]>('/api/v1/rotations/sites');
-    sourcesCache = Object.fromEntries(sites.map((s) => [s.key, s.sources]));
-  }
-  return sourcesCache[site] ?? [];
+  return (await fetchSiteInfo(site))?.sources ?? [];
 }
 
 export async function fetchStrategies(
@@ -184,11 +214,13 @@ export async function fetchStrategies(
   phase: ClimatePhase,
   fieldId?: string,
   scenario?: ClimateScenario,
+  baseline?: Record<string, string>,
 ): Promise<Strategy[]> {
   const body = {
     site,
     enso_phase: toEnsoPhase(phase),
     ...(fieldId ? { field_id: fieldId } : {}),
+    ...(baseline ? { baseline: [baseline] } : {}),
     scenario: {
       rain_anomaly_pct: scenario?.rainfallAnomalyPercent ?? 0,
       temp_delta_c: scenario?.temperatureAnomalyDelta ?? 0,

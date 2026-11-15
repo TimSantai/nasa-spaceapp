@@ -56,6 +56,7 @@ class SiteInfo(BaseModel):
     name: str
     seasons: dict[str, int]
     crops: list[str]
+    crop_labels: dict[str, str]
     latest_enso_phase: str
     latest_iod_phase: str
     sources: list[str]

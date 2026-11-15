@@ -1,8 +1,8 @@
 """Crop profiles, site definitions and strategy templates.
 
 Crop coefficients are FAO-56 (Allen et al., 1998, Table 12) mid-season values. Triticale has
-no FAO-56 entry and uses the small-grain value. Season months are coarse planning values,
-not phenology models.
+no FAO-56 entry and uses the small-grain value; chili uses the FAO-56 sweet-pepper value.
+Season months are coarse planning values, not phenology models.
 """
 
 from __future__ import annotations
@@ -25,6 +25,8 @@ CROPS: dict[str, CropProfile] = {
         CropProfile("soybean", "Soybean", "legume_grain", 1.15, True, False, 3),
         CropProfile("groundnut", "Groundnut", "legume_grain", 1.15, True, False, 3.5),
         CropProfile("maize", "Maize", "maize", 1.20, False, False, 4),
+        CropProfile("chili", "Chili pepper", "solanaceae", 1.05, False, False, 4),
+        CropProfile("tomato", "Tomato", "solanaceae", 1.15, False, False, 4),
     )
 }
 WINTER_CEREALS = frozenset({"winter_wheat", "triticale"})
