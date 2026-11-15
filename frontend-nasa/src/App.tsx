@@ -288,6 +288,7 @@ export function App() {
           scenario={scenario}
           onScenarioChange={setScenario}
           verifiedChecks={verifiedChecks}
+          onToggleCheck={handleToggleCheck}
           onOpenEvidence={(strat) => setEvidenceStrategy(strat)}
           onBackToMap={handleBackToMap}
           onOpenGlossary={() => setIsGlossaryOpen(true)}

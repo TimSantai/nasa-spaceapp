@@ -44,6 +44,7 @@ interface PlotAnalysisWorkspaceProps {
   scenario: ClimateScenario;
   onScenarioChange: (scenario: ClimateScenario) => void;
   verifiedChecks: Record<string, boolean>;
+  onToggleCheck?: (checkText: string) => void;
   onOpenEvidence: (strategy: Strategy) => void;
   onBackToMap: () => void;
   onOpenGlossary?: () => void;
@@ -120,6 +121,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
   scenario,
   onScenarioChange,
   verifiedChecks,
+  onToggleCheck,
   onOpenEvidence,
   onBackToMap,
   // onOpenGlossary,
@@ -748,7 +750,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
           {/* SUB-TAB 1: PEDOLOGY & NASA SATELLITE CLIMATOLOGY (WITH MINI MAP INSET) */}
           {activeSubTab === 'profile' && (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 print:hidden">
                 <div>
                   <span className="text-[11px] font-bold tracking-wider text-[#237F8E] uppercase">
                     {isId ? '/ LANGKAH 01 · PEDOLOGI & AGROKLIMAT' : '/ STEP 01 · PEDOLOGY & HYDROMETEOROLOGY'}
@@ -784,7 +786,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
           {/* SUB-TAB 2: ROTATION OPTIMIZER (SPRINT 1 DECISION ENGINE) */}
           {activeSubTab === 'optimizer' && (
             <div className="space-y-8">
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 print:hidden">
                 <div>
                   <span className="text-[11px] font-bold tracking-wider text-[#237F8E] uppercase">
                     {isId ? '/ LANGKAH 02 · MESIN KEPUTUSAN & UJI STRES' : '/ STEP 02 · DECISION ENGINE & STRESS-TEST'}
@@ -858,7 +860,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
           {/* SUB-TAB 3: EXTENSION CONSULTATION BRIEF (SPRINT 2 PRINT ENGINE) */}
           {activeSubTab === 'export' && (
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3">
+              <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-3 print:hidden">
                 <div>
                   <span className="text-[11px] font-bold tracking-wider text-[#237F8E] uppercase">
                     {isId ? '/ LANGKAH 03 · LEMBAR KONSULTASI PPL & AUDIT RISIKO' : '/ STEP 03 · PPL EXTENSION BRIEF & RISK AUDIT'}
@@ -890,6 +892,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
                 constraints={constraints}
                 scenario={scenario}
                 verifiedChecks={verifiedChecks}
+                onToggleCheck={onToggleCheck}
                 currentLang={currentLang}
               />
             </div>
@@ -899,7 +902,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
         {/* ================================================================ */}
         {/* 3. MOBILE DOCKED THUMB ACTION BAR (FIXED AT BOTTOM FOR MOBILE)   */}
         {/* ================================================================ */}
-        <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#E6EBF0] p-3 px-4 shadow-[0_-8px_25px_rgba(15,23,42,0.08)] flex items-center justify-between gap-3">
+        <div className="md:hidden fixed bottom-0 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-[#E6EBF0] p-3 px-4 shadow-[0_-8px_25px_rgba(15,23,42,0.08)] flex items-center justify-between gap-3 print:hidden">
           <div className="flex items-center gap-2 min-w-0">
             {/* Previous Step Button if not on Step 1 */}
             {currentStepIdx > 0 && (
