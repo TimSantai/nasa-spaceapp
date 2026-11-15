@@ -3,7 +3,7 @@ import { LandingNavbar } from '../components/landing/LandingNavbar';
 import { HeroSection } from '../components/landing/HeroSection';
 import { AboutSection } from '../components/landing/AboutSection';
 import { HowItWorksSection } from '../components/landing/HowItWorksSimple';
-import { WhyFieldShiftSection } from '../components/landing/WhyFieldShiftSection';
+import { WhyRotasiSection } from '../components/landing/WhyFieldShiftSection';
 import { CtaFooterSection } from '../components/landing/CtaFooterSection';
 import { DataSourcesModal } from '../components/landing/DataSourcesModal';
 import { GlossaryModal } from '../features/glossary/GlossaryModal';
@@ -95,7 +95,7 @@ export function LandingPage({
           onSearchQueryChange={onSearchQueryChange}
         />
 
-        {/* 2. About — Brief explanation of Field Shift */}
+        {/* 2. About — Brief explanation of ROTASI */}
         <AboutSection
           onOpenWorkspace={() => onOpenWorkspace()}
           currentLang={currentLang}
@@ -107,14 +107,14 @@ export function LandingPage({
           currentLang={currentLang}
         />
 
-        {/* 4. Why Field Shift — NASA Data, Climate-Aware, Evidence-Based */}
-        <WhyFieldShiftSection
+        {/* 4. Why ROTASI — NASA Data, Climate-Aware, Evidence-Based */}
+        <WhyRotasiSection
           onOpenWorkspace={() => onOpenWorkspace()}
           currentLang={currentLang}
         />
       </main>
 
-      {/* 5. CTA + Footer — Explore Field Shift */}
+      {/* 5. CTA + Footer — Explore ROTASI */}
       <CtaFooterSection
         onOpenWorkspace={() => onOpenWorkspace()}
         currentLang={currentLang}

@@ -10,6 +10,7 @@ import type {
 import type { Language } from '../../types/landing';
 import { formatCropSequenceItem } from '../../lib/cropTranslation';
 import { Sparkles, CheckCircle2, ShieldCheck } from 'lucide-react';
+import { RotasiLogo } from '../../components/brand/RotasiLogo';
 
 interface PrintableConsultationSheetProps {
   field: FieldProfile;
@@ -47,16 +48,19 @@ export const PrintableConsultationSheet: React.FC<PrintableConsultationSheetProp
       {/* Document Formal Header (Kop Dokumen Resmi) */}
       <div className="border-b-2 border-slate-900 pb-5">
         <div className="flex items-start justify-between gap-4">
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-[#237F8E]">
-              PEMERINTAH KABUPATEN BANYUMAS &middot; DINAS PERTANIAN DAN KETAHANAN PANGAN
-            </span>
-            <h2 className="text-xl sm:text-2xl font-black text-[#14232B] mt-0.5 tracking-tight">
-              LEMBAR KONSULTASI & REKOMENDASI POLA ROTASI TANAM
-            </h2>
-            <p className="text-xs text-[#5F6B74] mt-0.5">
-              Dukungan Keputusan Agroklimat Lahan Berbasis Data Satelit NASA POWER & Model Optimasi AI
-            </p>
+          <div className="flex items-start gap-3">
+            <RotasiLogo variant="mark" size="md" className="hidden sm:inline-flex mt-1" />
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#237F8E]">
+                ROTASI &middot; PEMERINTAH KABUPATEN BANYUMAS &middot; DINAS PERTANIAN
+              </span>
+              <h2 className="text-xl sm:text-2xl font-black text-[#14232B] mt-0.5 tracking-tight">
+                LEMBAR KONSULTASI & REKOMENDASI POLA ROTASI TANAM
+              </h2>
+              <p className="text-xs text-[#5F6B74] mt-0.5">
+                Dukungan Keputusan Agroklimat Lahan Berbasis Data Satelit NASA POWER & Optimasi ROTASI (Resilient Optimization Tool for Agro-Satellite Insights)
+              </p>
+            </div>
           </div>
           <div className="text-right shrink-0">
             <span className="rounded-md border border-slate-300 bg-slate-50 px-2.5 py-1 font-mono text-xs font-bold text-slate-800">
@@ -272,7 +276,7 @@ export const PrintableConsultationSheet: React.FC<PrintableConsultationSheetProp
 
       {/* Document Footer */}
       <div className="mt-6 border-t border-slate-200 pt-2 text-center text-[10px] text-[#5F6B74] font-mono">
-        &copy; 2026 FIELD SHIFT &middot; NASA Space Apps Challenge &middot; Powered by NASA POWER Climatology & Deck.gl
+        &copy; 2026 ROTASI: Resilient Optimization Tool for Agro-Satellite Insights &middot; NASA Space Apps Challenge &middot; Powered by NASA POWER Climatology & Deck.gl
       </div>
     </div>
   );

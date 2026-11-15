@@ -1,6 +1,7 @@
-import { Sprout, ArrowRight, ShieldCheck } from 'lucide-react';
+import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { ScrollReveal } from '../common/ScrollReveal';
 import type { Language } from '../../types/landing';
+import { RotasiLogo } from '../brand/RotasiLogo';
 
 interface CtaFooterSectionProps {
   onOpenWorkspace: () => void;
@@ -92,7 +93,7 @@ export function CtaFooterSection({ onOpenWorkspace, currentLang = 'en' }: CtaFoo
                 onClick={() => onOpenWorkspace()}
                 className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 rounded-2xl bg-gradient-to-r from-[#237F8E] to-[#1E5B4F] hover:from-[#1B6572] hover:to-[#17463c] text-white px-8 py-4 text-sm sm:text-base font-bold shadow-md hover:shadow-lg transition active:scale-[0.98] cursor-pointer"
               >
-                <span>{isId ? 'Buka Field Shift Workspace' : 'Launch Field Shift Workspace'}</span>
+                <span>{isId ? 'Buka ROTASI Workspace' : 'Launch ROTASI Workspace'}</span>
                 <ArrowRight className="h-4.5 w-4.5" />
               </button>
             </div>
@@ -108,22 +109,14 @@ export function CtaFooterSection({ onOpenWorkspace, currentLang = 'en' }: CtaFoo
           <footer className="rounded-2xl bg-white/95 backdrop-blur-xl px-6 py-4 border border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
             {/* Brand */}
             <div className="flex items-center gap-2.5">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#E3F1F3] text-[#237F8E] border border-[#237F8E]/25 shadow-2xs">
-                <Sprout className="h-4 w-4" />
-              </div>
-              <span className="text-sm font-extrabold tracking-tight text-[#14232B]">
-                FIELD <span className="text-[#237F8E]">SHIFT</span>
-              </span>
-              <span className="text-[11px] font-semibold text-[#5F6B74]">
-                &middot; NASA Space Apps
-              </span>
+              <RotasiLogo variant="horizontal" size="sm" badgeText="NASA Space Apps" />
             </div>
 
             {/* Attribution & Copyright */}
             <div className="flex flex-wrap items-center justify-center gap-4 text-[#5F6B74] font-medium text-[11px] sm:text-xs">
               <span>{isId ? 'Didukung oleh NASA POWER, SRTM & AppEEARS (HLS, SMAP, ECOSTRESS)' : 'Powered by NASA POWER, SRTM & AppEEARS (HLS, SMAP, ECOSTRESS)'}</span>
               <span className="hidden sm:inline text-slate-300">|</span>
-              <span>&copy; {new Date().getFullYear()} FIELD SHIFT. {isId ? 'Inisiatif Data Terbuka.' : 'Open Data Initiative.'}</span>
+              <span>&copy; {new Date().getFullYear()} ROTASI. {isId ? 'Inisiatif Data Terbuka.' : 'Open Data Initiative.'}</span>
             </div>
           </footer>
         </ScrollReveal>

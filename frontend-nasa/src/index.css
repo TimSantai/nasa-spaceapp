@@ -69,7 +69,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-text);
 }
 
-/* Custom text selection in Field Shift teal */
+/* Custom text selection in ROTASI teal */
 ::selection {
   background-color: #E3F1F3;
   color: #1B6572;

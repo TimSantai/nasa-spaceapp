@@ -73,7 +73,7 @@ export function AboutSection({ onOpenWorkspace, currentLang = 'en' }: AboutSecti
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-10 sm:pb-14 border-b border-slate-200">
             <div className="max-w-2xl">
               <p className="text-xs font-bold uppercase tracking-widest text-[#237F8E] mb-2">
-                {isId ? 'Sistem Field Shift' : 'Field Shift System'}
+                {isId ? 'Sistem ROTASI' : 'ROTASI Platform'}
               </p>
 
               {/* Headline matching user design reference */}
@@ -117,8 +117,8 @@ export function AboutSection({ onOpenWorkspace, currentLang = 'en' }: AboutSecti
             <div>
               <p className="text-sm sm:text-base text-[#5F6B74] leading-relaxed font-normal">
                 {isId
-                  ? 'Field Shift memadukan telemetri satelit NASA beresolusi tinggi dengan model risiko agronomi regional untuk memandu rotasi tanaman adaptif berlandaskan data orbit Bumi.'
-                  : 'Field Shift pairs high-resolution NASA satellite telemetry with regional agronomic risk models to direct resilient crop rotation schedules derived from Earth orbit data.'}
+                  ? 'ROTASI (Resilient Optimization Tool for Agro-Satellite Insights) memadukan telemetri satelit NASA beresolusi tinggi dengan model risiko agronomi regional untuk memandu rotasi tanaman adaptif berlandaskan data orbit Bumi.'
+                  : 'ROTASI (Resilient Optimization Tool for Agro-Satellite Insights) pairs high-resolution NASA satellite telemetry with regional agronomic risk models to direct resilient crop rotation schedules derived from Earth orbit data.'}
               </p>
               <button
                 type="button"

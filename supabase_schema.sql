@@ -1,5 +1,5 @@
 -- ==============================================================================
--- NASA Space Apps 2026: Field Shift Database Schema
+-- NASA Space Apps 2026: ROTASI (Resilient Optimization Tool for Agro-Satellite Insights) Database Schema
 -- Supabase Project: ljxtsjmlqzuebngrfdyd
 -- ==============================================================================
 

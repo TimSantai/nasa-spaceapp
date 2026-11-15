@@ -102,7 +102,7 @@ export const SummaryBrief: React.FC<SummaryBriefProps> = ({
       .map((item) => `• ${formatCropSequenceItem(item, currentLang)}`)
       .join('\n');
 
-    const waText = `🌾 *LEMBAR REKOMENDASI POLA ROTASI TANAM - FIELD SHIFT*
+    const waText = `🌾 *LEMBAR REKOMENDASI POLA ROTASI TANAM - ROTASI*
 --------------------------------------------------
 📍 *Lahan:* ${field.name}
 🏡 *Lokasi:* Desa ${field.village}, Kec. ${field.district}, Kab. ${field.regency}
@@ -127,7 +127,7 @@ ${translatedSequence}
 📝 *Catatan Agronomi Penyuluh:*
 "${metadata.notes.trim()}"
 
-_Dianalisis menggunakan Model Prediksi Iklim NASA POWER & Algoritma Pareto Banyumas._`;
+_Dianalisis dengan ROTASI: Resilient Optimization Tool for Agro-Satellite Insights (NASA Space Apps 2026)._`;
 
     try {
       if (navigator?.clipboard?.writeText) {
@@ -151,7 +151,7 @@ _Dianalisis menggunakan Model Prediksi Iklim NASA POWER & Algoritma Pareto Banyu
     const exportPayload = {
       metadata: {
         generatedAt: new Date().toISOString(),
-        system: 'Field Shift - NASA Space Apps 2026',
+        system: 'ROTASI (Resilient Optimization Tool for Agro-Satellite Insights) - NASA Space Apps 2026',
         fieldId: field.id,
         fieldName: field.name,
         regency: field.regency,

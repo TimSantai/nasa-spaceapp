@@ -1,6 +1,7 @@
 import React from 'react';
-import { Sprout, Home, Globe } from 'lucide-react';
+import { Home, Globe } from 'lucide-react';
 import type { Language } from '../../types/landing';
+import { RotasiLogo } from '../../components/brand/RotasiLogo';
 
 interface FloatingMapHeaderProps {
   currentLang?: Language;
@@ -26,21 +27,19 @@ export const FloatingMapHeader: React.FC<FloatingMapHeaderProps> = ({
   return (
     <header className="pointer-events-none fixed top-4 right-4 left-4 z-40 flex flex-wrap items-center justify-between gap-3">
       {/* Brand Card (Glassmorphic) */}
-      <div className="pointer-events-auto flex items-center gap-3 rounded-2xl border border-[#E6EBF0] bg-white/95 px-4 py-2.5 shadow-float backdrop-blur-md">
+      <div className="pointer-events-auto flex items-center gap-3 rounded-2xl border border-[#E6EBF0] bg-white/95 px-3.5 py-2 shadow-float backdrop-blur-md">
         <button
           onClick={onBackToLanding}
           className="group flex items-center gap-2.5 text-left"
           title={isId ? 'Kembali ke Beranda' : 'Back to Home'}
         >
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E3F1F3] text-[#237F8E] transition group-hover:bg-[#237F8E] group-hover:text-white">
-            <Sprout className="h-5 w-5" />
-          </div>
+          <RotasiLogo variant="mark" size="sm" />
           <div>
             <div className="flex items-center gap-2">
-              <span className="text-sm font-bold tracking-tight text-[#14232B]">
-                FIELD <span className="text-[#237F8E]">SHIFT</span>
+              <span className="text-sm font-black tracking-tight text-[#14232B]">
+                ROT<span className="text-[#237F8E]">ASI</span>
               </span>
-              <span className="rounded-full bg-[#E3F1F3] px-2 py-0.5 text-[10px] font-bold text-[#1B6572] border border-[#237F8E]/20">
+              <span className="rounded-full bg-[#E3F1F3] px-2 py-0.5 text-[10px] font-bold text-[#1B6572] border border-[#237F8E]/20 font-mono">
                 3D Map Hub
               </span>
             </div>

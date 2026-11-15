@@ -299,7 +299,7 @@ export function HeroSection({
   return (
     <section
       id="hero"
-      aria-label="Field Shift Agricultural Decision Platform"
+      aria-label="ROTASI Agricultural Decision Platform"
       className="relative min-h-[92vh] sm:min-h-screen overflow-hidden bg-white flex flex-col justify-between pt-6 pb-12 sm:pt-10 sm:pb-16"
     >
       {/* Background Soft Radiant Gradient */}
@@ -391,7 +391,7 @@ export function HeroSection({
         
         {/* MAIN CENTER EDITORIAL CONTENT */}
         <div className="my-auto py-10 sm:py-16 text-center max-w-4xl mx-auto">
-          {/* Main Headline with Field Shift Primary Palette */}
+          {/* Main Headline with ROTASI Primary Palette */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#14232B] leading-[1.14]">
             Grow Smarter. Adapt Better.{' '}
             <span className="block sm:inline text-[#237F8E] font-medium">
@@ -481,7 +481,7 @@ export function HeroSection({
                 )}
               </button>
 
-              {/* Primary CTA Explore Button - Field Shift Signature Gradient */}
+              {/* Primary CTA Explore Button - ROTASI Signature Gradient */}
               <button
                 type="submit"
                 className="rounded-xl bg-gradient-to-r from-[#237F8E] to-[#1E5B4F] hover:from-[#1B6572] hover:to-[#17463c] px-5 sm:px-6 py-2.5 sm:py-3 text-xs sm:text-sm font-bold text-white shadow-xs hover:shadow transition active:scale-[0.98] flex items-center gap-1.5 shrink-0 cursor-pointer"

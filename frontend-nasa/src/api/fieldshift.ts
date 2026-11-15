@@ -1,5 +1,5 @@
 /**
- * Field Shift backend client + adapters to the UI domain types.
+ * ROTASI (Resilient Optimization Tool for Agro-Satellite Insights) backend client + adapters to the UI domain types.
  * Every number shown in the app comes from the backend rotation engine or from an offline
  * snapshot of its real output (src/api/mock/snapshot.json) when the backend is unreachable.
  */

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Sprout, ArrowRight, Menu, X, Globe } from 'lucide-react';
+import { ArrowRight, Menu, X, Globe } from 'lucide-react';
 import type { Language } from '../../types/landing';
+import { RotasiLogo } from '../brand/RotasiLogo';
 
 interface LandingNavbarProps {
   onOpenWorkspace: () => void;
@@ -25,7 +26,7 @@ export function LandingNavbar({
         window.innerHeight + window.scrollY >=
         document.documentElement.scrollHeight - 80
       ) {
-        setActiveNav('why-field-shift');
+        setActiveNav('why-rotasi');
         return;
       }
 
@@ -37,7 +38,7 @@ export function LandingNavbar({
 
       // Offset from top accounting for floating island navbar
       const scrollPosition = window.scrollY + 200;
-      const sectionIds = ['why-field-shift', 'how-it-works', 'about', 'hero'];
+      const sectionIds = ['why-rotasi', 'how-it-works', 'about', 'hero'];
 
       for (const id of sectionIds) {
         const el = document.getElementById(id);
@@ -78,21 +79,16 @@ export function LandingNavbar({
     { id: 'hero', label: isId ? 'Beranda' : 'Home' },
     { id: 'about', label: isId ? 'Tentang Kami' : 'About Us' },
     { id: 'how-it-works', label: isId ? 'Cara Kerja' : 'How It Works' },
-    { id: 'why-field-shift', label: isId ? 'Keunggulan' : 'Why Us' },
+    { id: 'why-rotasi', label: isId ? 'Keunggulan' : 'Why Us' },
   ];
 
   return (
     <header className="sticky top-3 sm:top-4 z-50 mx-auto max-w-7xl px-3 sm:px-6 transition-all duration-300 pointer-events-none">
       <div className="pointer-events-auto rounded-full bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-[0_8px_30px_rgba(15,23,42,0.06)] px-4 py-2 sm:py-2.5 sm:px-6 flex items-center justify-between">
         
-        {/* Left: Brand with Fresh Light Mint Container */}
+        {/* Left: Brand with ROTASI Die-Cut Sticker Lockup */}
         <div className="flex items-center gap-2.5">
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#E3F1F3] text-[#237F8E] border border-[#237F8E]/25 shadow-2xs">
-            <Sprout className="h-4.5 w-4.5" />
-          </div>
-          <span className="text-base font-extrabold tracking-tight text-[#14232B]">
-            FIELD <span className="text-[#237F8E]">SHIFT</span>
-          </span>
+          <RotasiLogo variant="horizontal" size="sm" />
         </div>
 
         {/* Center: Clean & Airy Frosted Nav Bar with Rounded Pill Shape */}

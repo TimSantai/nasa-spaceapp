@@ -1,4 +1,5 @@
-# backend-nasa — Field Shift API (FastAPI)
+# backend-nasa — ROTASI API (FastAPI)
+*ROTASI: Resilient Optimization Tool for Agro-Satellite Insights*
 
 Kerangka backend dan AI. Belum ada fitur; baru `/health` dan router `/api/v1` kosong.
 

@@ -61,8 +61,8 @@ const STEPS: StepItem[] = [
     titleId: 'Analisis Kondisi Agro-Klimatik',
     shortTitleEn: 'Analyze Telemetry',
     shortTitleId: 'Analisis Telemetri',
-    descEn: 'Field Shift combines NASA POWER daily climate (1991–2025), SRTM slope, SoilGrids soil texture and ENSO/IOD indices with HLS NDVI into a unified dashboard.',
-    descId: 'Field Shift memadukan iklim harian NASA POWER (1991–2025), lereng SRTM, tekstur tanah SoilGrids, dan indeks ENSO/IOD dengan HLS NDVI dalam satu dasbor.',
+    descEn: 'ROTASI combines NASA POWER daily climate (1991–2025), SRTM slope, SoilGrids soil texture and ENSO/IOD indices with HLS NDVI into a unified dashboard.',
+    descId: 'ROTASI memadukan iklim harian NASA POWER (1991–2025), lereng SRTM, tekstur tanah SoilGrids, dan indeks ENSO/IOD dengan HLS NDVI dalam satu dasbor.',
     icon: BarChart3,
     image:
       'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1000&q=80',
@@ -300,7 +300,7 @@ export function HowItWorksSection({ onOpenWorkspace, currentLang = 'en' }: HowIt
             <button
               type="button"
               onClick={() => onOpenWorkspace()}
-              aria-label={isId ? 'Buka Field Shift Workspace' : 'Launch Field Shift Workspace'}
+              aria-label={isId ? 'Buka ROTASI Workspace' : 'Launch ROTASI Workspace'}
               className="flex h-8 w-8 items-center justify-center rounded-full bg-[#237F8E] text-white hover:bg-[#1B6572] transition shadow-2xs"
             >
               <ArrowUpRight className="h-4 w-4" />

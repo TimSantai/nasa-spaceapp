@@ -14,6 +14,7 @@ import { BaselineEditor } from '../priorities/BaselineEditor';
 import { BANYUMAS_CROPS, BANYUMAS_SEASONS } from '../../api/fieldshift';
 import { StrategyBoard } from '../strategy-comparison/StrategyBoard';
 import { SummaryBrief } from '../export/SummaryBrief';
+import { RotasiLogo } from '../../components/brand/RotasiLogo';
 import {
   ArrowLeft,
   ArrowRight,
@@ -27,7 +28,6 @@ import {
   X,
   Printer,
   PanelLeftClose,
-  PanelLeftOpen,
   Info,
 } from 'lucide-react';
 import { SNAPSHOT_DATE } from '../../api/mock/mockData';
@@ -305,7 +305,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
             </span>
           </div>
           <div className="text-[10px] text-[#5F6B74] text-center font-mono">
-            &copy; 2026 FIELD SHIFT &middot; NASA Space Apps
+            &copy; 2026 ROTASI &middot; NASA Space Apps
           </div>
         </div>
       </aside>
@@ -327,10 +327,10 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
               <button
                 type="button"
                 onClick={() => setIsSidebarCollapsed(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#E3F1F3] hover:bg-[#d6ebef] text-[#237F8E] transition active:scale-95 cursor-pointer shadow-2xs border border-[#237F8E]/25"
+                className="group flex h-10 w-10 items-center justify-center rounded-xl transition active:scale-95 cursor-pointer"
                 title={isId ? 'Buka Sidebar (Expand)' : 'Expand Sidebar'}
               >
-                <PanelLeftOpen className="h-5 w-5" />
+                <RotasiLogo variant="mark" size="sm" />
               </button>
 
               {/* Plot Mini Pin with Tooltip */}
@@ -407,14 +407,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
             <div className="space-y-5">
               {/* Top Brand Header & Collapse Toggle */}
               <div className="flex items-center justify-between pb-3 border-b border-[#E6EBF0]">
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-extrabold tracking-tight text-[#14232B]">
-                    FIELD <span className="text-[#237F8E]">SHIFT</span>
-                  </span>
-                  <span className="rounded-full bg-[#E3F1F3] px-2 py-0.5 text-[9px] font-extrabold text-[#1B6572] font-mono border border-[#237F8E]/20">
-                    WORKSPACE
-                  </span>
-                </div>
+                <RotasiLogo variant="horizontal" size="sm" badgeText="WORKSPACE" />
 
                 {/* Sidebar Collapse Toggle Button */}
                 <button
@@ -604,7 +597,7 @@ export const PlotAnalysisWorkspace: React.FC<PlotAnalysisWorkspaceProps> = ({
               */}
 
               <div className="text-[10px] text-[#5F6B74] text-center pt-1 font-mono">
-                &copy; 2026 FIELD SHIFT &middot; NASA Space Apps
+                &copy; 2026 ROTASI &middot; NASA Space Apps
               </div>
             </div>
           </>
