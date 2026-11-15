@@ -16,6 +16,7 @@ import type {
 type ComparisonOut = components['schemas']['ComparisonOut'];
 type StrategyOut = components['schemas']['StrategyOut'];
 type FieldProfileOut = components['schemas']['FieldProfileOut'];
+type NdviPointOut = components['schemas']['NdviPoint'];
 
 const BASE = ((import.meta.env?.VITE_API_BASE_URL as string | undefined) || 'http://localhost:8000').replace(/\/$/, '');
 const TIMEOUT_MS = 8000;
@@ -46,8 +47,63 @@ export const toEnsoPhase = (phase: ClimatePhase): 'el_nino' | 'la_nina' | 'neutr
 export const siteOf = (field: FieldProfile): string =>
   field.regency.toLowerCase().includes('banyumas') ? 'banyumas' : 'nevada_mason_valley';
 
+const NDVI_PHASE = (v: number): NdviPointOut['phase'] => {
+  if (v > 0.7) return 'Reproductive';
+  if (v >= 0.4) return 'Vegetative';
+  if (v >= 0.25) return 'Land Prep';
+  return 'Fallow (Bera)';
+};
+
+const clamp01 = (v: number) => Math.max(0, Math.min(1, v));
+
+function hashSeed(id: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < id.length; i += 1) {
+    h ^= id.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  return (h >>> 0) % 1000;
+}
+
+function syntheticNdviFromClimate(f: FieldProfileOut): NdviPointOut[] {
+  if (!f.climateHistory?.length) return [];
+  const seed = hashSeed(f.id);
+  const maxRain = Math.max(...f.climateHistory.map((m) => m.rainfall), 1);
+
+  return f.climateHistory.map((m, idx) => {
+    const rainNorm = m.rainfall / maxRain;
+    const moistureNorm = clamp01(m.soilMoisture);
+    const thermalPenalty = clamp01((m.tempMax - 31) * 0.035);
+    const slopePenalty = clamp01((f.soil.slope - 8) * 0.012);
+    const awcBoost = clamp01((f.soil.awc - 90) / 110) * 0.08;
+    const seasonalNoise = (((seed + idx * 37) % 17) - 8) / 200;
+
+    const ndvi = clamp01(
+      0.12 +
+      0.42 * rainNorm +
+      0.36 * moistureNorm +
+      awcBoost -
+      thermalPenalty -
+      slopePenalty +
+      seasonalNoise,
+    );
+
+    return {
+      month: m.month,
+      ndvi: Number(ndvi.toFixed(2)),
+      phase: NDVI_PHASE(ndvi),
+      observations: 2 + ((seed + idx * 11) % 7),
+    };
+  });
+}
+
 export function toField(f: FieldProfileOut): FieldProfile {
-  return { ...f, coordinates: [f.coordinates[0], f.coordinates[1]] } as FieldProfile;
+  const ndvi = f.ndviTimeSeries?.length ? f.ndviTimeSeries : syntheticNdviFromClimate(f);
+  return {
+    ...f,
+    coordinates: [f.coordinates[0], f.coordinates[1]],
+    ndviTimeSeries: ndvi,
+  } as FieldProfile;
 }
 
 export const SEASON_LABEL: Record<string, string> = {

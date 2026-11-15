@@ -5,7 +5,7 @@ from __future__ import annotations
 import contextlib
 import logging
 from decimal import Decimal
-from typing import cast
+from typing import Any, cast
 
 from geoalchemy2.elements import WKBElement, WKTElement
 from pydantic import ValidationError
@@ -21,11 +21,110 @@ from app.features.fields.schemas import FieldProfileOut
 
 logger = logging.getLogger(__name__)
 
+BE_MONTHS = (
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+)
+BE_BASE_PATTERN = (0.31, 0.52, 0.74, 0.79, 0.58, 0.36, 0.23, 0.18, 0.21, 0.32, 0.47, 0.66)
+BE_YEAR_ANOMALY = (0.00, -0.06, 0.04)
+BE_NDVI_NOTE = (
+    "HLS NDVI belum tersedia; grafik fenologi sementara memakai simulasi Dataset BE "
+    "(3 tahun, pola musiman)."
+)
+
+
+def _phase_from_ndvi(value: float) -> str:
+    if value > 0.7:
+        return "Reproductive"
+    if value >= 0.4:
+        return "Vegetative"
+    if value >= 0.25:
+        return "Land Prep"
+    return "Fallow (Bera)"
+
+
+def _clamp01(value: float) -> float:
+    return max(0.0, min(1.0, value))
+
+
+def _hash_seed(field_id: str) -> int:
+    h = 2166136261
+    for ch in field_id:
+        h ^= ord(ch)
+        h = (h * 16777619) & 0xFFFFFFFF
+    return h
+
+
+def _build_be_mock_ndvi(field_id: str) -> list[dict[str, Any]]:
+    seed = _hash_seed(field_id)
+    start_year = 2022
+    points: list[dict[str, Any]] = []
+
+    for year_offset, anomaly in enumerate(BE_YEAR_ANOMALY):
+        for month_index, month in enumerate(BE_MONTHS):
+            base = BE_BASE_PATTERN[month_index]
+            field_noise = (((seed + year_offset * 29 + month_index * 13) % 9) - 4) / 100
+            ndvi = round(_clamp01(base + anomaly + field_noise), 2)
+            year = start_year + year_offset
+            points.append(
+                {
+                    "month": f"{month}-{str(year)[-2:]}",
+                    "ndvi": ndvi,
+                    "phase": _phase_from_ndvi(ndvi),
+                    "observations": 3 + ((seed + year_offset * 17 + month_index * 7) % 6),
+                }
+            )
+
+    return points
+
+
+def _hydrate_be_ndvi_fallback(raw_profile: object) -> object:
+    if not isinstance(raw_profile, dict):
+        return raw_profile
+
+    ndvi_series = raw_profile.get("ndviTimeSeries")
+    if isinstance(ndvi_series, list) and ndvi_series:
+        return raw_profile
+
+    profile = dict(raw_profile)
+    field_id = str(profile.get("id") or "field")
+    profile["ndviTimeSeries"] = _build_be_mock_ndvi(field_id)
+
+    availability = profile.get("dataAvailability")
+    if isinstance(availability, dict):
+        availability_copy = dict(availability)
+        notes = availability_copy.get("missingDataNotes")
+        note_list = [str(n) for n in notes] if isinstance(notes, list) else []
+        if BE_NDVI_NOTE not in note_list:
+            note_list.append(BE_NDVI_NOTE)
+        availability_copy["missingDataNotes"] = note_list
+        profile["dataAvailability"] = availability_copy
+
+    provenance = profile.get("provenance")
+    if isinstance(provenance, dict) and not provenance.get("ndvi"):
+        provenance_copy = dict(provenance)
+        provenance_copy["ndvi"] = "Dataset BE (mock fallback)"
+        profile["provenance"] = provenance_copy
+
+    return profile
+
 
 def load_profiles(repo: ProcessedRepository, site: str) -> list[FieldProfileOut]:
     """Load and validate harmonized field profiles for a site."""
     try:
-        return [FieldProfileOut.model_validate(p) for p in repo.load_fields(site)]
+        raw_profiles = repo.load_fields(site)
+        hydrated = [_hydrate_be_ndvi_fallback(p) for p in raw_profiles]
+        return [FieldProfileOut.model_validate(p) for p in hydrated]
     except ValidationError as exc:
         raise InsufficientDataError(
             f"Field profiles for '{site}' do not match the schema; rerun process_fields.py."
