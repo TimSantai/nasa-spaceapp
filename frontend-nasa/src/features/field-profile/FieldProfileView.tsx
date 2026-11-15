@@ -16,6 +16,7 @@ import {
 import type { FieldProfile } from '../../types/domain';
 import type { Language } from '../../types/landing';
 import { formatFreeRotationItem } from '../../lib/cropTranslation';
+import { CropSticker } from '../../components/stickers/CropSticker';
 import { ShieldAlert, Thermometer, Activity, Droplets, Mountain, Sprout, Info } from 'lucide-react';
 import { MiniParcelMap } from '../map/MiniParcelMap';
 
@@ -149,13 +150,31 @@ export const FieldProfileView: React.FC<FieldProfileViewProps> = ({
               <Activity className="h-4 w-4" />
             </div>
           </div>
-          <h3 className="mt-2.5 text-base font-bold tracking-tight text-[#14232B] line-clamp-1">
-            {formatFreeRotationItem(field.currentRotation[0] ?? '', currentLang)}
-          </h3>
-          <p className="mt-0.5 text-xs text-[#5F6B74] truncate">
-            {formatFreeRotationItem(field.currentRotation[1] ?? '', currentLang)} &middot;{' '}
-            {formatFreeRotationItem(field.currentRotation[2] ?? '', currentLang)}
-          </p>
+          <div className="mt-2.5 flex items-center gap-2">
+            {field.currentRotation[0] && <CropSticker name={field.currentRotation[0]} size="sm" />}
+            <h3 className="text-base font-bold tracking-tight text-[#14232B] line-clamp-1">
+              {field.currentRotation[0] ? formatFreeRotationItem(field.currentRotation[0], currentLang) : '—'}
+            </h3>
+          </div>
+          {(field.currentRotation[1] || field.currentRotation[2]) && (
+            <div className="mt-1 flex items-center gap-1.5 text-xs text-[#5F6B74] truncate">
+              {field.currentRotation[1] && (
+                <>
+                  <CropSticker name={field.currentRotation[1]} size="xs" />
+                  <span>{formatFreeRotationItem(field.currentRotation[1], currentLang)}</span>
+                </>
+              )}
+              {field.currentRotation[1] && field.currentRotation[2] && (
+                <span className="text-gray-300">&middot;</span>
+              )}
+              {field.currentRotation[2] && (
+                <>
+                  <CropSticker name={field.currentRotation[2]} size="xs" />
+                  <span>{formatFreeRotationItem(field.currentRotation[2], currentLang)}</span>
+                </>
+              )}
+            </div>
+          )}
           <div className="mt-3.5 pt-3 border-t border-[#E6EBF0] text-xs font-medium text-[#B4443A] flex items-center justify-between">
             <span>{isId ? 'Rentan cekaman El Niño' : 'Vulnerable to El Niño'}</span>
             <span className="font-mono tabular-nums font-bold">{field.areaHectares} ha</span>

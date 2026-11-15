@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import type { Strategy, PriorityWeights, ClimatePhase, FarmerConstraints, ClimateScenario } from '../../types/domain';
 import type { Language } from '../../types/landing';
 import { DEFAULT_CAUTION } from '../../lib/scoring';
-import { formatCropSequenceItem, formatStrategyTitle } from '../../lib/cropTranslation';
+import { formatStrategyTitle } from '../../lib/cropTranslation';
+import { CropSequencePill } from '../../components/stickers/CropSequencePill';
 import {
   ShieldCheck,
   FileText,
@@ -372,13 +373,11 @@ export const StrategyBoard: React.FC<StrategyBoardProps> = ({
                   {formatStrategyTitle(strat.name, currentLang)}
                 </h4>
 
-                {/* Chronological Crop Sequence */}
+                {/* Chronological Crop Sequence with friendly stickers */}
                 <div className="mt-4 flex flex-wrap items-center gap-1.5 text-xs">
                   {strat.cropSequence.map((crop, i) => (
                     <React.Fragment key={i}>
-                      <span className="rounded-full bg-gray-100 px-3 py-1 font-semibold text-gray-800">
-                        {formatCropSequenceItem(crop, currentLang)}
-                      </span>
+                      <CropSequencePill item={crop} currentLang={currentLang} />
                       {i < strat.cropSequence.length - 1 && (
                         <ArrowRight className="h-3 w-3 text-gray-400 shrink-0" />
                       )}

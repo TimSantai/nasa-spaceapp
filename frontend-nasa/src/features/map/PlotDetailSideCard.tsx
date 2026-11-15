@@ -2,6 +2,7 @@ import React from 'react';
 import type { FieldProfile } from '../../types/domain';
 import type { Language } from '../../types/landing';
 import { formatFreeRotationItem } from '../../lib/cropTranslation';
+import { CropSticker } from '../../components/stickers/CropSticker';
 import { X, ArrowRight, Layers, CheckCircle2, Sprout, Satellite } from 'lucide-react';
 
 interface PlotDetailSideCardProps {
@@ -140,9 +141,10 @@ export const PlotDetailSideCard: React.FC<PlotDetailSideCardProps> = ({
             {activeField.currentRotation.map((crop, idx) => (
               <span
                 key={`${crop}-${idx}`}
-                className="rounded-lg bg-white px-2.5 py-1 text-[11px] font-medium text-[#14232B] border border-[#E6EBF0]"
+                className="inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[11px] font-medium text-[#14232B] border border-[#E6EBF0] shadow-2xs"
               >
-                {formatFreeRotationItem(crop, currentLang)}
+                <CropSticker name={crop} size="xs" />
+                <span>{formatFreeRotationItem(crop, currentLang)}</span>
               </span>
             ))}
           </div>

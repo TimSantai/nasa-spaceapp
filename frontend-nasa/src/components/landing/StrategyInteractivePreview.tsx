@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import type { Language } from '../../types/landing';
 import { getPreviewStrategies } from '../../data/landingContent';
+import { CropSticker } from '../stickers/CropSticker';
 
 interface StrategyInteractivePreviewProps {
   currentLang: Language;
@@ -255,9 +256,10 @@ interface StrategyInteractivePreviewProps {
                     {strat.crops.map((crop, cIdx) => (
                       <span
                         key={cIdx}
-                        className="rounded-lg bg-[#F7F9FB] border border-[#E6EBF0] px-2 py-0.5 text-[10px] font-medium text-[#14232B]"
+                        className="inline-flex items-center gap-1 rounded-lg bg-[#F7F9FB] border border-[#E6EBF0] px-2 py-0.5 text-[10px] font-medium text-[#14232B] shadow-2xs"
                       >
-                        {cIdx + 1}. {crop}
+                        <CropSticker name={crop} size="xs" />
+                        <span>{crop}</span>
                       </span>
                     ))}
                   </div>

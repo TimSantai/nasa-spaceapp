@@ -2,6 +2,8 @@ import React from 'react';
 import { Sprout, RotateCcw } from 'lucide-react';
 import type { Language } from '../../types/landing';
 import { getCropLabel, getSeasonLabel } from '../../lib/cropTranslation';
+import { CropSticker } from '../../components/stickers/CropSticker';
+import { SeasonSticker } from '../../components/stickers/SeasonSticker';
 
 interface BaselineEditorProps {
   seasons: string[];
@@ -63,22 +65,36 @@ export const BaselineEditor: React.FC<BaselineEditorProps> = ({
       </div>
 
       <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
-        {seasons.map((season) => (
-          <label key={season} className="flex flex-col gap-1 text-xs">
-            <span className="font-semibold text-gray-700">{getSeasonLabel(season, currentLang)}</span>
-            <select
-              value={value[season] ?? 'fallow'}
-              onChange={(e) => onChange({ ...value, [season]: e.target.value })}
-              className="rounded-xl border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-900 focus:border-[#1a7a6d] focus:outline-hidden"
+        {seasons.map((season) => {
+          const selectedCrop = value[season] ?? 'fallow';
+          return (
+            <div
+              key={season}
+              className="flex flex-col gap-1.5 rounded-xl border border-gray-100 bg-[#F8FAFC] p-3 text-xs"
             >
-              {options.map(([key, label]) => (
-                <option key={key} value={key}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </label>
-        ))}
+              <div className="flex items-center gap-1.5 font-semibold text-gray-800">
+                <SeasonSticker season={season} size="xs" />
+                <span>{getSeasonLabel(season, currentLang)}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CropSticker name={selectedCrop} size="sm" />
+                <select
+                  id={`baseline-season-${season}`}
+                  aria-label={getSeasonLabel(season, currentLang)}
+                  value={selectedCrop}
+                  onChange={(e) => onChange({ ...value, [season]: e.target.value })}
+                  className="flex-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-xs font-medium text-gray-900 focus:border-[#1a7a6d] focus:outline-hidden cursor-pointer"
+                >
+                  {options.map(([key, label]) => (
+                    <option key={key} value={key}>
+                      {label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
